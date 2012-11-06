@@ -12,6 +12,5 @@
 	],
 	"require": {
 		"php": ">=5.2.0"
-	},
-	"target-dir": "spoon/library"
+	}
 }
