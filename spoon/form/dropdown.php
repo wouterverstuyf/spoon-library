@@ -273,14 +273,17 @@ class SpoonFormDropdown extends SpoonFormAttributes
 			// multiple
 			if(!$this->single)
 			{
+				// get the name
+				$name = substr($this->attributes['name'], 0, -2);
+
 				// field has been submitted
-				if(isset($data[$this->attributes['name']]) && is_array($data[$this->attributes['name']]) && count($data[$this->attributes['name']]) != 0)
+				if(isset($data[$name]) && is_array($data[$name]) && count($data[$name]) != 0)
 				{
 					// reset selected
 					$this->selected = array();
 
 					// loop elements and add the value to the array
-					foreach($data[$this->attributes['name']] as $label => $value) $this->selected[] = $value;
+					foreach($data[$name] as $label => $value) $this->selected[] = $value;
 				}
 			}
 
