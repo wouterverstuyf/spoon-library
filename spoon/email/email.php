@@ -23,7 +23,7 @@
  *
  *
  * @author		Dave Lens <dave@spoon-library.com>
- * @author		Dieter Vanden Eynde <dieter@netlash.com>
+ * @author		Dieter Vanden Eynde <dieter@dieterve.be>
  * @since		1.0.0
  */
 class SpoonEmail
@@ -468,7 +468,7 @@ class SpoonEmail
 
 		// build headers
 		$this->addHeader('Date: ' . SpoonDate::getDate('r'));
-		$this->addHeader('From: ' . $this->from['name'] . ' <' . $this->from['email'] . '>');
+		$this->addHeader('From: "' . $this->from['name'] . '" <' . $this->from['email'] . '>');
 
 		// check mailmethod, some media don't need these (like mail())
 		if($this->method == 'smtp')
@@ -477,7 +477,7 @@ class SpoonEmail
 			$this->addHeader('Subject: ' . $this->subject);
 
 			// set general To: header. useful if you prefer to customize it
-			if(!empty($this->to['name'])) $this->addHeader('To: ' . $this->to['name'] . ' <' . $this->to['email'] . '>');
+			if(!empty($this->to['name'])) $this->addHeader('To: "' . $this->to['name'] . '" <' . $this->to['email'] . '>');
 
 			// no To: set so we add recipients to the headers
 			else $this->addHeader('To: ' . $this->reformatRecipientString($this->recipients));
@@ -670,7 +670,7 @@ class SpoonEmail
 				}
 
 				// reformat to a proper string
-				$stack = $recipient['name'] . ' <' . $recipient['email'] . '>';
+				$stack = '"' . $recipient['name'] . '" <' . $recipient['email'] . '>';
 
 				// just the email will do if no name is set
 				if(empty($recipient['name'])) $stack = $recipient['email'];

@@ -1,4 +1,4 @@
-1.3.1 (xxxx-xx-xx)
+1.3.4 (2013-02-07)
 ----
 - Coding standards have changed for concatenating strings.
 - Bugfix: template compiler now allows two equal iterations within another iteration.
@@ -16,6 +16,7 @@
 - Fixed XSS vulnerability in SpoonForm.
 - Bugfix: Removes bare LFs so mailservers don't freak out.
 - Bugfix: invalid variable. (thx to Rafael den Heijer).
+- SpoonEmail: encapsulated recipients with quotes.
 
 
 1.3.0 (2011-02-18)
