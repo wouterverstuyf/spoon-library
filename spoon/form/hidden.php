@@ -75,7 +75,7 @@ class SpoonFormHidden extends SpoonFormAttributes
 			{
 				// value
 				$value = (string) $data[$this->attributes['name']];
-				if(!$allowHTML) $value = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($value) : SpoonFilter::htmlentities($value);
+				if(!$allowHTML) $value = (Spoon::getCharset() == 'utf-8') ? SpoonFilter::htmlspecialchars($value) : SpoonFilter::htmlentities($value);
 			}
 		}
 

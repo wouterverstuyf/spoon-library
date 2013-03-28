@@ -680,7 +680,7 @@ class SpoonEmail
 			}
 
 			// return the reformatted string
-			return mb_substr($string, 0, -2, SPOON_CHARSET);
+			return mb_substr($string, 0, -2, Spoon::getCharset());
 		}
 	}
 
@@ -744,7 +744,7 @@ class SpoonEmail
 	 */
 	public function setCharset($charset = 'utf-8')
 	{
-		$this->charset = ($charset !== null) ? SpoonFilter::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$this->charset = ($charset !== null) ? SpoonFilter::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 	}
 
 

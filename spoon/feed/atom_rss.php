@@ -696,7 +696,7 @@ class SpoonFeedAtomRSS
 	 */
 	public function setCharset($charset = 'utf-8')
 	{
-		$this->charset = SpoonFilter::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET);
+		$this->charset = SpoonFilter::getValue($charset, Spoon::getCharsets(), Spoon::getCharset());
 	}
 
 

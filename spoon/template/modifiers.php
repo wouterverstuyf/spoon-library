@@ -111,7 +111,7 @@ class SpoonTemplateModifiers
 	 */
 	public static function lowercase($string)
 	{
-		return mb_convert_case($string, MB_CASE_LOWER, SPOON_CHARSET);
+		return mb_convert_case($string, MB_CASE_LOWER, Spoon::getCharset());
 	}
 
 
@@ -159,6 +159,6 @@ class SpoonTemplateModifiers
 	 */
 	public static function uppercase($string)
 	{
-		return mb_convert_case($string, MB_CASE_UPPER, SPOON_CHARSET);
+		return mb_convert_case($string, MB_CASE_UPPER, Spoon::getCharset());
 	}
 }

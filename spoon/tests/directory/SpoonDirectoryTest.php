@@ -1,7 +1,5 @@
 <?php
 
-if(!defined('SPOON_CHARSET')) define('SPOON_CHARSET', 'utf-8');
-
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 

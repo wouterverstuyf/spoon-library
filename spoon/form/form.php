@@ -129,7 +129,7 @@ class SpoonForm
 		// required field
 		$this->setName($name);
 		$this->add(new SpoonFormHidden('form', $this->name));
-		if(SPOON_CHARSET == 'utf-8') $this->add(new SpoonFormHidden('_utf8', '&#9731;'));
+		if(Spoon::getCharset() == 'utf-8') $this->add(new SpoonFormHidden('_utf8', '&#9731;'));
 		$this->objects['form']->setAttribute('id', SpoonFilter::toCamelCase('form_' . $this->name, '_', true));
 
 		// optional fields
@@ -643,7 +643,7 @@ class SpoonForm
 	public function getAction()
 	{
 		// prevent against xss
-		$action = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($this->action) : SpoonFilter::htmlentities($this->action);
+		$action = (Spoon::getCharset() == 'utf-8') ? SpoonFilter::htmlspecialchars($this->action) : SpoonFilter::htmlentities($this->action);
 
 		return $action;
 	}
@@ -695,7 +695,7 @@ class SpoonForm
 	public function getMethod()
 	{
 		// prevent against xss
-		$method = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($this->method) : SpoonFilter::htmlentities($this->method);
+		$method = (Spoon::getCharset() == 'utf-8') ? SpoonFilter::htmlspecialchars($this->method) : SpoonFilter::htmlentities($this->method);
 
 		return $method;
 	}

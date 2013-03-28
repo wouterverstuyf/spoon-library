@@ -337,26 +337,26 @@ function exceptionHandler($exception)
 	}
 
 	// custom callback?
-	if(SPOON_EXCEPTION_CALLBACK != '')
+	if(Spoon::getExceptionCallback() != '')
 	{
 		// function
-		if(!strpos(SPOON_EXCEPTION_CALLBACK, '::'))
+		if(!strpos(Spoon::getExceptionCallback(), '::'))
 		{
 			// function actually has been defined
-			if(function_exists(SPOON_EXCEPTION_CALLBACK))
+			if(function_exists(Spoon::getExceptionCallback()))
 			{
-				call_user_func_array(SPOON_EXCEPTION_CALLBACK, array($exception, $output));
+				call_user_func_array(Spoon::getExceptionCallback(), array($exception, $output));
 			}
 
 			// something went wrong
-			else exit('The function stored in SPOON_EXCEPTION_CALLBACK (' . SPOON_EXCEPTION_CALLBACK . ') could not be found.');
+			else exit('The exception callback function (' . Spoon::getExceptionCallback() . ') could not be found.');
 		}
 
 		// method
 		else
 		{
 			// method
-			$method = explode('::', SPOON_EXCEPTION_CALLBACK);
+			$method = explode('::', Spoon::getExceptionCallback());
 
 			// 2 parameters and exists
 			if(count($method) == 2 && is_callable(array($method[0], $method[1])))
@@ -365,7 +365,7 @@ function exceptionHandler($exception)
 			}
 
 			// something went wrong
-			else exit('The method stored in SPOON_EXCEPTION_CALLBACK (' . SPOON_EXCEPTION_CALLBACK . ') cound not be found.');
+			else exit('The exception callback function (' . Spoon::getExceptionCallback() . ') cound not be found.');
 		}
 
 	}
@@ -383,14 +383,14 @@ function exceptionHandler($exception)
 		}
 
 		// debugging enabled (show output)
-		elseif(SPOON_DEBUG) echo $output;
+		elseif(Spoon::getDebug()) echo $output;
 
 		// debugging disabled
-		else echo SPOON_DEBUG_MESSAGE;
+		else echo Spoon::getDebugMessage();
 	}
 
 	// mail it?
-	if(SPOON_DEBUG_EMAIL != '')
+	if(Spoon::getDebugEmail() != '')
 	{
 		// e-mail headers
 		$headers = "MIME-Version: 1.0\n";
@@ -401,7 +401,7 @@ function exceptionHandler($exception)
 		$headers .= "From: Spoon Library <no-reply@spoon-library.com>\n";
 
 		// send email
-		@mail(SPOON_DEBUG_EMAIL, 'Exception Occured', $output, $headers);
+		@mail(Spoon::getDebugEmail(), 'Exception Occured', $output, $headers);
 	}
 
 	// stop script execution

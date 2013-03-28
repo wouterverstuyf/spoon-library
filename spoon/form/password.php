@@ -73,7 +73,7 @@ class SpoonFormPassword extends SpoonFormInput
 				$value = (string) $data[$this->attributes['name']];
 
 				// maximum length?
-				if(isset($this->attributes['maxlength']) && $this->attributes['maxlength'] > 0) $value = mb_substr($value, 0, (int) $this->attributes['maxlength'], SPOON_CHARSET);
+				if(isset($this->attributes['maxlength']) && $this->attributes['maxlength'] > 0) $value = mb_substr($value, 0, (int) $this->attributes['maxlength'], Spoon::getCharset());
 			}
 		}
 

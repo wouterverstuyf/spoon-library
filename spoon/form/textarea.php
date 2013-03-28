@@ -76,7 +76,7 @@ class SpoonFormTextarea extends SpoonFormInput
 		if($this->isHTML)
 		{
 			// set value
-			$value = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($value) : SpoonFilter::htmlentities($value);
+			$value = (Spoon::getCharset() == 'utf-8') ? SpoonFilter::htmlspecialchars($value) : SpoonFilter::htmlentities($value);
 		}
 
 		// form submitted
@@ -92,10 +92,10 @@ class SpoonFormTextarea extends SpoonFormInput
 				$value = (string) $data[$this->attributes['name']];
 
 				// maximum length?
-				if(isset($this->attributes['maxlength']) && $this->attributes['maxlength'] > 0) $value = mb_substr($value, 0, (int) $this->attributes['maxlength'], SPOON_CHARSET);
+				if(isset($this->attributes['maxlength']) && $this->attributes['maxlength'] > 0) $value = mb_substr($value, 0, (int) $this->attributes['maxlength'], Spoon::getCharset());
 
 				// html allowed?
-				if(!$allowHTML) $value = (SPOON_CHARSET == 'utf-8') ? SpoonFilter::htmlspecialchars($value) : SpoonFilter::htmlentities($value);
+				if(!$allowHTML) $value = (Spoon::getCharset() == 'utf-8') ? SpoonFilter::htmlspecialchars($value) : SpoonFilter::htmlentities($value);
 			}
 		}
 

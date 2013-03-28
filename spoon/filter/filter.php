@@ -297,13 +297,13 @@ class SpoonFilter
 	 *
 	 * @return	string						The string with HTML-entities.
 	 * @param	string $value				The value that should HTML-entityfied.
-	 * @param	string[optional] $charset	The charset to use, default wil be based on SPOON_CHARSET.
+	 * @param	string[optional] $charset	The charset to use, default wil be based on Spoon::getCharset().
 	 * @param	int[optional] $quoteStyle	Which quotes should be decoded, default ENT_NOQUOTES.
 	 */
 	public static function htmlentities($value, $charset = null, $quoteStyle = ENT_NOQUOTES)
 	{
 		// init vars
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 		$quoteStyle = self::getValue($quoteStyle, array(ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES), ENT_NOQUOTES);
 
 		// apply htmlentities
@@ -324,13 +324,13 @@ class SpoonFilter
 	 *
 	 * @return	string						The string with no HTML-entities.
 	 * @param	string $value				The value that should be decoded.
-	 * @param	string[optional] $charset	The charset to use, default will be based on SPOON_CHARSET.
+	 * @param	string[optional] $charset	The charset to use, default will be based on Spoon::getCharset().
 	 * @param	int[optional] $quoteStyle	Which quotes should be decoded, default ENT_NOQUOTES.
 	 */
 	public static function htmlentitiesDecode($value, $charset = null, $quoteStyle = ENT_NOQUOTES)
 	{
 		// init vars
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 		$quoteStyle = self::getValue($quoteStyle, array(ENT_COMPAT, ENT_QUOTES, ENT_NOQUOTES), ENT_NOQUOTES);
 
 		// apply method
@@ -343,12 +343,12 @@ class SpoonFilter
 	 *
 	 * @return	string						The string with HTML-special chars applied to it.
 	 * @param	string $value				The value that should be used.
-	 * @param	string[optional] $charset	The charset to use, default wil be based on SPOON_CHARSET.
+	 * @param	string[optional] $charset	The charset to use, default wil be based on Spoon::getCharset().
 	 */
 	public static function htmlspecialchars($value, $charset = null)
 	{
 		// define charset
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 
 		// apply method
 		return htmlspecialchars((string) $value, ENT_QUOTES, $charset);
@@ -573,12 +573,12 @@ class SpoonFilter
 	 * @return	bool						True if the length isn't greather then the given maximum, false if not.
 	 * @param	int $maximum				The maximum allowed characters.
 	 * @param	string $value				The value to validate.
-	 * @param	string[optional] $charset	The charset to use, default is based on SPOON_CHARSET.
+	 * @param	string[optional] $charset	The charset to use, default is based on Spoon::getCharset().
 	 */
 	public static function isMaximumCharacters($maximum, $value, $charset = null)
 	{
 		// define charset
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 
 		// execute & return
 		return (mb_strlen((string) $value, $charset) <= (int) $maximum);
@@ -604,12 +604,12 @@ class SpoonFilter
 	 * @return	bool						True if the length is greater then the given minimum.
 	 * @param	int $minimum				The minimum allowed charachters.
 	 * @param	string $value				The value to validate.
-	 * @param	string[optional] $charset	The charset to use, default is based on SPOON_CHARSET.
+	 * @param	string[optional] $charset	The charset to use, default is based on Spoon::getCharset().
 	 */
 	public static function isMinimumCharacters($minimum, $value, $charset = null)
 	{
 		// define charset
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 
 		// execute & return
 		return (mb_strlen((string) $value, $charset) >= (int) $minimum);
@@ -868,12 +868,12 @@ class SpoonFilter
 	 * @param	string $value					The string that should be camelcased.
 	 * @param	mixed[optional] $separator		The word-separator.
 	 * @param	bool[optional] $lcfirst			Should the first charachter be lowercase?
-	 * @param	string[optional] $charset		The charset to use, default is based on SPOON_CHARSET.
+	 * @param	string[optional] $charset		The charset to use, default is based on Spoon::getCharset().
 	 */
 	public static function toCamelCase($value, $separator = '_', $lcfirst = false, $charset = null)
 	{
 		$string = '';
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 
 		// fetch words
 		$words = explode((string) $separator, (string) $value);
@@ -902,12 +902,12 @@ class SpoonFilter
 	 *
 	 * @return	string							The ucfirst'ed string.
 	 * @param	string $string					The string to ucfirst
-	 * @param	string[optional] $charset		The charset to use, default is based on SPOON_CHARSET.
+	 * @param	string[optional] $charset		The charset to use, default is based on Spoon::getCharset().
 	 */
 	public static function ucfirst($string, $charset = null)
 	{
 		// init vars
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 		$string = (string) $string;
 
 		// uppercase first character
@@ -925,12 +925,12 @@ class SpoonFilter
 	 *
 	 * @return	string						The urlised string.
 	 * @param	string $value				The value that should be urlised.
-	 * @param	string[optional] $charset	The charset to use, default is based on SPOON_CHARSET.
+	 * @param	string[optional] $charset	The charset to use, default is based on Spoon::getCharset().
 	 */
 	public static function urlise($value, $charset = null)
 	{
 		// define charset
-		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), SPOON_CHARSET) : SPOON_CHARSET;
+		$charset = ($charset !== null) ? self::getValue($charset, Spoon::getCharsets(), Spoon::getCharset()) : Spoon::getCharset();
 
 		// reserved characters (RFC 3986)
 		$reservedCharacters = array(

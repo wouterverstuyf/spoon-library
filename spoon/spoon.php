@@ -185,7 +185,7 @@ class Spoon
 		if(!$hasXdebugVarDump)
 		{
 			$output = preg_replace('/\]\=\>\n(\s+)/m', '] => ', $output);
-			$output = '<pre>' . htmlspecialchars($output, ENT_QUOTES, SPOON_CHARSET) . '</pre>';
+			$output = '<pre>' . htmlspecialchars($output, ENT_QUOTES, Spoon::getCharset()) . '</pre>';
 		}
 
 		echo $output;
