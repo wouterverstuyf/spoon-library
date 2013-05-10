@@ -340,7 +340,7 @@ class SpoonFile
 		fclose($handler);
 
 		// chmod file
-		chmod($filename, $chmod);
+		if(is_file($filename)) chmod($filename, $chmod);
 
 		// restore error reporting level
 		error_reporting($level);
