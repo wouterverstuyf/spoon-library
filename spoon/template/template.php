@@ -432,10 +432,11 @@ class SpoonTemplate
 		// doesnt exist
 		if(!isset($this->cache[(string) $name])) throw new SpoonTemplateException('No cache with the name "' . (string) $name . '" is known.');
 
-		// last modification date
-		$time = @filemtime($this->cacheDirectory . '/' . (string) $name . '_cache.tpl');
+        // files doesn't exists
+        if(!file_exists($this->cacheDirectory . '/' . (string) $name . '_cache.tpl')) return false;
 
-		// doesn't exist
+		// last modification date
+		$time = filemtime($this->cacheDirectory . '/' . (string) $name . '_cache.tpl');
 		if($time === false) return false;
 
 		// not valid
