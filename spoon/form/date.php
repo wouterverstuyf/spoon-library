@@ -423,8 +423,9 @@ class SpoonFormDate extends SpoonFormInput
 		// define maximum length for this element
 		$maskCorrected = str_replace(array('d', 'm', 'y', 'Y'), array('dd', 'mm', 'y', 'yy'), $maskCorrected);
 
-		// update maxium length
+		// update maxium length & mask attributes
 		$this->attributes['maxlength'] = strlen($maskCorrected);
+		$this->attributes['data-mask'] = $maskCorrected;
 
 		// update value
 		if($this->defaultValue !== null) $this->setValue($this->defaultValue);
