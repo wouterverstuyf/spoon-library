@@ -128,13 +128,13 @@ class SpoonFormDate extends SpoonFormInput
 			if($this->isValid())
 			{
 				// define long mask
-				$longMask = str_replace(array('d', 'm', 'Y'), array('dd', 'mm', 'yyyy'), $this->mask);
+				$longMask = str_replace(array('d', 'm', 'Y'), array('dd', 'mm', 'yy'), $this->mask);
 
 				// year found
-				if(strpos($longMask, 'yyyy') !== false && $year === null)
+				if(strpos($longMask, 'yy') !== false && $year === null)
 				{
 					// redefine year
-					$year = substr($data[$this->attributes['name']], strpos($longMask, 'yyyy'), 4);
+					$year = substr($data[$this->attributes['name']], strpos($longMask, 'yy'), 2);
 				}
 
 				// month found
@@ -250,7 +250,7 @@ class SpoonFormDate extends SpoonFormInput
 			if(strlen((string) $data[$this->attributes['name']]) == $this->attributes['maxlength'])
 			{
 				// define long mask
-				$longMask = str_replace(array('d', 'm', 'y', 'Y'), array('dd', 'mm', 'yy', 'yyyy'), $this->mask);
+				$longMask = str_replace(array('d', 'm', 'y', 'Y'), array('dd', 'mm', 'y', 'yy'), $this->mask);
 
 				// init vars
 				$year = (int) date('Y');
@@ -258,10 +258,10 @@ class SpoonFormDate extends SpoonFormInput
 				$day = (int) date('d');
 
 				// validate year (yyyy)
-				if(strpos($longMask, 'yyyy') !== false)
+				if(strpos($longMask, 'yy') !== false)
 				{
 					// redefine year
-					$year = substr($data[$this->attributes['name']], strpos($longMask, 'yyyy'), 4);
+					$year = substr($data[$this->attributes['name']], strpos($longMask, 'yy'), 2);
 
 					// not an int
 					if(!SpoonFilter::isInteger($year))
@@ -279,10 +279,10 @@ class SpoonFormDate extends SpoonFormInput
 				}
 
 				// validate year (yy)
-				if(strpos($longMask, 'yy') !== false && strpos($longMask, 'yyyy') === false)
+				if(strpos($longMask, 'y') !== false && strpos($longMask, 'yy') === false)
 				{
 					// redefine year
-					$year = substr($data[$this->attributes['name']], strpos($longMask, 'yy'), 2);
+					$year = substr($data[$this->attributes['name']], strpos($longMask, 'y'), 1);
 
 					// not an int
 					if(!SpoonFilter::isInteger($year))
@@ -421,7 +421,7 @@ class SpoonFormDate extends SpoonFormInput
 		$this->mask = $maskCorrected;
 
 		// define maximum length for this element
-		$maskCorrected = str_replace(array('d', 'm', 'y', 'Y'), array('dd', 'mm', 'yy', 'yyyy'), $maskCorrected);
+		$maskCorrected = str_replace(array('d', 'm', 'y', 'Y'), array('dd', 'mm', 'y', 'yy'), $maskCorrected);
 
 		// update maxium length
 		$this->attributes['maxlength'] = strlen($maskCorrected);
