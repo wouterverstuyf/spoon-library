@@ -19,7 +19,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'value',
-			$tpl->getContent(dirname(__FILE__) . '/templates/variable.tpl')
+			$tpl->getContent($this->getTemplatePath('variable.tpl'))
 		);
 	}
 
@@ -38,7 +38,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Array name',
-			$tpl->getContent(dirname(__FILE__) . '/templates/array.tpl')
+			$tpl->getContent($this->getTemplatePath('array.tpl'))
 		);
 	}
 
@@ -57,7 +57,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Object name',
-			$tpl->getContent(dirname(__FILE__) . '/templates/object.tpl')
+			$tpl->getContent($this->getTemplatePath('object.tpl'))
 		);
 	}
 
@@ -80,7 +80,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Array name',
-			$tpl->getContent(dirname(__FILE__) . '/templates/nested_array.tpl')
+			$tpl->getContent($this->getTemplatePath('nested_array.tpl'))
 		);
 	}
 
@@ -102,7 +102,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Object name',
-			$tpl->getContent(dirname(__FILE__) . '/templates/nested_object.tpl')
+			$tpl->getContent($this->getTemplatePath('nested_object.tpl'))
 		);
 	}
 
@@ -123,7 +123,9 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Inside an object',
-			$tpl->getContent(dirname(__FILE__) . '/templates/array_in_object.tpl')
+			$tpl->getContent(
+				$this->getTemplatePath('array_in_object.tpl')
+			)
 		);
 	}
 
@@ -145,7 +147,9 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_array.tpl')
+			$tpl->getContent(
+				$this->getTemplatePath('iteration_over_array.tpl')
+			)
 		);
 	}
 
@@ -169,7 +173,9 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_nested_array.tpl')
+			$tpl->getContent(
+				$this->getTemplatePath('iteration_over_nested_array.tpl')
+			)
 		);
 	}
 
@@ -196,8 +202,15 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_array_in_object.tpl')
+			$tpl->getContent(
+				$this->getTemplatePath('iteration_over_array_in_object.tpl')
+			)
 		);
+	}
+
+	protected function getTemplatePath($templateName)
+	{
+		return dirname(__FILE__) . '/templates/' . $templateName;
 	}
 }
 
