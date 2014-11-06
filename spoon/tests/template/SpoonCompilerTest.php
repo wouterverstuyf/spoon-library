@@ -106,6 +106,27 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	function testParseArrayInObject()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$nestedArray = array('name' => 'Inside an object');
+
+		$object = new Object();
+		$object->setArray($nestedArray);
+
+		$tpl->assign('object', $object);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'Inside an object',
+			$tpl->getContent(dirname(__FILE__) . '/templates/array_in_object.tpl')
+		);
+	}
+
 	function testIterationOverArray()
 	{
 		// create a spoon template
@@ -160,6 +181,7 @@ class Object
 {
 	protected $name;
 	protected $nestedObject;
+	protected $array;
 
 	public function getName()
 	{
@@ -181,6 +203,18 @@ class Object
 	public function setNestedObject($nestedObject)
 	{
 		$this->nestedObject = $nestedObject;
+
+		return $this;
+	}
+
+	public function getArray()
+	{
+		return $this->array;
+	}
+
+	public function setArray($array)
+	{
+		$this->array = $array;
 
 		return $this;
 	}
