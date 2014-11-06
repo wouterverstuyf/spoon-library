@@ -105,6 +105,52 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			$tpl->getContent(dirname(__FILE__) . '/templates/nested_object.tpl')
 		);
 	}
+
+	function testIterationOverArray()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$tpl->assign(
+			'array',
+			array(
+				array('name' => 'Foo'),
+				array('name' => 'Bar'),
+			)
+		);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'FooBar',
+			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_array.tpl')
+		);
+	}
+
+	function testIterationOverNestedArray()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$tpl->assign(
+			'array',
+			array(
+				'nested_array' => array(
+					array('name' => 'Foo'),
+					array('name' => 'Bar'),
+				)
+			)
+		);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'FooBar',
+			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_nested_array.tpl')
+		);
+	}
 }
 
 /**
