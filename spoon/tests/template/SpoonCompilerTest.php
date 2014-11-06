@@ -172,6 +172,33 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_nested_array.tpl')
 		);
 	}
+
+	function testIterationOverArrayInObject()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$object = new Object();
+		$object->setArray(
+			array(
+				array('name' => 'Foo'),
+				array('name' => 'Bar'),
+			)
+		);
+
+		$tpl->assign(
+			'object',
+			$object
+		);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'FooBar',
+			$tpl->getContent(dirname(__FILE__) . '/templates/iteration_over_array_in_object.tpl')
+		);
+	}
 }
 
 /**
@@ -212,7 +239,7 @@ class Object
 		return $this->array;
 	}
 
-	public function setArray($array)
+	public function setArray(array $array)
 	{
 		$this->array = $array;
 

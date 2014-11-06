@@ -468,6 +468,8 @@ class SpoonTemplateCompiler
 				// base variable names
 				$iteration = '$this->iterations[\'' . $this->getCompileName($this->template) . '_' . $match[2] . '\']';
 				$internalVariable = '${\'' . $match[3] . '\'}';
+				$variable = '';
+				$isObject = false;
 
 				// variable within iteration
 				if($match[6] != '')
@@ -495,17 +497,30 @@ class SpoonTemplateCompiler
 					$variable = '$this->variables[\'' . $match[3] . '\']';
 
 					// add separate chunks
-					foreach(explode('.', ltrim($match[4], '.')) as $chunk)
+					$chunks = explode('.', ltrim($match[4], '.'));
+					for($i = 0; $i < count($chunks); $i++)
 					{
 						// make sure it's a valid chunk
-						if(!$chunk) continue;
+						if(!$chunks[$i]) continue;
 
-						// append pieces
-						$variable .= "['" . $chunk . "']";
-						$iteration .= "['" . $chunk . "']";
-						$internalVariable .= "['" . $chunk . "']";
+						if(is_object(eval('return ' . $variable . ';')))
+						{
+							// getters for objects
+							$variable .= "->get" . SpoonFilter::toCamelCase($chunks[$i]) . '()';
+						}
+						else
+						{
+							// square brackets for arrays
+							$variable .= "['" . $chunks[$i] . "']";
+						}
+
+						$iteration .= "['" . $chunks[$i] . "']";
+						$internalVariable .= "['" . $chunks[$i] . "']";
 					}
 				}
+
+				// check if we're handling an array fetched from an object
+				$isObject = (bool) preg_match('/->get([a-zA-Z_]*)\(\)$/i', $variable);
 
 				// iteration content
 				$innerContent = $match[10];
@@ -526,19 +541,51 @@ class SpoonTemplateCompiler
 
 				// start iteration
 				$templateContent = '<?php';
-				if(Spoon::getDebug())
+
+				if($isObject)
 				{
-					$templateContent .= '
-					if(!isset(' . $variable . '))
+					// split variable up in method call and $object
+					preg_match('/([a-zA-Z_\->\[\]\'\$]*)->(get[a-zA-Z_]*)\(\)$/i', $variable, $methodMatches);
+
+					$object = $methodMatches[1];
+					$method = $methodMatches[2];
+
+					if(Spoon::getDebug())
 					{
-						?>{iteration:' . $match[3] . $match[4] . $match[6] . '}<?php
-						' . $variable . ' = array();
-						' . $iteration . '[\'fail\'] = true;
-					}';
+						$templateContent .= '
+						if(!is_object(' . $object . ') || !method_exists(' . $object . ', \'' . $method . '\'))
+						{
+							?>{iteration:' . $match[3] . $match[4] . $match[6] . '}<?php
+							' . $iteration . '[\'iteration\']  = array();
+							' . $iteration . '[\'fail\'] = true;
+						}
+						else
+						{
+							' . $iteration . '[\'iteration\'] = ' . $variable . ';
+						}';
+					}
 				}
+				else
+				{
+					if(Spoon::getDebug())
+					{
+						$templateContent .= '
+						if(!isset(' . $variable . '))
+						{
+							?>{iteration:' . $match[3] . $match[4] . $match[6] . '}<?php
+							' . $variable . ' = array();
+							' . $iteration . '[\'fail\'] = true;
+						}';
+					}
+
+
+					$templateContent .= '
+					' . $iteration . '[\'iteration\'] = ' . $variable . ';'
+					;
+				}
+
 				$templateContent .= '
 				if(isset(' . $internalVariable . ')) ' . $iteration . '[\'old\'] = ' . $internalVariable . ';
-				' . $iteration . '[\'iteration\'] = ' . $variable . ';
 				' . $iteration . '[\'i\'] = 1;
 				' . $iteration . '[\'count\'] = count(' . $iteration . '[\'iteration\']);
 				foreach((array) ' . $iteration . '[\'iteration\'] as ' . $internalVariable . ')
