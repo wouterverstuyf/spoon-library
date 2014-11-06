@@ -232,6 +232,31 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	function testIterationOverCollection()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$collection = new Collection(
+			array(
+				array('name' => 'Foo'),
+				array('name' => 'Bar'),
+			)
+		);
+
+		$tpl->assign('collection', $collection);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'FooBar',
+			$tpl->getContent(
+				$this->getTemplatePath('iteration_over_collection.tpl')
+			)
+		);
+	}
+
 	protected function getTemplatePath($templateName)
 	{
 		return dirname(__FILE__) . '/templates/' . $templateName;
@@ -281,5 +306,55 @@ class Object
 		$this->array = $array;
 
 		return $this;
+	}
+}
+
+/**
+ * An iteratable class (like doctrine's persistentCollection)
+ */
+class Collection implements Countable, IteratorAggregate, ArrayAccess
+{
+	private $array = array();
+
+	public function count()
+	{
+		return count($this->array);
+	}
+
+	public function __construct(array $array)
+	{
+		$this->array = $array;
+	}
+
+	public function getIterator()
+	{
+		return new ArrayIterator($this->array);
+	}
+
+	public function offsetExists($offset)
+	{
+		isset($this->array[$offset]);
+	}
+
+	public function offsetGet($offset)
+	{
+		return isset($this->array[$offset]) ? $this->array[$offset] : null;
+	}
+
+	public function offsetSet($offset, $value)
+	{
+		if(is_null($offset))
+		{
+			$this->array[] = $value;
+		}
+		else
+		{
+			$this->array[$offset] = $value;
+		}
+	}
+
+	public function offsetUnset($offset)
+	{
+		unset($this->container[$offset]);
 	}
 }

@@ -588,7 +588,7 @@ class SpoonTemplateCompiler
 				if(isset(' . $internalVariable . ')) ' . $iteration . '[\'old\'] = ' . $internalVariable . ';
 				' . $iteration . '[\'i\'] = 1;
 				' . $iteration . '[\'count\'] = count(' . $iteration . '[\'iteration\']);
-				foreach((array) ' . $iteration . '[\'iteration\'] as ' . $internalVariable . ')
+				foreach(' . $iteration . '[\'iteration\'] as ' . $internalVariable . ')
 				{
 					if(is_array(' . $internalVariable . '))
 					{
