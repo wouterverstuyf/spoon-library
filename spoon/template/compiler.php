@@ -590,16 +590,19 @@ class SpoonTemplateCompiler
 				' . $iteration . '[\'count\'] = count(' . $iteration . '[\'iteration\']);
 				foreach((array) ' . $iteration . '[\'iteration\'] as ' . $internalVariable . ')
 				{
-					if(!isset(' . $internalVariable . '[\'first\']) && ' . $iteration . '[\'i\'] == 1) ' . $internalVariable . '[\'first\'] = true;
-					if(!isset(' . $internalVariable . '[\'last\']) && ' . $iteration . '[\'i\'] == ' . $iteration . '[\'count\']) ' . $internalVariable . '[\'last\'] = true;
-					if(isset(' . $internalVariable . '[\'formElements\']) && is_array(' . $internalVariable . '[\'formElements\']))
+					if(is_array(' . $internalVariable . '))
 					{
-						foreach(' . $internalVariable . '[\'formElements\'] as $name => $object)
+						if(!isset(' . $internalVariable . '[\'first\']) && ' . $iteration . '[\'i\'] == 1) ' . $internalVariable . '[\'first\'] = true;
+						if(!isset(' . $internalVariable . '[\'last\']) && ' . $iteration . '[\'i\'] == ' . $iteration . '[\'count\']) ' . $internalVariable . '[\'last\'] = true;
+						if(isset(' . $internalVariable . '[\'formElements\']) && is_array(' . $internalVariable . '[\'formElements\']))
 						{
-							' . $internalVariable . '[$name] = $object->parse();
-							' . $internalVariable . '[$name .\'Error\'] = (is_callable(array($object, \'getErrors\')) && $object->getErrors() != \'\') ? \'<span class="formError">\' . $object->getErrors() .\'</span>\' : \'\';
+							foreach(' . $internalVariable . '[\'formElements\'] as $name => $object)
+							{
+								' . $internalVariable . '[$name] = $object->parse();
+								' . $internalVariable . '[$name .\'Error\'] = (is_callable(array($object, \'getErrors\')) && $object->getErrors() != \'\') ? \'<span class="formError">\' . $object->getErrors() .\'</span>\' : \'\';
+							}
 						}
-					} ?>';
+					}?>';
 
 				// append inner content
 				$templateContent .= $innerContent;
@@ -915,19 +918,7 @@ class SpoonTemplateCompiler
 								foreach((array) $variables as $variable)
 								{
 									// get array containing variable
-									if(preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable))
-									{
-										$array = preg_replace('/(\[\'[a-z_][a-z0-9_]*\'\])$/i', '', $variable);
-
-										// get variable name
-										preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable, $variable);
-										$variable = $variable[1];
-
-										// container array is index of higher array
-										if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\](?!->)/i', $array)) $exists[] = 'isset(' . $array . ')';
-										$exists[] = 'array_key_exists(\'' . $variable . '\', (array) ' . $array . ')';
-									}
-									elseif(preg_match('/->get([a-zA-Z_]*)\(\)$/i', $variable))
+									if(preg_match('/->get([a-zA-Z_]*)\(\)$/i', $variable))
 									{
 										// we're working with objects
 										$object = preg_replace('/->(get[a-zA-Z_]*)\(\)$/i', '', $variable);
@@ -941,6 +932,27 @@ class SpoonTemplateCompiler
 											$exists[] = 'is_object(' . $object . ')';
 											$exists[] = 'method_exists(' . $object . ', \'' . $method . '\')';
 										}
+
+										$this->templateVariables[$varKey]['is_object'] = true;
+									}
+									else
+									{
+										$array = preg_replace('/(\[\'[a-z_][a-z0-9_]*\'\])$/i', '', $variable);
+
+										// get variable name
+										preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable, $variable);
+										$variable = $variable[1];
+
+										// container array is index of higher array
+										if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\](?!->)/i', $array)) $exists[] = 'isset(' . $array . ')';
+										$exists[] = 'array_key_exists(\'' . $variable . '\', (array) ' . $array . ')';
+
+										// it could be an object in an iteration, add if statements for objects
+										$existsObject = array();
+										$existsObject[] = 'is_object(' . $array . ')';
+										$existsObject[] = 'method_exists(' . $array . ', \'get' . SpoonFilter::toCamelCase($variable) . '\')';
+										$this->templateVariables[$varKey]['if_object'] = implode(' && ', $existsObject);
+										$this->templateVariables[$varKey]['content_object'] = $array . '->get' . SpoonFilter::toCamelCase($variable) . '()';
 									}
 								}
 
@@ -1027,8 +1039,33 @@ class SpoonTemplateCompiler
 			foreach($this->templateVariables as $key => $value)
 			{
 				// replace variables in the content
-				if(Spoon::getDebug()) $content = str_replace('[$' . $key . ']', '<?php if(' . $value['if'] . ') { echo ' . $value['content'] . '; } else { ?>' . $value['template'] . '<?php } ?>', $content, $count);
-				else $content = str_replace('[$' . $key . ']', '<?php echo ' . $value['content'] . '; ?>', $content, $count);
+				if(Spoon::getDebug() && (isset($value['if_object']) && isset($value['content_object'])))
+				{
+					$content = str_replace(
+						'[$' . $key . ']',
+						'<?php if(' . $value['if'] . ') { echo ' . $value['content'] . '; } elseif(' . $value['if_object'] . ') { echo ' . $value['content_object'] . '; } else { ?>' . $value['template'] . '<?php } ?>',
+						$content,
+						$count
+					);
+				}
+				elseif(Spoon::getDebug())
+				{
+					$content = str_replace(
+						'[$' . $key . ']',
+						'<?php if(' . $value['if'] . ') { echo ' . $value['content'] . '; } else { ?>' . $value['template'] . '<?php } ?>',
+						$content,
+						$count
+					);
+				}
+				else
+				{
+					$content = str_replace(
+						'[$' . $key . ']',
+						'<?php echo ' . $value['content'] . '; ?>',
+						$content,
+						$count
+					);
+				}
 
 				// add amount of replacements to our counter
 				$replaced += $count;
