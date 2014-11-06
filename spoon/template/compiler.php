@@ -750,9 +750,18 @@ class SpoonTemplateCompiler
 								$variable = '$this->variables';
 
 								// add separate chunks
-								foreach(explode('.', $match[1] . $match[2]) as $chunk)
+								$chunks = explode('.', $match[1] . $match[2]);
+								for($i = 0; $i < count($chunks); $i++)
 								{
-									$variable .= "['" . $chunk . "']";
+									if($i !== 0)
+									{
+										if(is_object(eval('return ' . $variable . ';')))
+										{
+											$variable .= "->get" . SpoonFilter::toCamelCase($chunks[$i]) . '()';
+											break;
+										}
+									}
+									$variable .= "['" . $chunks[$i] . "']";
 								}
 							}
 
@@ -859,15 +868,33 @@ class SpoonTemplateCompiler
 								foreach((array) $variables as $variable)
 								{
 									// get array containing variable
-									$array = preg_replace('/(\[\'[a-z_][a-z0-9_]*\'\])$/i', '', $variable);
+									if(preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable))
+									{
+										$array = preg_replace('/(\[\'[a-z_][a-z0-9_]*\'\])$/i', '', $variable);
 
-									// get variable name
-									preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable, $variable);
-									$variable = $variable[1];
+										// get variable name
+										preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable, $variable);
+										$variable = $variable[1];
 
-									// container array is index of higher array
-									if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\]/i', $array)) $exists[] = 'isset(' . $array . ')';
-									$exists[] = 'array_key_exists(\'' . $variable . '\', (array) ' . $array . ')';
+										// container array is index of higher array
+										if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\](?!->)/i', $array)) $exists[] = 'isset(' . $array . ')';
+										$exists[] = 'array_key_exists(\'' . $variable . '\', (array) ' . $array . ')';
+									}
+									elseif(preg_match('/->get([a-zA-Z_]*)\(\)$/i', $variable))
+									{
+										// we're working with objects
+										$object = preg_replace('/->(get[a-zA-Z_]*)\(\)$/i', '', $variable);
+
+										// get method name
+										preg_match('/->(get[a-zA-Z_]*)\(\)$/i', $variable, $variable);
+										$method = $variable[1];
+
+										if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\]/i', $object, $matches))
+										{
+											$exists[] = 'is_object(' . $object . ')';
+											$exists[] = 'method_exists(' . $object . ', \'' . $method . '\')';
+										}
+									}
 								}
 
 								// save info for error fallback
