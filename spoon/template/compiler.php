@@ -758,7 +758,7 @@ class SpoonTemplateCompiler
 										if(is_object(eval('return ' . $variable . ';')))
 										{
 											$variable .= "->get" . SpoonFilter::toCamelCase($chunks[$i]) . '()';
-											break;
+											continue;
 										}
 									}
 									$variable .= "['" . $chunks[$i] . "']";

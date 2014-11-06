@@ -6,7 +6,7 @@ $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
-require_once 'PHPUnit/Framework/TestCase.php';
+//require_once 'PHPUnit/Framework/TestCase.php';
 
 class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 {
@@ -86,6 +86,28 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			$tpl->getContent(dirname(__FILE__) . '/templates/nested_array.tpl')
 		);
 	}
+
+	function testParseNestedObjects()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$nestedObject = new Object();
+		$nestedObject->setName('Object name');
+
+		$object = new Object();
+		$object->setObject($nestedObject);
+
+		$tpl->assign('object', $object);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'Object name',
+			$tpl->getContent(dirname(__FILE__) . '/templates/nested_object.tpl')
+		);
+	}
 }
 
 /**
@@ -104,6 +126,18 @@ class Object
 	public function setName($name)
 	{
 		$this->name = $name;
+
+		return $this;
+	}
+
+	public function getObject()
+	{
+		return $this->object;
+	}
+
+	public function setObject($object)
+	{
+		$this->object = $object;
 
 		return $this;
 	}
