@@ -6,7 +6,6 @@ $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
-require_once 'PHPUnit/Framework/TestCase.php';
 
 class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 {
@@ -98,7 +97,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$nestedObject->setName('Object name');
 
 		$object = new Object();
-		$object->setObject($nestedObject);
+		$object->setNestedObject($nestedObject);
 
 		$tpl->assign('object', $object);
 
@@ -116,7 +115,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 class Object
 {
 	protected $name;
-	protected $object;
+	protected $nestedObject;
 
 	public function getName()
 	{
@@ -130,14 +129,14 @@ class Object
 		return $this;
 	}
 
-	public function getObject()
+	public function getNestedObject()
 	{
-		return $this->object;
+		return $this->nestedObject;
 	}
 
-	public function setObject($object)
+	public function setNestedObject($nestedObject)
 	{
-		$this->object = $object;
+		$this->nestedObject = $nestedObject;
 
 		return $this;
 	}

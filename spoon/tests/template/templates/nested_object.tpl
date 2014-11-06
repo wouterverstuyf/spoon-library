@@ -1,1 +1,1 @@
-{$object.object.name}
+{$object.nested_object.name}
