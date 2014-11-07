@@ -257,6 +257,34 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	function testIterationOverCollectionOfObjects()
+	{
+		// create a spoon template
+		$tpl = new SpoonTemplate();
+		$tpl->setForceCompile(true);
+		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+
+		$object1 = new Object();
+		$object1->setName('Object1');
+
+		$object2 = new Object();
+		$object2->setName('Object2');
+
+		$collection = new Collection(
+			array($object1, $object2)
+		);
+
+		$tpl->assign('collection', $collection);
+
+		// fetch the content from the template
+		$this->assertEquals(
+			'Object1Object2',
+			$tpl->getContent(
+				$this->getTemplatePath('iteration_over_collection_of_objects.tpl')
+			)
+		);
+	}
+
 	protected function getTemplatePath($templateName)
 	{
 		return dirname(__FILE__) . '/templates/' . $templateName;
