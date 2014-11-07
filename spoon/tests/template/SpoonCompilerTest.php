@@ -7,30 +7,30 @@ require_once 'spoon/spoon.php';
 
 class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 {
-	function testParseVariables()
+	protected $tpl;
+
+	function setUp()
 	{
 		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+		$this->tpl = new SpoonTemplate();
+		$this->tpl->setForceCompile(true);
+		$this->tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
+	}
 
-		$tpl->assign('variable', 'value');
+	function testParseVariables()
+	{
+		$this->tpl->assign('variable', 'value');
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'value',
-			$tpl->getContent($this->getTemplatePath('variable.tpl'))
+			$this->tpl->getContent($this->getTemplatePath('variable.tpl'))
 		);
 	}
 
 	function testParseArrays()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
-		$tpl->assign(
+		$this->tpl->assign(
 			'array',
 			array('name' => 'Array name')
 		);
@@ -38,37 +38,27 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Array name',
-			$tpl->getContent($this->getTemplatePath('array.tpl'))
+			$this->tpl->getContent($this->getTemplatePath('array.tpl'))
 		);
 	}
 
 	function testParseObjects()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		// add an object
 		$object = new Object();
 		$object->setName('Object name');
-		$tpl->assign('object', $object);
+		$this->tpl->assign('object', $object);
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'Object name',
-			$tpl->getContent($this->getTemplatePath('object.tpl'))
+			$this->tpl->getContent($this->getTemplatePath('object.tpl'))
 		);
 	}
 
 	function testParseNestedArrays()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
-		$tpl->assign(
+		$this->tpl->assign(
 			'array',
 			array(
 				'inner_array' => array(
@@ -80,50 +70,40 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'Array name',
-			$tpl->getContent($this->getTemplatePath('nested_array.tpl'))
+			$this->tpl->getContent($this->getTemplatePath('nested_array.tpl'))
 		);
 	}
 
 	function testParseNestedObjects()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		$nestedObject = new Object();
 		$nestedObject->setName('Object name');
 
 		$object = new Object();
 		$object->setNestedObject($nestedObject);
 
-		$tpl->assign('object', $object);
+		$this->tpl->assign('object', $object);
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'Object name',
-			$tpl->getContent($this->getTemplatePath('nested_object.tpl'))
+			$this->tpl->getContent($this->getTemplatePath('nested_object.tpl'))
 		);
 	}
 
 	function testParseArrayInObject()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		$nestedArray = array('name' => 'Inside an object');
 
 		$object = new Object();
 		$object->setArray($nestedArray);
 
-		$tpl->assign('object', $object);
+		$this->tpl->assign('object', $object);
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'Inside an object',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('array_in_object.tpl')
 			)
 		);
@@ -131,12 +111,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverArray()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
-		$tpl->assign(
+		$this->tpl->assign(
 			'array',
 			array(
 				array('name' => 'Foo'),
@@ -147,7 +122,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('iteration_over_array.tpl')
 			)
 		);
@@ -155,12 +130,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverNestedArray()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
-		$tpl->assign(
+		$this->tpl->assign(
 			'array',
 			array(
 				'nested_array' => array(
@@ -173,7 +143,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('iteration_over_nested_array.tpl')
 			)
 		);
@@ -181,11 +151,6 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverArrayInObject()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		$object = new Object();
 		$object->setArray(
 			array(
@@ -194,7 +159,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$tpl->assign(
+		$this->tpl->assign(
 			'object',
 			$object
 		);
@@ -202,7 +167,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('iteration_over_array_in_object.tpl')
 			)
 		);
@@ -210,23 +175,18 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverArrayOfObjects()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		$object1 = new Object();
 		$object1->setName('Foo');
 
 		$object2 = new Object();
 		$object2->setName('Bar');
 
-		$tpl->assign('array', array($object1, $object2));
+		$this->tpl->assign('array', array($object1, $object2));
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('iteration_over_array_of_objects.tpl')
 			)
 		);
@@ -234,11 +194,6 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverCollection()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		$collection = new Collection(
 			array(
 				array('name' => 'Foo'),
@@ -246,12 +201,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$tpl->assign('collection', $collection);
+		$this->tpl->assign('collection', $collection);
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'FooBar',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('iteration_over_collection.tpl')
 			)
 		);
@@ -259,11 +214,6 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverCollectionOfObjects()
 	{
-		// create a spoon template
-		$tpl = new SpoonTemplate();
-		$tpl->setForceCompile(true);
-		$tpl->setCompileDirectory(dirname(__FILE__) . '/cache');
-
 		$object1 = new Object();
 		$object1->setName('Object1');
 
@@ -274,12 +224,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			array($object1, $object2)
 		);
 
-		$tpl->assign('collection', $collection);
+		$this->tpl->assign('collection', $collection);
 
 		// fetch the content from the template
 		$this->assertEquals(
 			'Object1Object2',
-			$tpl->getContent(
+			$this->tpl->getContent(
 				$this->getTemplatePath('iteration_over_collection_of_objects.tpl')
 			)
 		);
