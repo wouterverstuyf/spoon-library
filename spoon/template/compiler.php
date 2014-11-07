@@ -564,6 +564,11 @@ class SpoonTemplateCompiler
 							' . $iteration . '[\'iteration\'] = ' . $variable . ';
 						}';
 					}
+					else
+					{
+						$templateContent .= '
+						' . $iteration . '[\'iteration\'] = ' . $variable . ';';
+					}
 				}
 				else
 				{
@@ -577,7 +582,6 @@ class SpoonTemplateCompiler
 							' . $iteration . '[\'fail\'] = true;
 						}';
 					}
-
 
 					$templateContent .= '
 					' . $iteration . '[\'iteration\'] = ' . $variable . ';'
@@ -908,59 +912,55 @@ class SpoonTemplateCompiler
 							// PHP conversion for this template variable
 							$this->templateVariables[$varKey]['content'] = $PHP;
 
-							// debug enabled: variable not assigned = revert to template code
-							if(Spoon::getDebug())
+							// holds checks to see if this variable can be parsed (along with the variables that may be used inside it)
+							$exists = array();
+
+							// loop variables
+							foreach((array) $variables as $variable)
 							{
-								// holds checks to see if this variable can be parsed (along with the variables that may be used inside it)
-								$exists = array();
-
-								// loop variables
-								foreach((array) $variables as $variable)
+								// get array containing variable
+								if(preg_match('/->get([a-zA-Z_]*)\(\)$/i', $variable))
 								{
-									// get array containing variable
-									if(preg_match('/->get([a-zA-Z_]*)\(\)$/i', $variable))
+									// we're working with objects
+									$object = preg_replace('/->(get[a-zA-Z_]*)\(\)$/i', '', $variable);
+
+									// get method name
+									preg_match('/->(get[a-zA-Z_]*)\(\)$/i', $variable, $variable);
+									$method = $variable[1];
+
+									if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\]/i', $object, $matches))
 									{
-										// we're working with objects
-										$object = preg_replace('/->(get[a-zA-Z_]*)\(\)$/i', '', $variable);
-
-										// get method name
-										preg_match('/->(get[a-zA-Z_]*)\(\)$/i', $variable, $variable);
-										$method = $variable[1];
-
-										if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\]/i', $object, $matches))
-										{
-											$exists[] = 'is_object(' . $object . ')';
-											$exists[] = 'method_exists(' . $object . ', \'' . $method . '\')';
-										}
-
-										$this->templateVariables[$varKey]['is_object'] = true;
+										$exists[] = 'is_object(' . $object . ')';
+										$exists[] = 'method_exists(' . $object . ', \'' . $method . '\')';
 									}
-									else
-									{
-										$array = preg_replace('/(\[\'[a-z_][a-z0-9_]*\'\])$/i', '', $variable);
 
-										// get variable name
-										preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable, $variable);
-										$variable = $variable[1];
-
-										// container array is index of higher array
-										if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\](?!->)/i', $array)) $exists[] = 'isset(' . $array . ')';
-										$exists[] = 'array_key_exists(\'' . $variable . '\', (array) ' . $array . ')';
-
-										// it could be an object in an iteration, add if statements for objects
-										$existsObject = array();
-										$existsObject[] = 'is_object(' . $array . ')';
-										$existsObject[] = 'method_exists(' . $array . ', \'get' . SpoonFilter::toCamelCase($variable) . '\')';
-										$this->templateVariables[$varKey]['if_object'] = implode(' && ', $existsObject);
-										$this->templateVariables[$varKey]['content_object'] = $array . '->get' . SpoonFilter::toCamelCase($variable) . '()';
-									}
+									$this->templateVariables[$varKey]['is_object'] = true;
 								}
+								else
+								{
+									$array = preg_replace('/(\[\'[a-z_][a-z0-9_]*\'\])$/i', '', $variable);
 
-								// save info for error fallback
-								$this->templateVariables[$varKey]['if'] = implode(' && ', $exists);
-								$this->templateVariables[$varKey]['variables'] = $variables;
-								$this->templateVariables[$varKey]['template'] = $match[0];
+									// get variable name
+									preg_match('/\[\'([a-z_][a-z0-9_]*)\'\]$/i', $variable, $variable);
+									$variable = $variable[1];
+
+									// container array is index of higher array
+									if(preg_match('/\[\'[a-z_][a-z0-9_]*\'\](?!->)/i', $array)) $exists[] = 'isset(' . $array . ')';
+									$exists[] = 'array_key_exists(\'' . $variable . '\', (array) ' . $array . ')';
+
+									// it could be an object in an iteration, add if statements for objects
+									$existsObject = array();
+									$existsObject[] = 'is_object(' . $array . ')';
+									$existsObject[] = 'method_exists(' . $array . ', \'get' . SpoonFilter::toCamelCase($variable) . '\')';
+									$this->templateVariables[$varKey]['if_object'] = implode(' && ', $existsObject);
+									$this->templateVariables[$varKey]['content_object'] = $array . '->get' . SpoonFilter::toCamelCase($variable) . '()';
+								}
 							}
+
+							// save info for error fallback
+							$this->templateVariables[$varKey]['if'] = implode(' && ', $exists);
+							$this->templateVariables[$varKey]['variables'] = $variables;
+							$this->templateVariables[$varKey]['template'] = $match[0];
 						}
 
 						// replace in content
@@ -1039,7 +1039,7 @@ class SpoonTemplateCompiler
 			foreach($this->templateVariables as $key => $value)
 			{
 				// replace variables in the content
-				if(Spoon::getDebug() && (isset($value['if_object']) && isset($value['content_object'])))
+				if(isset($value['if_object']) && isset($value['content_object']))
 				{
 					$content = str_replace(
 						'[$' . $key . ']',

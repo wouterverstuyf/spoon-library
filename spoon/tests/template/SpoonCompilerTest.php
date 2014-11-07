@@ -24,6 +24,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('variable', 'value');
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'value',
+			$this->tpl->getContent($this->getTemplatePath('variable.tpl'))
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'value',
 			$this->tpl->getContent($this->getTemplatePath('variable.tpl'))
@@ -38,6 +44,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'Array name',
+			$this->tpl->getContent($this->getTemplatePath('array.tpl'))
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'Array name',
 			$this->tpl->getContent($this->getTemplatePath('array.tpl'))
@@ -52,6 +64,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('object', $object);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'Object name',
+			$this->tpl->getContent($this->getTemplatePath('object.tpl'))
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'Object name',
 			$this->tpl->getContent($this->getTemplatePath('object.tpl'))
@@ -70,6 +88,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'Array name',
+			$this->tpl->getContent($this->getTemplatePath('nested_array.tpl'))
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'Array name',
 			$this->tpl->getContent($this->getTemplatePath('nested_array.tpl'))
@@ -87,6 +111,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('object', $object);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'Object name',
+			$this->tpl->getContent($this->getTemplatePath('nested_object.tpl'))
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'Object name',
 			$this->tpl->getContent($this->getTemplatePath('nested_object.tpl'))
@@ -103,6 +133,14 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('object', $object);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'Inside an object',
+			$this->tpl->getContent(
+				$this->getTemplatePath('array_in_object.tpl')
+			)
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'Inside an object',
 			$this->tpl->getContent(
@@ -122,6 +160,14 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'FooBar',
+			$this->tpl->getContent(
+				$this->getTemplatePath('iteration_over_array.tpl')
+			)
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'FooBar',
 			$this->tpl->getContent(
@@ -143,6 +189,14 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'FooBar',
+			$this->tpl->getContent(
+				$this->getTemplatePath('iteration_over_nested_array.tpl')
+			)
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'FooBar',
 			$this->tpl->getContent(
@@ -167,6 +221,15 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'FooBar',
+			$this->tpl->getContent(
+				$this->getTemplatePath('iteration_over_array_in_object.tpl')
+			)
+		);
+
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'FooBar',
 			$this->tpl->getContent(
@@ -186,6 +249,14 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('array', array($object1, $object2));
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'FooBar',
+			$this->tpl->getContent(
+				$this->getTemplatePath('iteration_over_array_of_objects.tpl')
+			)
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'FooBar',
 			$this->tpl->getContent(
@@ -206,6 +277,14 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('collection', $collection);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'FooBar',
+			$this->tpl->getContent(
+				$this->getTemplatePath('iteration_over_collection.tpl')
+			)
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'FooBar',
 			$this->tpl->getContent(
@@ -229,6 +308,14 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('collection', $collection);
 
 		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'Object1Object2',
+			$this->tpl->getContent(
+				$this->getTemplatePath('iteration_over_collection_of_objects.tpl')
+			)
+		);
+		Spoon::setDebug(false);
 		$this->assertEquals(
 			'Object1Object2',
 			$this->tpl->getContent(
