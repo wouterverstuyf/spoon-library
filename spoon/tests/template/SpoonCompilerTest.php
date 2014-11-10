@@ -296,6 +296,13 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->runTests('No', 'option_in_object.tpl');
 	}
 
+	/**
+	 * Check if the given templates gives the wanted output in debug and non
+	 * debug mode
+	 *
+	 * @param  string $output   The output we want from SpoonTemplate
+	 * @param  string $template The filename of the template
+	 */
 	protected function runTests($output, $template)
 	{
 		Spoon::setDebug(true);
