@@ -660,6 +660,8 @@ class SpoonTemplateCompiler
 				// loop matches
 				foreach($matches as $match)
 				{
+					$isObject = false;
+
 					// variable within iteration
 					if(isset($match[5]) && $match[5] != '')
 					{
@@ -680,9 +682,31 @@ class SpoonTemplateCompiler
 						$variable = '$this->variables';
 
 						// add separate chunks
-						foreach(explode('.', $match[2] . $match[3]) as $chunk)
+						$chunks = explode('.', $match[2] . $match[3]);
+						for($i = 0; $i < count($chunks); $i++)
 						{
-							$variable .= "['" . $chunk . "']";
+							if($i !== 0)
+							{
+								if(is_object(eval('return ' . $variable . ';')))
+								{
+									$method = 'is' . SpoonFilter::toCamelCase($chunks[$i]);
+									if(eval('return method_exists(' . $variable . ', \'' . $method . '\');'))
+									{
+										$variable .= '->' . $method . '()';
+									}
+									else
+									{
+										$variable .= "->get" . SpoonFilter::toCamelCase($chunks[$i]) . '()';
+									}
+
+									if($i == count($chunks) -1)
+									{
+										$isObject = true;
+									}
+									continue;
+								}
+							}
+							$variable .= "['" . $chunks[$i] . "']";
 						}
 					}
 
@@ -704,16 +728,34 @@ class SpoonTemplateCompiler
 					$search[] = '{option:!' . $option . '}';
 					$search[] = '{/option:!' . $option . '}';
 
-					// replace with
-					$replace[] = '<?php
-					if(isset(' . $variable . ') && count(' . $variable . ') != 0 && ' . $variable . ' != \'\' && ' . $variable . ' !== false)
+					$replace = '';
+					if($isObject)
 					{
-						?>';
-					$replace[] = '<?php } ?>';
+						// replace with
+						$replace[] = '<?php
+						if(' . $variable . ' && ' . $variable . ' != \'\' && ' . $variable . ' !== false)
+						{
+							?>';
+						$replace[] = '<?php } ?>';
 
-					// inverse option
-					$replace[] = '<?php if(!isset(' . $variable . ') || count(' . $variable . ') == 0 || ' . $variable . ' == \'\' || ' . $variable . ' === false): ?>';
-					$replace[] = '<?php endif; ?>';
+						// inverse option
+						$replace[] = '<?php if(!' . $variable . ' || ' . $variable . ' == \'\' || ' . $variable . ' === false): ?>';
+						$replace[] = '<?php endif; ?>';
+					}
+					else
+					{
+						// replace with
+						$replace[] = '<?php
+						if(isset(' . $variable . ') && count(' . $variable . ') != 0 && ' . $variable . ' != \'\' && ' . $variable . ' !== false)
+						{
+							?>';
+						$replace[] = '<?php } ?>';
+
+						// inverse option
+						$replace[] = '<?php if(!isset(' . $variable . ') || count(' . $variable . ') == 0 || ' . $variable . ' == \'\' || ' . $variable . ' === false): ?>';
+						$replace[] = '<?php endif; ?>';
+					}
+
 
 					// go replace
 					$content = str_replace($search, $replace, $content);

@@ -8,6 +8,7 @@ class Object
 	protected $name;
 	protected $nestedObject;
 	protected $array;
+	protected $boolean;
 
 	public function getName()
 	{
@@ -41,6 +42,18 @@ class Object
 	public function setArray(array $array)
 	{
 		$this->array = $array;
+
+		return $this;
+	}
+
+	public function isBoolean()
+	{
+		return $this->boolean;
+	}
+
+	public function setBoolean($boolean)
+	{
+		$this->boolean = $boolean;
 
 		return $this;
 	}
