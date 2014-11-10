@@ -22,18 +22,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 	function testParseVariables()
 	{
 		$this->tpl->assign('variable', 'value');
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'value',
-			$this->tpl->getContent($this->getTemplatePath('variable.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'value',
-			$this->tpl->getContent($this->getTemplatePath('variable.tpl'))
-		);
+		$this->runTests('value', 'variable.tpl');
 	}
 
 	function testParseArrays()
@@ -42,18 +31,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			'array',
 			array('name' => 'Array name')
 		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'Array name',
-			$this->tpl->getContent($this->getTemplatePath('array.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'Array name',
-			$this->tpl->getContent($this->getTemplatePath('array.tpl'))
-		);
+		$this->runTests('Array name', 'array.tpl');
 	}
 
 	function testParseObjects()
@@ -62,18 +40,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object = new Object();
 		$object->setName('Object name');
 		$this->tpl->assign('object', $object);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'Object name',
-			$this->tpl->getContent($this->getTemplatePath('object.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'Object name',
-			$this->tpl->getContent($this->getTemplatePath('object.tpl'))
-		);
+		$this->runTests('Object name', 'object.tpl');
 	}
 
 	function testParseNestedArrays()
@@ -86,18 +53,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 				)
 			)
 		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'Array name',
-			$this->tpl->getContent($this->getTemplatePath('nested_array.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'Array name',
-			$this->tpl->getContent($this->getTemplatePath('nested_array.tpl'))
-		);
+		$this->runTests('Array name', 'nested_array.tpl');
 	}
 
 	function testParseNestedObjects()
@@ -109,18 +65,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object->setNestedObject($nestedObject);
 
 		$this->tpl->assign('object', $object);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'Object name',
-			$this->tpl->getContent($this->getTemplatePath('nested_object.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'Object name',
-			$this->tpl->getContent($this->getTemplatePath('nested_object.tpl'))
-		);
+		$this->runTests('Object name', 'nested_object.tpl');
 	}
 
 	function testParseArrayInObject()
@@ -131,22 +76,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object->setArray($nestedArray);
 
 		$this->tpl->assign('object', $object);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'Inside an object',
-			$this->tpl->getContent(
-				$this->getTemplatePath('array_in_object.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'Inside an object',
-			$this->tpl->getContent(
-				$this->getTemplatePath('array_in_object.tpl')
-			)
-		);
+		$this->runTests('Inside an object', 'array_in_object.tpl');
 	}
 
 	function testIterationOverArray()
@@ -158,22 +88,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 				array('name' => 'Bar'),
 			)
 		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_array.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_array.tpl')
-			)
-		);
+		$this->runTests('FooBar', 'iteration_over_array.tpl');
 	}
 
 	function testIterationOverNestedArray()
@@ -187,22 +102,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 				)
 			)
 		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_nested_array.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_nested_array.tpl')
-			)
-		);
+		$this->runTests('FooBar', 'iteration_over_nested_array.tpl');
 	}
 
 	function testIterationOverArrayInObject()
@@ -215,27 +115,8 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$this->tpl->assign(
-			'object',
-			$object
-		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_array_in_object.tpl')
-			)
-		);
-
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_array_in_object.tpl')
-			)
-		);
+		$this->tpl->assign('object', $object);
+		$this->runTests('FooBar', 'iteration_over_array_in_object.tpl');
 	}
 
 	function testIterationOverArrayOfObjects()
@@ -247,22 +128,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object2->setName('Bar');
 
 		$this->tpl->assign('array', array($object1, $object2));
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_array_of_objects.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_array_of_objects.tpl')
-			)
-		);
+		$this->runTests('FooBar', 'iteration_over_array_of_objects.tpl');
 	}
 
 	function testIterationOverCollection()
@@ -275,22 +141,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->tpl->assign('collection', $collection);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_collection.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'FooBar',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_collection.tpl')
-			)
-		);
+		$this->runTests('FooBar', 'iteration_over_collection.tpl');
 	}
 
 	function testIterationOverCollectionOfObjects()
@@ -306,22 +157,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->tpl->assign('collection', $collection);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'Object1Object2',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_collection_of_objects.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'Object1Object2',
-			$this->tpl->getContent(
-				$this->getTemplatePath('iteration_over_collection_of_objects.tpl')
-			)
-		);
+		$this->runTests('Object1Object2', 'iteration_over_collection_of_objects.tpl');
 	}
 
 	function testCycle()
@@ -334,18 +170,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 				array('number' => 'Three'),
 			)
 		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'One: Odd, Two: Even, Three: Odd, ',
-			$this->tpl->getContent($this->getTemplatePath('cycle.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'One: Odd, Two: Even, Three: Odd, ',
-			$this->tpl->getContent($this->getTemplatePath('cycle.tpl'))
-		);
+		$this->runTests('One: Odd, Two: Even, Three: Odd, ', 'cycle.tpl');
 	}
 
 	function testCycleOverArrayInObject()
@@ -358,22 +183,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object = new Object();
 		$object->setArray($array);
 		$this->tpl->assign('object', $array);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'1: Odd, 2: Even, 3: Odd, ',
-			$this->tpl->getContent(
-				$this->getTemplatePath('cycle_over_array_in_object.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'1: Odd, 2: Even, 3: Odd, ',
-			$this->tpl->getContent(
-				$this->getTemplatePath('cycle_over_array_in_object.tpl')
-			)
-		);
+		$this->runTests('1: Odd, 2: Even, 3: Odd, ', 'cycle_over_array_in_object.tpl');
 	}
 
 	function testCycleOverCollection()
@@ -385,22 +195,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 		$collection = new Collection($array);
 		$this->tpl->assign('collection', $collection);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'0: Even, 1: Odd, 2: Even, ',
-			$this->tpl->getContent(
-				$this->getTemplatePath('cycle_over_collection.tpl')
-			)
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'0: Even, 1: Odd, 2: Even, ',
-			$this->tpl->getContent(
-				$this->getTemplatePath('cycle_over_collection.tpl')
-			)
-		);
+		$this->runTests('0: Even, 1: Odd, 2: Even, ', 'cycle_over_collection.tpl');
 	}
 
 	function testFirstAndLast()
@@ -413,18 +208,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 				array('number' => 'Three'),
 			)
 		);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'First: One, Last: Three',
-			$this->tpl->getContent($this->getTemplatePath('first_last.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'First: One, Last: Three',
-			$this->tpl->getContent($this->getTemplatePath('first_last.tpl'))
-		);
+		$this->runTests('First: One, Last: Three', 'first_last.tpl');
 	}
 
 	function testFirstAndLastForArrayInObject()
@@ -437,18 +221,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object = new Object();
 		$object->setArray($array);
 		$this->tpl->assign('object', $array);
-
-		// fetch the content from the template
-		Spoon::setDebug(true);
-		$this->assertEquals(
-			'First: 1, Last: 3',
-			$this->tpl->getContent($this->getTemplatePath('first_last_array_in_object.tpl'))
-		);
-		Spoon::setDebug(false);
-		$this->assertEquals(
-			'First: 1, Last: 3',
-			$this->tpl->getContent($this->getTemplatePath('first_last_array_in_object.tpl'))
-		);
+		$this->runTests('First: 1, Last: 3', 'first_last_array_in_object.tpl');
 	}
 
 	function testFirstAndLastForCollection()
@@ -460,17 +233,53 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 		$collection = new Collection($array);
 		$this->tpl->assign('object', $collection);
+		$this->runTests('First: 0, Last: 2', 'first_last_array_in_object.tpl');
+	}
 
-		// fetch the content from the template
+	function testOption()
+	{
+		// boolean true
+		$this->tpl->assign('test', true);
+		$this->runTests('Yes', 'option.tpl');
+
+		// integer that isn't zero
+		$this->tpl->assign('test', 1);
+		$this->runTests('Yes', 'option.tpl');
+
+		// string that isn't empty
+		$this->tpl->assign('test', 'tralala');
+		$this->runTests('Yes', 'option.tpl');
+
+		// array with content
+		$this->tpl->assign('test', array('tralala'));
+		$this->runTests('Yes', 'option.tpl');
+
+		// boolean false
+		$this->tpl->assign('test', false);
+		$this->runTests('No', 'option.tpl');
+
+		// integer 0
+		$this->tpl->assign('test', 0);
+		$this->runTests('No', 'option.tpl');
+
+		// empty string
+		$this->tpl->assign('test', '');
+		$this->runTests('No', 'option.tpl');
+
+		// empty array
+		$this->tpl->assign('test', array());
+		$this->runTests('No', 'option.tpl');
+	}
+
+	protected function runTests($output, $template)
+	{
 		Spoon::setDebug(true);
 		$this->assertEquals(
-			'First: 0, Last: 2',
-			$this->tpl->getContent($this->getTemplatePath('first_last_array_in_object.tpl'))
+			$output, $this->tpl->getContent($this->getTemplatePath($template))
 		);
 		Spoon::setDebug(false);
 		$this->assertEquals(
-			'First: 0, Last: 2',
-			$this->tpl->getContent($this->getTemplatePath('first_last_array_in_object.tpl'))
+			$output, $this->tpl->getContent($this->getTemplatePath($template))
 		);
 	}
 
