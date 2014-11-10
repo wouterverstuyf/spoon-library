@@ -254,6 +254,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->tpl->assign('test', array('tralala'));
 		$this->runTests('Yes', 'option.tpl');
 
+		// object
+		$this->tpl->assign('test', new Object());
+		$this->runTests('Yes', 'option.tpl');
+
 		// boolean false
 		$this->tpl->assign('test', false);
 		$this->runTests('No', 'option.tpl');
