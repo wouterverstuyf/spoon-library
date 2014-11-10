@@ -324,6 +324,85 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	function testCycle()
+	{
+		$this->tpl->assign(
+			'array',
+			array(
+				array('number' => 'One'),
+				array('number' => 'Two'),
+				array('number' => 'Three'),
+			)
+		);
+
+		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'One: Odd, Two: Even, Three: Odd, ',
+			$this->tpl->getContent($this->getTemplatePath('cycle.tpl'))
+		);
+		Spoon::setDebug(false);
+		$this->assertEquals(
+			'One: Odd, Two: Even, Three: Odd, ',
+			$this->tpl->getContent($this->getTemplatePath('cycle.tpl'))
+		);
+	}
+
+	function testCycleOverArrayInObject()
+	{
+		$array = array(
+			array('number' => '1'),
+			array('number' => '2'),
+			array('number' => '3'),
+		);
+		$object = new Object();
+		$object->setArray($array);
+		$this->tpl->assign('object', $array);
+
+		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'1: Odd, 2: Even, 3: Odd, ',
+			$this->tpl->getContent(
+				$this->getTemplatePath('cycle_over_array_in_object.tpl')
+			)
+		);
+		Spoon::setDebug(false);
+		$this->assertEquals(
+			'1: Odd, 2: Even, 3: Odd, ',
+			$this->tpl->getContent(
+				$this->getTemplatePath('cycle_over_array_in_object.tpl')
+			)
+		);
+	}
+
+	function testCycleOverCollection()
+	{
+		$array = array(
+			array('number' => '0'),
+			array('number' => '1'),
+			array('number' => '2'),
+		);
+		$collection = new Collection($array);
+		$this->tpl->assign('collection', $collection);
+
+		// fetch the content from the template
+		Spoon::setDebug(true);
+		$this->assertEquals(
+			'0: Even, 1: Odd, 2: Even, ',
+			$this->tpl->getContent(
+				$this->getTemplatePath('cycle_over_collection.tpl')
+			)
+		);
+		Spoon::setDebug(false);
+		$this->assertEquals(
+			'0: Even, 1: Odd, 2: Even, ',
+			$this->tpl->getContent(
+				$this->getTemplatePath('cycle_over_collection.tpl')
+			)
+		);
+	}
+
 	protected function getTemplatePath($templateName)
 	{
 		return dirname(__FILE__) . '/templates/' . $templateName;
