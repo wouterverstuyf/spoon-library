@@ -767,7 +767,10 @@ class SpoonTemplateCompiler
 			}
 
 			// no matches
-			else break;
+			else
+			{
+				break;
+			}
 		}
 
 		return $content;
