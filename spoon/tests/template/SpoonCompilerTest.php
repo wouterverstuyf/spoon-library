@@ -294,6 +294,15 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object->setBoolean(false);
 		$this->tpl->assign('object', $object);
 		$this->runTests('No', 'option_in_object.tpl');
+
+		// test boolean with ->get style getter instead off ->is style getter
+		$object->setVisible(true);
+		$this->tpl->assign('object', $object);
+		$this->runTests('Visible', 'option_in_object_get.tpl');
+
+		$object->setVisible(false);
+		$this->tpl->assign('object', $object);
+		$this->runTests('Invisible', 'option_in_object_get.tpl');
 	}
 
 	function testIncludes()

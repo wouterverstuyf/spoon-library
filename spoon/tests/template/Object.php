@@ -9,6 +9,7 @@ class Object
 	protected $nestedObject;
 	protected $array;
 	protected $boolean;
+	protected $visible;
 
 	public function getName()
 	{
@@ -54,6 +55,18 @@ class Object
 	public function setBoolean($boolean)
 	{
 		$this->boolean = $boolean;
+
+		return $this;
+	}
+
+	public function getVisible()
+	{
+		return $this->visible;
+	}
+
+	public function setVisible($visible)
+	{
+		$this->visible = $visible;
 
 		return $this;
 	}
