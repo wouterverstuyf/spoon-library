@@ -6,7 +6,6 @@ $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
-require_once 'PHPUnit/Framework/TestCase.php';
 
 class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 {
@@ -48,7 +47,7 @@ class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 		$this->txtDate->setAttribute('rel', 'bauffman.jpg');
 		$this->assertEquals('bauffman.jpg', $this->txtDate->getAttribute('rel'));
 		$this->txtDate->setAttributes(array('id' => 'specialID'));
-		$this->assertEquals(array('id' => 'specialID', 'name' => 'date','maxlength' => 10, 'class' => 'inputDatefield', 'rel' => 'bauffman.jpg'), $this->txtDate->getAttributes());
+		$this->assertEquals(array('id' => 'specialID', 'name' => 'date','maxlength' => 10, 'class' => 'inputDatefield', 'rel' => 'bauffman.jpg', 'data-mask' => 'dd/mm/yy'), $this->txtDate->getAttributes());
 	}
 
 	public function testIsFilled()
