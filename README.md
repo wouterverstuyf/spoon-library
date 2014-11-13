@@ -7,4 +7,4 @@ http://www.spoon-library.com
 
 Run ```composer install``` to install phpunit
 
-    vendor/bin/phpunit spoon
+    vendor/bin/phpunit
