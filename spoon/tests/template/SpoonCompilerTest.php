@@ -303,6 +303,12 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$object->setName('Object name');
 		$this->tpl->assign('object', $object);
 		$this->runTests('Object name', 'include.tpl');
+
+		// add an object
+		$object = new Object();
+		$object->setName('Object name');
+		$this->tpl->assign('object', $object);
+		$this->runTests('Object name', 'include_with_quotes.tpl');
 	}
 
 	/**
