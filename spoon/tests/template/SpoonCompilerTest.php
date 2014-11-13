@@ -296,6 +296,15 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->runTests('No', 'option_in_object.tpl');
 	}
 
+	function testIncludes()
+	{
+		// add an object
+		$object = new Object();
+		$object->setName('Object name');
+		$this->tpl->assign('object', $object);
+		$this->runTests('Object name', 'include.tpl');
+	}
+
 	/**
 	 * Check if the given templates gives the wanted output in debug and non
 	 * debug mode
