@@ -854,7 +854,7 @@ class SpoonTemplateCompiler
 								{
 									if($i !== 0)
 									{
-										if(is_object(eval('return ' . $variable . ';')))
+										if(is_object(eval('return isset(' . $variable . ') ? ' . $variable . ' : null;')))
 										{
 											$variable .= "->get" . SpoonFilter::toCamelCase($chunks[$i]) . '()';
 											continue;
