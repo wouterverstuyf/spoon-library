@@ -850,13 +850,15 @@ class SpoonTemplateCompiler
 
 								// add separate chunks
 								$chunks = explode('.', $match[1] . $match[2]);
+								$previousIsObject = false;
 								for($i = 0; $i < count($chunks); $i++)
 								{
 									if($i !== 0)
 									{
-										if(is_object(eval('return isset(' . $variable . ') ? ' . $variable . ' : null;')))
+										if(!$previousIsObject && is_object(eval('return isset(' . $variable . ') ? ' . $variable . ' : null;')))
 										{
 											$variable .= "->get" . SpoonFilter::toCamelCase($chunks[$i]) . '()';
+											$previousIsObject = true;
 											continue;
 										}
 									}
