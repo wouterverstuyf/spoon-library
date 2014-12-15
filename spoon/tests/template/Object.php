@@ -52,6 +52,11 @@ class Object
 		return $this->boolean;
 	}
 
+	public function getBoolean()
+	{
+		return $this->boolean;
+	}
+
 	public function setBoolean($boolean)
 	{
 		$this->boolean = $boolean;

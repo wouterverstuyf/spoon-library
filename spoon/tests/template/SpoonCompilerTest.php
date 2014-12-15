@@ -307,6 +307,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testOptionInIteration()
 	{
+		// in an array
 		$array = array(
 			array(
 				'boolean' => true,
@@ -319,6 +320,47 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		);
 		$this->tpl->assign('items', $array);
 		$this->runTests('True', 'option_in_iteration.tpl');
+
+		// in an object
+		$object1 = new Object();
+		$object1->setBoolean(true);
+		$object1->setName('True');
+		$object2 = new Object();
+		$object2->setBoolean(false);
+		$object2->setName('False');
+		$array = array($object1, $object2);
+
+		$this->tpl->assign('items', $array);
+		$this->runTests('True', 'option_in_iteration.tpl');
+	}
+
+	function testOptionNotInIteration()
+	{
+		// in an array
+		$array = array(
+			array(
+				'boolean' => true,
+				'name' => 'True',
+			),
+			array(
+				'boolean' => false,
+				'name' => 'False',
+			),
+		);
+		$this->tpl->assign('items', $array);
+		$this->runTests('False', 'option_not_in_iteration.tpl');
+
+		// in an object
+		$object1 = new Object();
+		$object1->setBoolean(true);
+		$object1->setName('True');
+		$object2 = new Object();
+		$object2->setBoolean(false);
+		$object2->setName('False');
+		$array = array($object1, $object2);
+
+		$this->tpl->assign('items', $array);
+		$this->runTests('False', 'option_not_in_iteration.tpl');
 	}
 
 	function testIncludes()

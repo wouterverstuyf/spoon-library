@@ -650,6 +650,9 @@ class SpoonTemplateCompiler
 
 		// init vars
 		$options = array();
+		$variable = '';
+		$objectVariable = '';
+		$baseVariable = '';
 
 		// keep finding those options!
 		while(1)
@@ -661,17 +664,32 @@ class SpoonTemplateCompiler
 				foreach($matches as $match)
 				{
 					$isObject = false;
+					$inIteration = false;
 
 					// variable within iteration
 					if(isset($match[5]) && $match[5] != '')
 					{
+						$inIteration = true;
+
 						// base
 						$variable = '${\'' . $match[2] . '\'}';
+						$objectVariable = '${\'' . $match[2] . '\'}';
+						$baseVariable = '${\'' . $match[2] . '\'}';
 
 						// add separate chunks
-						foreach(explode('.', ltrim($match[3] . str_replace('->', '.', $match[5]), '.')) as $chunk)
+						$chunks = explode('.', ltrim($match[3] . str_replace('->', '.', $match[5]), '.'));
+						foreach($chunks as $key => $chunk)
 						{
 							$variable .= "['" . $chunk . "']";
+							if($key + 1 == count($chunks))
+							{
+								$objectVariable .= "->get" . SpoonFilter::toCamelCase($chunk) . '()';
+							}
+							else
+							{
+								$objectVariable .= "['" . $chunk . "']";
+								$baseVariable .= "['" . $chunk . "']";
+							}
 						}
 					}
 
@@ -740,6 +758,23 @@ class SpoonTemplateCompiler
 
 						// inverse option
 						$replace[] = '<?php if(!' . $variable . ' || ' . $variable . ' == \'\' || ' . $variable . ' === false): ?>';
+						$replace[] = '<?php endif; ?>';
+					}
+					elseif($inIteration)
+					{
+						// replace with
+						$replace[] = '<?php
+						if(
+							(is_object(' . $baseVariable . ') && ' . $objectVariable . ' && ' . $objectVariable . ' != \'\' && ' . $objectVariable . ' !== false)
+							|| (is_array(' . $baseVariable . ') && isset(' . $variable . ') && count(' . $variable . ') != 0 && ' . $variable . ' != \'\' && ' . $variable . ' !== false))
+						{
+							?>';
+						$replace[] = '<?php } ?>';
+
+						// inverse option
+						$replace[] = '<?php if(
+							(is_object(' . $baseVariable . ') && (!' . $objectVariable . ' || ' . $objectVariable . ' == \'\' || ' . $objectVariable . ' === false))
+							|| (is_array(' . $baseVariable . ') && (!isset(' . $variable . ') || count(' . $variable . ') == 0 || ' . $variable . ' == \'\' || ' . $variable . ' === false))): ?>';
 						$replace[] = '<?php endif; ?>';
 					}
 					else
