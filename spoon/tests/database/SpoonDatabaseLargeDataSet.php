@@ -12,7 +12,6 @@
  *
  * And run counting test:
  * phpunit --filter testGetNumRows spoon/tests/database/SpoonDatabaseLargeDataSet.php
- * phpunit --filter testGetRowCount spoon/tests/database/SpoonDatabaseLargeDataSet.php
  *
  */
 
