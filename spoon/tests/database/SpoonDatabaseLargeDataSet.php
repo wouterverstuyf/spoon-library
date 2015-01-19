@@ -1,0 +1,82 @@
+<?php
+
+/*
+ * This test is not named xxxxxxxxTest.php so it will not be run when you run all tests
+ *
+ * Run manual: phpunit spoon/tests/database/SpoonDatabaseLargeDataSet.php
+ *
+ * Or
+ *
+ * Run once (to create data rows):
+ * phpunit spoon/tests/database/SpoonDatabaseLargeDataSet.php
+ *
+ * And run counting test:
+ * phpunit --filter testGetNumRows spoon/tests/database/SpoonDatabaseLargeDataSet.php
+ * phpunit --filter testGetRowCount spoon/tests/database/SpoonDatabaseLargeDataSet.php
+ *
+ */
+
+$includePath = dirname(dirname(dirname(dirname(__FILE__))));
+set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
+
+require_once 'spoon/spoon.php';
+
+class SpoonDatabaseLargeDataSet extends PHPUnit_Framework_TestCase
+{
+	const NUMBER_OF_ROWS = 1000000;
+	/**
+	 * @var	SpoonDatabase
+	 */
+	protected $db;
+
+	/**
+	 *
+	 */
+	public function setup()
+	{
+		$this->db = new SpoonDatabase('mysql', 'localhost', 'spoon', 'spoon', 'spoon_tests');
+	}
+
+	/**
+	 * @throws SpoonDatabaseException
+	 */
+	public function testExecute()
+	{
+		// clear all tables
+		if(count($this->db->getTables()) != 0) $this->db->drop($this->db->getTables());
+
+		// create table users
+		$this->db->execute("
+			CREATE TABLE users (
+			id INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+			username VARCHAR( 255 ) NOT NULL ,
+			email VARCHAR( 255 ) NOT NULL ,
+			developer ENUM( 'Y', 'N' ) NOT NULL
+			) ENGINE = MYISAM;");
+
+	}
+
+	/**
+	 * @throws SpoonDatabaseException
+	 */
+	public function testInsert()
+	{
+		$userRecord['username'] = 'username';
+		$userRecord['email'] = 'username@domain.extension';
+		$userRecord['developer'] = 'N';
+
+		for($i = 0; $i < self::NUMBER_OF_ROWS; $i++) {
+			$this->db->insert('users', $userRecord);
+		}
+	}
+
+	/**
+	 * @throws SpoonDatabaseException
+	 */
+	public function testGetNumRows()
+	{
+		$this->assertEquals(self::NUMBER_OF_ROWS, $this->db->getNumRows('SELECT id FROM users'));
+		$this->assertEquals(10000, $this->db->getNumRows('SELECT id FROM users LIMIT ?', array(10000)));
+	}
+
+}
