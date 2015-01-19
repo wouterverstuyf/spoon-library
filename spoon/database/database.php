@@ -476,7 +476,7 @@ class SpoonDatabase
 		if($this->debug) $this->queries[] = array('query' => $query, 'parameters' => $parameters);
 
 		// number of results
-		return count($statement->fetchAll(PDO::FETCH_COLUMN));
+		return $statement->rowCount();
 	}
 
 
