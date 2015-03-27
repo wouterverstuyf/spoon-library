@@ -87,7 +87,7 @@ class SpoonDate
 		$locale = array();
 
 		// fetch language
-		require 'spoon/locale/data/' . $language . '.php';
+		require_once 'spoon/locale/data/' . $language . '.php';
 
 		// get seconds between given timestamp and current timestamp
 		$secondsBetween = time() - $timestamp;
