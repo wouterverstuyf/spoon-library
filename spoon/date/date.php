@@ -27,7 +27,7 @@
  */
 class SpoonDate
 {
-	protected static $locale = null;
+	protected static $locale = array();
 
 	/**
 	 * An alias for php's date function that makes weekdays and months language dependant.
@@ -89,7 +89,7 @@ class SpoonDate
 		$locale = array();
 
 		// fetch language
-		if(self::$locale[$language] === null)
+		if(!isset(self::$locale[$language]))
 		{
 			require 'spoon/locale/data/' . $language . '.php';
 			self::$locale[$language] = $locale;
