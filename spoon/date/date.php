@@ -89,52 +89,54 @@ class SpoonDate
 		$locale = array();
 
 		// fetch language
-		if(self::$locale === null)
+		if(self::$locale[$language] === null)
 		{
 			require 'spoon/locale/data/' . $language . '.php';
-			self::$locale = $locale;
+			self::$locale[$language] = $locale;
 		}
+
+		$locale = self::$locale[$language];
 
 		// get seconds between given timestamp and current timestamp
 		$secondsBetween = time() - $timestamp;
 
 		// calculate years ago
 		$yearsAgo = floor($secondsBetween / (365.242199 * 24 * 60 * 60));
-		if($yearsAgo > 1 && $format === null) return sprintf(self::$locale['time']['YearsAgo'], $yearsAgo);
-		if($yearsAgo == 1 && $format === null) return self::$locale['time']['YearAgo'];
+		if($yearsAgo > 1 && $format === null) return sprintf($locale['time']['YearsAgo'], $yearsAgo);
+		if($yearsAgo == 1 && $format === null) return $locale['time']['YearAgo'];
 		if($yearsAgo >= 1 && $format !== null) return self::getDate($format, $timestamp, $language);
 
 		// calculate months ago
 		$monthsAgo = floor($secondsBetween / ((365.242199/12) * 24 * 60 * 60));
-		if($monthsAgo > 1 && $format === null) return sprintf(self::$locale['time']['MonthsAgo'], $monthsAgo);
-		if($monthsAgo == 1 && $format === null) return self::$locale['time']['MonthAgo'];
+		if($monthsAgo > 1 && $format === null) return sprintf($locale['time']['MonthsAgo'], $monthsAgo);
+		if($monthsAgo == 1 && $format === null) return $locale['time']['MonthAgo'];
 		if($monthsAgo >= 1 && $format !== null) return self::getDate($format, $timestamp, $language);
 
 		// calculate weeks ago
 		$weeksAgo = floor($secondsBetween / (7 * 24 * 60 * 60));
-		if($weeksAgo > 1 && $format === null) return sprintf(self::$locale['time']['WeeksAgo'], $weeksAgo);
-		if($weeksAgo == 1 && $format === null) return self::$locale['time']['WeekAgo'];
+		if($weeksAgo > 1 && $format === null) return sprintf($locale['time']['WeeksAgo'], $weeksAgo);
+		if($weeksAgo == 1 && $format === null) return $locale['time']['WeekAgo'];
 		if($weeksAgo >= 1 && $format !== null) return self::getDate($format, $timestamp, $language);
 
 		// calculate days ago
 		$daysAgo = floor($secondsBetween / (24 * 60 * 60));
-		if($daysAgo > 1) return sprintf(self::$locale['time']['DaysAgo'], $daysAgo);
-		if($daysAgo == 1) return self::$locale['time']['DayAgo'];
+		if($daysAgo > 1) return sprintf($locale['time']['DaysAgo'], $daysAgo);
+		if($daysAgo == 1) return $locale['time']['DayAgo'];
 
 		// calculate hours ago
 		$hoursAgo = floor($secondsBetween / (60 * 60));
-		if($hoursAgo > 1) return sprintf(self::$locale['time']['HoursAgo'], $hoursAgo);
-		if($hoursAgo == 1) return self::$locale['time']['HourAgo'];
+		if($hoursAgo > 1) return sprintf($locale['time']['HoursAgo'], $hoursAgo);
+		if($hoursAgo == 1) return $locale['time']['HourAgo'];
 
 		// calculate minutes ago
 		$minutesAgo = floor($secondsBetween / 60);
-		if($minutesAgo > 1) return sprintf(self::$locale['time']['MinutesAgo'], $minutesAgo);
-		if($minutesAgo == 1) return self::$locale['time']['MinuteAgo'];
+		if($minutesAgo > 1) return sprintf($locale['time']['MinutesAgo'], $minutesAgo);
+		if($minutesAgo == 1) return $locale['time']['MinuteAgo'];
 
 		// calculate seconds ago
 		$secondsAgo = floor($secondsBetween);
-		if($secondsAgo > 1) return sprintf(self::$locale['time']['SecondsAgo'], $secondsAgo);
-		if($secondsAgo <= 1) return self::$locale['time']['SecondAgo'];
+		if($secondsAgo > 1) return sprintf($locale['time']['SecondsAgo'], $secondsAgo);
+		if($secondsAgo <= 1) return $locale['time']['SecondAgo'];
 	}
 }
 
