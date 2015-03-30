@@ -27,7 +27,7 @@
  */
 class SpoonDate
 {
-	protected static $locale = array();
+	protected static $locales = array();
 
 	/**
 	 * An alias for php's date function that makes weekdays and months language dependant.
@@ -89,13 +89,13 @@ class SpoonDate
 		$locale = array();
 
 		// fetch language
-		if(!isset(self::$locale[$language]))
+		if(!isset(self::$locales[$language]))
 		{
 			require 'spoon/locale/data/' . $language . '.php';
-			self::$locale[$language] = $locale;
+			self::$locales[$language] = $locale;
 		}
 
-		$locale = self::$locale[$language];
+		$locale = self::$locales[$language];
 
 		// get seconds between given timestamp and current timestamp
 		$secondsBetween = time() - $timestamp;
