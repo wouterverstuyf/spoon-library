@@ -447,6 +447,23 @@ class SpoonThumbnail
 		// validate image
 		if($currentImage === false) throw new SpoonThumbnailException('The file you specified is corrupt.');
 
+		// set transparent for current image
+		@imagealphablending($currentImage, false);
+
+		// transparency supported for current image
+		if(in_array($currentType, array(IMG_GIF, 3, IMG_PNG)))
+		{
+			// get transparent color
+			$colorTransparent = @imagecolorallocatealpha($currentImage, 0, 0, 0, 127);
+
+			// any color found?
+			if($colorTransparent !== false)
+			{
+				@imagefill($currentImage, 0, 0, $colorTransparent);
+				@imagesavealpha($currentImage, true);
+			}
+		}
+
 		// create image resource
 		$this->image = @imagecreatetruecolor($newWidth, $newHeight);
 
