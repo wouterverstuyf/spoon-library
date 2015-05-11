@@ -715,13 +715,13 @@ class SpoonThumbnail
 		if($currentType == IMG_GIF)
 		{
 			// get transparent index
-			$transparentIndex = @imagecolortransparent($currentImage);
+			$transparentIndex = @imagecolortransparent($this->image);
 
 			// valid index
 			if($transparentIndex > 0)
 			{
 				// magic
-				$transparentColor = @imagecolorsforindex($currentImage, $transparentIndex);
+				$transparentColor = @imagecolorsforindex($this->image, $transparentIndex);
 				$transparentIndex = @imagecolorallocate($this->image, $transparentColor['red'], $transparentColor['green'], $transparentColor['blue']);
 
 				// fill
