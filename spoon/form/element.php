@@ -125,7 +125,7 @@ class SpoonFormElement
 	 *
 	 * @param	SpoonTemplate[optional] $template	The template to parse the element in.
 	 */
-	public function parse(SpoonTemplate $template = null)
+	public function parse($template = null)
 	{
 		// filled by subclasses
 	}

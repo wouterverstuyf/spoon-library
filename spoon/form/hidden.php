@@ -106,7 +106,7 @@ class SpoonFormHidden extends SpoonFormAttributes
 	 * @return	string
 	 * @param	SpoonTemplate[optional] $template	The template to parse the element in.
 	 */
-	public function parse(SpoonTemplate $template = null)
+	public function parse($template = null)
 	{
 		// start html generation
 		$output = '<input type="hidden" value="' . $this->getValue() . '"';

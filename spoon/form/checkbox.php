@@ -256,7 +256,7 @@ class SpoonFormCheckbox extends SpoonFormAttributes
 	 * @return	string
 	 * @param	SpoonTemplate[optional] $template	The template to parse the element in.
 	 */
-	public function parse(SpoonTemplate $template = null)
+	public function parse($template = null)
 	{
 		// name required
 		if($this->attributes['name'] == '') throw new SpoonFormException('A name is required for checkbox. Please provide a name.');

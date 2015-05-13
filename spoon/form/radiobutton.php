@@ -268,7 +268,7 @@ class SpoonFormRadiobutton extends SpoonFormElement
 	 * @return	array
 	 * @param	SpoonTemplate[optional] $template	The template to parse the element in.
 	 */
-	public function parse(SpoonTemplate $template = null)
+	public function parse($template = null)
 	{
 		// name required
 		if($this->name == '') throw new SpoonFormException('A name is required for a radiobutton. Please provide a name.');

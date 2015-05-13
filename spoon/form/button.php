@@ -103,7 +103,7 @@ class SpoonFormButton extends SpoonFormAttributes
 	 * @return	string
 	 * @param	SpoonTemplate[optional] $template	The template to parse the element in.
 	 */
-	public function parse(SpoonTemplate $template = null)
+	public function parse($template = null)
 	{
 		// start element
 		$output = '<input type="' . $this->type . '" value="' . SpoonFilter::htmlspecialchars($this->value) . '"';
