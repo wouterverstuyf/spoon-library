@@ -961,7 +961,7 @@ class SpoonForm
 	 *
 	 * @param	SpoonTemplate $template		The template to parse the form in.
 	 */
-	public function parse(SpoonTemplate $template)
+	public function parse($template)
 	{
 		// loop objects
 		foreach($this->objects as $name => $object)
