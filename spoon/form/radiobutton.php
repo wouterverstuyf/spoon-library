@@ -60,9 +60,9 @@ class SpoonFormRadiobutton extends SpoonFormElement
 
 
 	/**
-	 * List of labels and their values
+	 * List of values
 	 *
-	 * @var	string
+	 * @var	string[]
 	 */
 	protected $values;
 
@@ -141,7 +141,7 @@ class SpoonFormRadiobutton extends SpoonFormElement
 		/**
 		 * If we want to retrieve the checked status, we should first
 		 * ensure that the value we return is correct, therefor we
-		 * check the $_POST/$_GET array for the right value & ajust it if needed.
+		 * check the $_POST/$_GET array for the right value & adjust it if needed.
 		 */
 
 		// post/get data
@@ -266,15 +266,18 @@ class SpoonFormRadiobutton extends SpoonFormElement
 	 * Parse the html for this button.
 	 *
 	 * @return	array
-	 * @param	SpoonTemplate[optional] $template	The template to parse the element in.
+	 * @param 	SpoonTemplate $template    The template to parse the element in.
+	 * @throws	SpoonFormException
 	 */
 	public function parse($template = null)
 	{
 		// name required
 		if($this->name == '') throw new SpoonFormException('A name is required for a radiobutton. Please provide a name.');
 
+		$radiobuttons = null;
+
 		// loop values
-		foreach($this->values as $value => $label)
+		foreach($this->values as $value)
 		{
 			// init vars
 			$name = 'rbt' . SpoonFilter::toCamelCase($this->name);
@@ -315,7 +318,8 @@ class SpoonFormRadiobutton extends SpoonFormElement
 	 * Set the checked value.
 	 *
 	 * @return	SpoonFormRadiobutton
-	 * @param	string $checked		Set the radiobutton as checked.
+	 * @param 	string $checked Set the radiobutton as checked.
+	 * @throws	SpoonFormException
 	 */
 	public function setChecked($checked)
 	{
@@ -346,8 +350,9 @@ class SpoonFormRadiobutton extends SpoonFormElement
 	 * Set the labels and their values.
 	 *
 	 * @return	SpoonFormRadiobutton
-	 * @param	array $values						The values to set.
-	 * @param	string[optional] $defaultClass		The CSS-class to use.
+	 * @param	array $values The values to set.
+	 * @param	string $defaultClass [optional] $defaultClass        The CSS-class to use.
+	 * @throws	SpoonFormException
 	 */
 	public function setValues(array $values, $defaultClass = 'inputRadio')
 	{
@@ -363,37 +368,39 @@ class SpoonFormRadiobutton extends SpoonFormElement
 			// value is not set
 			if(!isset($value['value'])) throw new SpoonFormException('Each element in this array should contain a key "value".');
 
+			$key = (string) $value['value'];
+
 			// set value
-			$this->values[(string) $value['value']] = (string) $value['label'];
+			$this->values[$key] = $key;
 
 			// attributes?
 			if(isset($value['attributes']) && is_array($value['attributes']))
 			{
-				foreach($value['attributes'] as $attributeKey => $attributeValue) $this->attributes[$value['value']][(string) $attributeKey] = (string) $attributeValue;
+				foreach($value['attributes'] as $attributeKey => $attributeValue) $this->attributes[$key][(string) $attributeKey] = (string) $attributeValue;
 			}
 
 			// add default class
-			if(!isset($this->attributes[$value['value']]['class'])) $this->attributes[$value['value']]['class'] = (string) $defaultClass;
+			if(!isset($this->attributes[$key]['class'])) $this->attributes[$key]['class'] = (string) $defaultClass;
 
 			// variables
 			if(isset($value['variables']) && is_array($value['variables']))
 			{
-				foreach($value['variables'] as $variableKey => $variableValue) $this->variables[$value['value']][(string) $variableKey] = (string) $variableValue;
+				foreach($value['variables'] as $variableKey => $variableValue) $this->variables[$key][(string) $variableKey] = (string) $variableValue;
 			}
 
 			// custom id
-			if(!isset($this->variables[$value['value']]['id']))
+			if(!isset($this->variables[$key]['id']))
 			{
-				if(isset($this->attributes[$value['value']]['id'])) $this->variables[$value['value']]['id'] = $this->attributes[$value['value']]['id'];
-				else $this->variables[$value['value']]['id'] = SpoonFilter::toCamelCase($this->name . '_' . str_replace(' ', '_', $value['value']), '_', true);
+				if(isset($this->attributes[$key]['id'])) $this->variables[$key]['id'] = $this->attributes[$key]['id'];
+				else $this->variables[$key]['id'] = SpoonFilter::toCamelCase($this->name . '_' . str_replace(' ', '_', $key), '_', true);
 			}
 
 			// add some custom vars
-			if(!isset($this->variables[$value['value']]['label'])) $this->variables[$value['value']]['label'] = $value['label'];
-			if(!isset($this->variables[$value['value']]['value'])) $this->variables[$value['value']]['value'] = $value['value'];
+			if(!isset($this->variables[$key]['label'])) $this->variables[$key]['label'] = $value['label'];
+			if(!isset($this->variables[$key]['value'])) $this->variables[$key]['value'] = $key;
 
 			// add id
-			if(!isset($this->attributes[$value['value']]['id'])) $this->attributes[$value['value']]['id'] = $this->variables[$value['value']]['id'];
+			if(!isset($this->attributes[$key]['id'])) $this->attributes[$key]['id'] = $this->variables[$key]['id'];
 		}
 
 		return $this;
