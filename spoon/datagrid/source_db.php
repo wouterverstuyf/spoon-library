@@ -71,7 +71,7 @@ class SpoonDatagridSourceDB extends SpoonDatagridSource
 	 * Class construtor.
 	 *
 	 * @param	SpoonDatabase $dbConnection			The database connection.
-	 * @param	string $query						The query to execute.
+	 * @param	string|array $query					The query to execute.
 	 * @param	string[optional] $numResultsQuery	The query to use to retrieve the number of results.
 	 */
 	public function __construct(SpoonDatabase $dbConnection, $query, $numResultsQuery = null)
@@ -156,7 +156,7 @@ class SpoonDatagridSourceDB extends SpoonDatagridSource
 	/**
 	 * Set the queries.
 	 *
-	 * @param	string $query						The query to execute.
+	 * @param	string|array $query					The query to execute.
 	 * @param	string[optional] $numResultsQuery	The query to use to retrieve the number of results.
 	 */
 	private function setQuery($query, $numResultsQuery = null)
