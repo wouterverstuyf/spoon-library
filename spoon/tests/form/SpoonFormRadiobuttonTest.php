@@ -82,7 +82,7 @@ class SpoonFormRadiobuttonTest extends PHPUnit_Framework_TestCase
 			new SpoonFormRadiobutton('boolean_checked_true', $boolean, true);
 	}
 
-	public function testNumericWithValueZeroAndCheckedNull($on = false)
+	public function testNumericWithValueZeroAndCheckedNull($on = true)
 	{
 		if(!$on) return true;
 
@@ -143,7 +143,7 @@ class SpoonFormRadiobuttonTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	public function testNumericWithValueZeroAndCheckedZero($on = false)
+	public function testNumericWithValueZeroAndCheckedZero($on = true)
 	{
 		if(!$on) return true;
 
