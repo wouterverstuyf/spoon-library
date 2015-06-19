@@ -402,6 +402,8 @@ class SpoonTemplateCompiler
 	 */
 	protected function parseIncludes($content)
 	{
+		$debug = Spoon::getDebug();		
+
 		// regex pattern
 		// no unified restriction can be done on the allowed characters, that differs from one OS to another (see http://www.comentum.com/File-Systems-HFS-FAT-UFS.html)
 		$pattern = '/\{include:(("[^"]*?"|\'[^\']*?\')|[^:]*?)\}/i';
@@ -433,7 +435,7 @@ class SpoonTemplateCompiler
 				{
 					$return = @include $this->getCompileDirectory() .\'/\' . $this->getCompileName($include, \'' . dirname(realpath($this->template)) . '\');
 				}' . "\n";
-				if(Spoon::getDebug()) $replace .= 'if($return === false)
+				if($debug) $replace .= 'if($return === false)
 				{
 					?>' . $match[0] . '<?php
 				}' . "\n";
@@ -456,6 +458,8 @@ class SpoonTemplateCompiler
 	 */
 	protected function parseIterations($content)
 	{
+		$debug = Spoon::getDebug();
+
 		// fetch iterations
 		$pattern = '/(\{iteration_([0-9]+):([a-z0-9_]*)((\.[a-z0-9_]*)*)((-\>[a-z0-9_]*((\.[a-z0-9_]*)*))?)\})(.*?)(\{\/iteration_\\2:\\3\\4\\6\})/is';
 
@@ -550,7 +554,7 @@ class SpoonTemplateCompiler
 					$object = $methodMatches[1];
 					$method = $methodMatches[2];
 
-					if(Spoon::getDebug())
+					if($debug)
 					{
 						$templateContent .= '
 						if(!is_object(' . $object . ') || !method_exists(' . $object . ', \'' . $method . '\'))
@@ -572,7 +576,7 @@ class SpoonTemplateCompiler
 				}
 				else
 				{
-					if(Spoon::getDebug())
+					if($debug)
 					{
 						$templateContent .= '
 						if(!isset(' . $variable . '))
@@ -615,7 +619,7 @@ class SpoonTemplateCompiler
 				$templateContent .= '<?php
 					' . $iteration . '[\'i\']++;
 				}';
-				if(Spoon::getDebug())
+				if($debug)
 				{
 					$templateContent .= '
 					if(isset(' . $iteration . '[\'fail\']) && ' . $iteration . '[\'fail\'] == true)
@@ -829,6 +833,8 @@ class SpoonTemplateCompiler
 	 */
 	protected function parseVariables($content)
 	{
+		$debug = Spoon::getDebug();
+
 		// we want to keep parsing vars until none can be found
 		while(1)
 		{
@@ -980,7 +986,7 @@ class SpoonTemplateCompiler
 								$PHP = str_replace('[$' . $key . ']', $value['content'], $PHP);
 
 								// debug enabled
-								if(Spoon::getDebug())
+								if($debug)
 								{
 									// check if this variable is found
 									if(strpos($match[0], '[$' . $key . ']') !== false)
@@ -1111,6 +1117,8 @@ class SpoonTemplateCompiler
 	 */
 	protected function replaceVariables($content)
 	{
+		$debug = Spoon::getDebug();
+
 		// keep finding those variables!
 		while(1)
 		{
@@ -1130,7 +1138,7 @@ class SpoonTemplateCompiler
 						$count
 					);
 				}
-				elseif(Spoon::getDebug())
+				elseif($debug)
 				{
 					$content = str_replace(
 						'[$' . $key . ']',
