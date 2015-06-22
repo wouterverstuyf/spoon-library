@@ -135,6 +135,7 @@ class SpoonTemplateCompiler
 	 *
 	 * @param	string $template	The name of the template to compile.
 	 * @param	array $variables	The list of possible variables.
+	 * @param	bool $debug			Should we enable debug?
 	 */
 	public function __construct($template, array $variables, $debug = null)
 	{
@@ -146,7 +147,7 @@ class SpoonTemplateCompiler
 			$debug = Spoon::getDebug();
 		}
 
-		$this->debug = $debug;
+		$this->debug = (bool) $debug;
 	}
 
 
