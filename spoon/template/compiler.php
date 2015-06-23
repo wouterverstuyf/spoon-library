@@ -127,17 +127,27 @@ class SpoonTemplateCompiler
 	 */
 	protected $variables = array();
 
+	private $debug;
+
 
 	/**
 	 * Class constructor.
 	 *
 	 * @param	string $template	The name of the template to compile.
 	 * @param	array $variables	The list of possible variables.
+	 * @param	bool $debug			Should we enable debug?
 	 */
-	public function __construct($template, array $variables)
+	public function __construct($template, array $variables, $debug = null)
 	{
 		$this->template = (string) $template;
 		$this->variables = $variables;
+
+		// fallback to Spoon::getDebug if debug is not provided
+		if ($debug === null) {
+			$debug = Spoon::getDebug();
+		}
+
+		$this->debug = (bool) $debug;
 	}
 
 
@@ -174,8 +184,8 @@ class SpoonTemplateCompiler
 		if(!$this->parsed)
 		{
 			// while developing, you might want to know about the undefined indexes
-			$errorReporting = (Spoon::getDebug()) ? 'E_ALL | E_STRICT' : 0;
-			$displayErrors = (Spoon::getDebug()) ? 'On' : 'Off';
+			$errorReporting = ($this->debug) ? 'E_ALL | E_STRICT' : 0;
+			$displayErrors = ($this->debug) ? 'On' : 'Off';
 
 			// add to the list of parsed files
 			$this->files[] = $this->getCompileName($this->template);
@@ -433,7 +443,7 @@ class SpoonTemplateCompiler
 				{
 					$return = @include $this->getCompileDirectory() .\'/\' . $this->getCompileName($include, \'' . dirname(realpath($this->template)) . '\');
 				}' . "\n";
-				if(Spoon::getDebug()) $replace .= 'if($return === false)
+				if($this->debug) $replace .= 'if($return === false)
 				{
 					?>' . $match[0] . '<?php
 				}' . "\n";
@@ -550,7 +560,7 @@ class SpoonTemplateCompiler
 					$object = $methodMatches[1];
 					$method = $methodMatches[2];
 
-					if(Spoon::getDebug())
+					if($this->debug)
 					{
 						$templateContent .= '
 						if(!is_object(' . $object . ') || !method_exists(' . $object . ', \'' . $method . '\'))
@@ -572,7 +582,7 @@ class SpoonTemplateCompiler
 				}
 				else
 				{
-					if(Spoon::getDebug())
+					if($this->debug)
 					{
 						$templateContent .= '
 						if(!isset(' . $variable . '))
@@ -615,7 +625,7 @@ class SpoonTemplateCompiler
 				$templateContent .= '<?php
 					' . $iteration . '[\'i\']++;
 				}';
-				if(Spoon::getDebug())
+				if($this->debug)
 				{
 					$templateContent .= '
 					if(isset(' . $iteration . '[\'fail\']) && ' . $iteration . '[\'fail\'] == true)
@@ -980,7 +990,7 @@ class SpoonTemplateCompiler
 								$PHP = str_replace('[$' . $key . ']', $value['content'], $PHP);
 
 								// debug enabled
-								if(Spoon::getDebug())
+								if($this->debug)
 								{
 									// check if this variable is found
 									if(strpos($match[0], '[$' . $key . ']') !== false)
@@ -1130,7 +1140,7 @@ class SpoonTemplateCompiler
 						$count
 					);
 				}
-				elseif(Spoon::getDebug())
+				elseif($this->debug)
 				{
 					$content = str_replace(
 						'[$' . $key . ']',
