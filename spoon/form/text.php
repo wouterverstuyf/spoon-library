@@ -718,13 +718,20 @@ class SpoonFormText extends SpoonFormInput
 			$data = $this->getMethod(true);
 
 			// validate
-			if(!isset($data[$this->attributes['name']]) || !SpoonFilter::isURL($data[$this->attributes['name']]))
+			if(isset($data[$this->attributes['name']]) && is_string($data[$this->attributes['name']]))
 			{
-				if($error !== null) $this->setError($error);
-				return false;
-			}
+				$url = $data[$this->attributes['name']];
 
-			return true;
+				// appends http:// if not provided
+				// we deliberately left spoonFilter::isURL unchanged
+				// because SpoonFilter should not validate "www.spoon.be" as true
+				$url = (strncasecmp('http://', $url, 7) && strncasecmp('https://', $url, 8) ? 'http://' : '') . $url;
+
+				if(SpoonFilter::isURL($url))
+				{
+					return true;
+				}
+			}
 		}
 
 		// not submitted
