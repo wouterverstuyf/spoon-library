@@ -266,6 +266,10 @@ class SpoonFormTextTest extends PHPUnit_Framework_TestCase
 	{
 		$_POST['name'] = 'http://www.spoon-library.com';
 		$this->assertTrue($this->txtName->isURL());
+		$_POST['name'] = 'https://www.spoon-library.com';
+		$this->assertTrue($this->txtName->isURL());
+		$_POST['name'] = 'www.spoon-library.com';
+		$this->assertTrue($this->txtName->isURL());
 		$_POST['name'] = array('foo', 'bar');
 		$this->assertFalse($this->txtName->isURL());
 	}
