@@ -94,6 +94,13 @@ class SpoonDatabase
 
 
 	/**
+	 * Unix socket
+	 *
+	 * @var	string
+	 */
+	private $unixSocket;
+
+	/**
 	 * Database username
 	 *
 	 * @var	string
@@ -111,7 +118,7 @@ class SpoonDatabase
 	 * @param	string $database		The name of the database to use.
 	 * @param	int[optional] $port		The port to connect on.
 	 */
-	public function __construct($driver, $hostname, $username, $password, $database, $port = null)
+	public function __construct($driver, $hostname, $username, $password, $database, $port = null, $unixSocket = null)
 	{
 		$this->setDriver($driver);
 		$this->setHostname($hostname);
@@ -119,6 +126,7 @@ class SpoonDatabase
 		$this->setPassword($password);
 		$this->setDatabase($database);
 		$this->setPort($port);
+		$this->setUnixSocket($unixSocket);
 	}
 
 
@@ -141,6 +149,11 @@ class SpoonDatabase
 				if($this->port !== null)
 				{
 					$dsn .= ';port=' . $this->port;
+				}
+
+				if($this->unixSocket !== null)
+				{
+					$dsn .= ';unix_socket=' . $this->unixSocket;
 				}
 
 				// create handler
@@ -701,6 +714,16 @@ class SpoonDatabase
 
 
 	/**
+	 * Retrieve the unix socket.
+	 *
+	 * @return	string	The username.
+	 */
+	public function getUnixSocket()
+	{
+		return $this->unixSocket;
+	}
+
+	/**
 	 * Retrieve the username.
 	 *
 	 * @return	string	The username.
@@ -1025,6 +1048,17 @@ class SpoonDatabase
 	private function setPort($port)
 	{
 		$this->port = (int) $port;
+	}
+
+
+	/**
+	 * Set unix socket
+	 *
+	 * @param	string $unixSocket	The path to the unix socket (f.e.: used on MAC with MAMP).
+	 */
+	private function setUnixSocket($unixSocket)
+	{
+		$this->unixSocket = (string) $unixSocket;
 	}
 
 
