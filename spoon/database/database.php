@@ -1056,9 +1056,9 @@ class SpoonDatabase
 	 *
 	 * @param	string $unixSocket	The path to the unix socket (f.e.: used on MAC with MAMP).
 	 */
-	private function setUnixSocket($unixSocket)
+	private function setUnixSocket($unixSocket = null)
 	{
-		$this->unixSocket = (string) $unixSocket;
+		$this->unixSocket = $unixSocket;
 	}
 
 
