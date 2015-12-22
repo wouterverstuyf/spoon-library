@@ -236,17 +236,20 @@ class SpoonFilter
 		// variable is an array
 		if(is_array($variable) && !empty($variable))
 		{
+			// we have values
+			if($values !== null) {
+				// fetch difference between the 2 arrays
+				$differences = array_diff($variable, $values);
+
+				// set value
+				if(count($variable) != count($differences)) $value = array_intersect($variable, $values);
+
+				// values was empty
+				elseif(empty($values)) $value = $variable;
 			// no values
-			if($values === null) $values = array();
-
-			// fetch difference between the 2 arrays
-			$differences = array_diff($variable, $values);
-
-			// set value
-			if(count($variable) != count($differences)) $value = array_intersect($variable, $values);
-
-			// values was empty
-			elseif(empty($values)) $value = $variable;
+			} else {
+				$value = $variable;
+			}
 		}
 
 		// provided values
