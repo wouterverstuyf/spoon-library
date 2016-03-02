@@ -29,6 +29,8 @@
  */
 class SpoonDatabase
 {
+	const DATETIME_FORMAT = 'Y-m-d H:i:s';
+
 	/**
 	 * Database name
 	 *
@@ -843,7 +845,7 @@ class SpoonDatabase
 				{
 					if($actualValue instanceof DateTime)
 					{
-						$actualValue = $actualValue->format('Y-m-d H:i:s');
+						$actualValue = $actualValue->format(self::DATETIME_FORMAT);
 					}
 
 					// add parameter marker
@@ -884,7 +886,7 @@ class SpoonDatabase
 			{
 				if($actualValue instanceof DateTime)
 				{
-					$actualValue = $actualValue->format('Y-m-d H:i:s');
+					$actualValue = $actualValue->format(self::DATETIME_FORMAT);
 				}
 
 				// add parameter marker
@@ -1146,7 +1148,7 @@ class SpoonDatabase
 		{
 			if($value instanceof DateTime)
 			{
-				$value = $value->format('Y-m-d H:i:s');
+				$value = $value->format(self::DATETIME_FORMAT);
 			}
 
 			// named parameters
