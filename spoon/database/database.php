@@ -1144,6 +1144,11 @@ class SpoonDatabase
 		// loop values
 		foreach($values as $key => $value)
 		{
+			if($value instanceof DateTime)
+			{
+				$value = $value->format('Y-m-d H:i:s');
+			}
+
 			// named parameters
 			if(!$namedParameters)
 			{

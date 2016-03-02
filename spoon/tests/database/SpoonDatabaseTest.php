@@ -216,6 +216,16 @@ class SpoonDatabaseTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends testExecute
 	 */
+	public function testUpdateDate()
+	{
+		// data
+		$aData['date'] = new DateTime();
+		$this->db->update('date_test', $aData);
+	}
+
+	/**
+	 * @depends testExecute
+	 */
 	public function testOptimize()
 	{
 		$this->db->optimize('users');
