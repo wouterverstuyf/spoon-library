@@ -47,6 +47,14 @@ class SpoonDatabaseTest extends PHPUnit_Framework_TestCase
 			PRIMARY KEY  (`id`)
 			) ENGINE=MyISAM;");
 
+		// create table with datetime
+		$this->db->execute("
+			CREATE TABLE `date_test` (
+			`id` int(11) NOT NULL auto_increment,
+			`date` DATETIME NOT NULL,
+			PRIMARY KEY  (`id`)
+			) ENGINE=MyISAM;");
+
 		// do nothing
 		$this->db->execute('SELECT * FROM users LIMIT ?', 10);
 		$this->db->execute('SELECT * FROM users limit :limit', array(':limit' => 10));
@@ -105,6 +113,27 @@ class SpoonDatabaseTest extends PHPUnit_Framework_TestCase
 		// insert 1000 records
 		for($i = 0; $i < 1000; $i++) $array[$i] = $aData;
 		$this->db->insert('users', $array);
+	}
+
+	/**
+	 * @depends testExecute
+	 */
+	public function testInsertDate()
+	{
+		// data
+		$aData['date'] = new DateTime();
+		$this->db->insert('date_test', $aData);
+
+		// multiple rows data
+		$aData = array(
+			array(
+				'date' => new DateTime(),
+			),
+			array(
+				'date' => new DateTime(),
+			),
+		);
+		$this->db->insert('date_test', $aData);
 	}
 
 	/**

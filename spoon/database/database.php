@@ -839,8 +839,13 @@ class SpoonDatabase
 				$query .= '(';
 
 				// loop keys
-				for($t = 0; $t < $numFields; $t++)
+				foreach($aRow as &$actualValue)
 				{
+					if($actualValue instanceof DateTime)
+					{
+						$actualValue = $actualValue->format('Y-m-d H:i:s');
+					}
+
 					// add parameter marker
 					$query .= '?, ';
 				}
@@ -875,8 +880,13 @@ class SpoonDatabase
 			$query .= implode(', ', $keys) . ') VALUES (';
 
 			// add parameters
-			for($i = 0; $i < count($actualValues); $i++)
+			foreach($actualValues as &$actualValue)
 			{
+				if($actualValue instanceof DateTime)
+				{
+					$actualValue = $actualValue->format('Y-m-d H:i:s');
+				}
+
 				// add parameter marker
 				$query .= '?, ';
 			}
