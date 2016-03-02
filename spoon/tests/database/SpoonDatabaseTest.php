@@ -80,7 +80,7 @@ class SpoonDatabaseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetTables()
 	{
-		$this->assertEquals(array('users'), $this->db->getTables());
+		$this->assertEquals(array('date_test', 'users'), $this->db->getTables());
 	}
 
 	/**
