@@ -29,6 +29,8 @@
  */
 class SpoonDatabase
 {
+	const DATETIME_FORMAT = 'Y-m-d H:i:s';
+
 	/**
 	 * Database name
 	 *
@@ -839,8 +841,13 @@ class SpoonDatabase
 				$query .= '(';
 
 				// loop keys
-				for($t = 0; $t < $numFields; $t++)
+				foreach($aRow as &$actualValue)
 				{
+					if($actualValue instanceof DateTime)
+					{
+						$actualValue = $actualValue->format(self::DATETIME_FORMAT);
+					}
+
 					// add parameter marker
 					$query .= '?, ';
 				}
@@ -875,8 +882,13 @@ class SpoonDatabase
 			$query .= implode(', ', $keys) . ') VALUES (';
 
 			// add parameters
-			for($i = 0; $i < count($actualValues); $i++)
+			foreach($actualValues as &$actualValue)
 			{
+				if($actualValue instanceof DateTime)
+				{
+					$actualValue = $actualValue->format(self::DATETIME_FORMAT);
+				}
+
 				// add parameter marker
 				$query .= '?, ';
 			}
@@ -1134,6 +1146,11 @@ class SpoonDatabase
 		// loop values
 		foreach($values as $key => $value)
 		{
+			if($value instanceof DateTime)
+			{
+				$value = $value->format(self::DATETIME_FORMAT);
+			}
+
 			// named parameters
 			if(!$namedParameters)
 			{
