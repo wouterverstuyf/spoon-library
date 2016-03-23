@@ -158,6 +158,8 @@ class SpoonDatabase
 				{
 					$dsn .= ';unix_socket=' . $this->unixSocket;
 				}
+				
+				$dsn .= ';charset=utf8';
 
 				// create handler
 				$this->handler = new PDO($dsn, $this->username, $this->password);
