@@ -129,4 +129,16 @@ class SpoonFormInput extends SpoonFormAttributes
 		$this->errors = (string) $error;
 		return $this;
 	}
+
+	/**
+	 * Marks a field as required
+	 *
+	 * @return self
+	 */
+	public function makeRequired()
+	{
+		$this->setAttribute('required', 'required');
+
+		return $this;
+	}
 }

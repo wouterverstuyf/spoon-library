@@ -797,4 +797,18 @@ class SpoonFormText extends SpoonFormInput
 
 		return $output;
 	}
+
+	/**
+	 * Sets the html type attribute. This makes it easier to mark a field as
+	 * email/number/...
+	 *
+	 * @param string
+	 * @return self
+	 */
+	public function setType($type)
+	{
+		$this->setAttribute('type', $type);
+
+		return $this;
+	}
 }
