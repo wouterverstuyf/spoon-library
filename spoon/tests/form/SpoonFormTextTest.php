@@ -301,4 +301,34 @@ class SpoonFormTextTest extends PHPUnit_Framework_TestCase
 			$this->txtName->getAttributes()['type']
 		);
 	}
+
+	public function testRequired()
+	{
+		$this->txtName->makeRequired();
+		$this->assertEquals(
+			'required',
+			$this->txtName->getAttributes()['required']
+		);
+	}
+
+	public function testChainingMethods()
+	{
+		$this->txtName
+			->setType('email')
+			->makeRequired()
+			->setError('test');
+
+		$this->assertEquals(
+			'email',
+			$this->txtName->getAttributes()['type']
+		);
+		$this->assertEquals(
+			'required',
+			$this->txtName->getAttributes()['required']
+		);
+		$this->assertEquals(
+			'test',
+			$this->txtName->getErrors()
+		);
+	}
 }
