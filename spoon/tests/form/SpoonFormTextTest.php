@@ -292,4 +292,13 @@ class SpoonFormTextTest extends PHPUnit_Framework_TestCase
 		$_POST['name'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->txtName->getValue());
 	}
+
+	public function testType()
+	{
+		$this->txtName->setType('email');
+		$this->assertEquals(
+			'email',
+			$this->txtName->getAttributes()['type']
+		);
+	}
 }
