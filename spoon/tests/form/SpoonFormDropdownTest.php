@@ -161,4 +161,19 @@ class SpoonFormDropdownTest extends PHPUnit_Framework_TestCase
 	{
 		$this->ddmDefaultElement->parse();
 	}
+
+	public function testRequired()
+	{
+		$this->ddmSingle->makeRequired();
+		$this->assertEquals(
+			'required',
+			$this->ddmSingle->getAttributes()['required']
+		);
+
+		$this->ddmMultiple->makeRequired();
+		$this->assertEquals(
+			'required',
+			$this->ddmMultiple->getAttributes()['required']
+		);
+	}
 }

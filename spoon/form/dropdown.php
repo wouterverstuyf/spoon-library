@@ -735,4 +735,16 @@ class SpoonFormDropdown extends SpoonFormAttributes
 			}
 		}
 	}
+
+	/**
+	 * Marks a field as required
+	 *
+	 * @return self
+	 */
+	public function makeRequired()
+	{
+		$this->setAttribute('required', 'required');
+
+		return $this;
+	}
 }
