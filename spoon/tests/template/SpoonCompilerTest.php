@@ -393,6 +393,13 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->runTests('Object name', 'template_modifier_object.tpl');
 	}
 
+	function testTemplateModifierWithVariables()
+	{
+		$this->tpl->assign('string', '%1$s %2$s');
+		$this->tpl->assign('array', array('foo' => 'foo', 'bar' => 'bar'));
+		$this->runTests('foo bar', 'template_modifier_with_vars.tpl');
+	}
+
 	/**
 	 * Check if the given templates gives the wanted output in debug and non
 	 * debug mode
