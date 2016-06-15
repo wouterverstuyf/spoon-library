@@ -982,6 +982,8 @@ class SpoonForm
 	 */
 	public function setAction($action)
 	{
+		$action = str_replace('"', '&qout;', $action);
+
 		$this->action = (string) $action;
 	}
 
