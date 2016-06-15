@@ -914,6 +914,9 @@ class SpoonTemplateCompiler
 							// save PHP code
 							$PHP = $variable;
 
+							$usedModifier = null;
+							$usedArguments = null;
+
 							// has modifiers
 							if(isset($match[7]) && $match[7] != '')
 							{
@@ -932,6 +935,7 @@ class SpoonTemplateCompiler
 										// add call
 										else
 										{
+											$usedModifier = $this->modifiers[$modifier];
 											// method call
 											if(is_array($this->modifiers[$modifier])) $PHP = implode('::', $this->modifiers[$modifier]) . '(' . $PHP;
 
@@ -948,6 +952,7 @@ class SpoonTemplateCompiler
 											// has arguments
 											if(preg_match_all($pattern, $modifiers[2][$key], $arguments))
 											{
+												$usedArguments = $arguments;
 												// loop arguments
 												foreach($arguments[1] as $argument)
 												{
@@ -1047,62 +1052,19 @@ class SpoonTemplateCompiler
 									$this->templateVariables[$varKey]['if_object'] = implode(' && ', $existsObject);
 									$this->templateVariables[$varKey]['content_object'] = $array . '->get' . SpoonFilter::toCamelCase($variable) . '()';
 
-									// has modifiers
-									if(isset($match[7]) && $match[7] != '')
-									{
-										// modifier pattern
-										$pattern = '/\|([a-z_][a-z0-9_]*)((:("[^"]*?"|\'[^\']*?\'|[^:|]*))*)/i';
+									if ($usedModifier) {
+										if (is_array($usedModifier)) {
+											// method call
+											$this->templateVariables[$varKey]['content_object'] = implode('::', $usedModifier) . '(' . $this->templateVariables[$varKey]['content_object'];
+										} else {
+											// function call
+											$this->templateVariables[$varKey]['content_object'] = $usedModifier . '(' . $this->templateVariables[$varKey]['content_object'];
+										}
 
-										// has match
-										if(preg_match_all($pattern, $match[7], $modifiers))
-										{
-											// loop modifiers
-											foreach($modifiers[1] as $key => $modifier)
-											{
-												// modifier doesn't exist
-												if(!isset($this->modifiers[$modifier])) throw new SpoonTemplateException('The modifier "' . $modifier . '" does not exist.');
+										$this->templateVariables[$varKey]['content_object'] .= ')';
 
-												// add call
-												else
-												{
-													// method call
-													if(is_array($this->modifiers[$modifier])) $this->templateVariables[$varKey]['content_object'] = implode('::', $this->modifiers[$modifier]) . '(' . $this->templateVariables[$varKey]['content_object'];
-
-													// function call
-													else $this->templateVariables[$varKey]['content_object'] = $this->modifiers[$modifier] . '(' . $this->templateVariables[$varKey]['content_object'];
-												}
-
-												// has arguments
-												if($modifiers[2][$key] != '')
-												{
-													// arguments pattern (don't just explode on ':', it might be used inside a string argument)
-													$pattern = '/:("[^"]*?"|\'[^\']*?\'|[^:|]*)/';
-
-													// has arguments
-													if(preg_match_all($pattern, $modifiers[2][$key], $arguments))
-													{
-														// loop arguments
-														foreach($arguments[1] as $argument)
-														{
-															// string argument?
-															if(in_array(substr($argument, 0, 1), array('\'', '"')))
-															{
-																// in compiled code: single quotes! (and escape single quotes in the content!)
-																$argument = '\'' . str_replace('\'', '\\\'', substr($argument, 1, -1)) . '\'';
-
-																// make sure that variables inside string arguments are correctly parsed
-																$argument = preg_replace('/\[\$.*?\]/', '\' . \\0 .\'', $argument);
-															}
-
-															// add argument
-															$this->templateVariables[$varKey]['content_object'] .= ', ' . $argument;
-														}
-													}
-												}
-
-												// add close tag
-												$this->templateVariables[$varKey]['content_object'] .= ')';
-											}
+										if ($usedArguments) {
+											$this->templateVariables[$varKey]['content_object'] = '""; throw new Exception(\'Variables in modifiers on objects are not supported.\');';
 										}
 									}
 								}
