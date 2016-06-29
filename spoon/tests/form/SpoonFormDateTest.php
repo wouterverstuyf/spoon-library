@@ -93,4 +93,37 @@ class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 		$_POST['date'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->txtDate->getValue());
 	}
+
+	public function testDateFormatsLong()
+	{
+		$formats = unserialize('a:14:{i:0;s:5:"j F Y";i:1;s:7:"D j F Y";i:2;s:7:"l j F Y";i:3;s:6:"j F, Y";i:4;s:8:"D j F, Y";i:5;s:8:"l j F, Y";i:6;s:5:"d F Y";i:7;s:6:"d F, Y";i:8;s:5:"F j Y";i:9;s:7:"D F j Y";i:10;s:7:"l F j Y";i:11;s:6:"F d, Y";i:12;s:8:"D F d, Y";i:13;s:8:"l F d, Y";}');
+        $this->loopOverFormats($formats);
+	}
+
+	/**
+	 * Loop over formats and test if they work.
+	 *
+	 * @param array $formats
+	 */
+	private function loopOverFormats(array $formats)
+	{
+		foreach ($formats as $format) {
+			$timestamp = strtotime('Last Monday');
+			$date = date($format, $timestamp);
+
+			// set up the form
+			$form = new SpoonForm('formattedDateFieldForm');
+			$txtFormattedDate = new SpoonFormDate('formattedDate', $timestamp, $format);
+			$form->add($txtFormattedDate);
+
+			// the actual test
+			$this->assertEquals($date, $txtFormattedDate->getValue(), $format . ' failed');
+		}
+	}
+
+	public function testDateFormatsShort()
+	{
+		$formats = unserialize('a:24:{i:0;s:5:"j/n/Y";i:1;s:5:"j-n-Y";i:2;s:5:"j.n.Y";i:3;s:5:"n/j/Y";i:4;s:5:"n/j/Y";i:5;s:5:"n/j/Y";i:6;s:5:"d/m/Y";i:7;s:5:"d-m-Y";i:8;s:5:"d.m.Y";i:9;s:5:"m/d/Y";i:10;s:5:"m-d-Y";i:11;s:5:"m.d.Y";i:12;s:5:"j/n/y";i:13;s:5:"j-n-y";i:14;s:5:"j.n.y";i:15;s:5:"n/j/y";i:16;s:5:"n-j-y";i:17;s:5:"n.j.y";i:18;s:5:"d/m/y";i:19;s:5:"d-m-y";i:20;s:5:"d.m.y";i:21;s:5:"m/d/y";i:22;s:5:"m-d-y";i:23;s:5:"m.d.y";}');
+		$this->loopOverFormats($formats);
+	}
 }
