@@ -97,7 +97,7 @@ class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 	public function testDateFormatsLong()
 	{
 		$formats = unserialize('a:14:{i:0;s:5:"j F Y";i:1;s:7:"D j F Y";i:2;s:7:"l j F Y";i:3;s:6:"j F, Y";i:4;s:8:"D j F, Y";i:5;s:8:"l j F, Y";i:6;s:5:"d F Y";i:7;s:6:"d F, Y";i:8;s:5:"F j Y";i:9;s:7:"D F j Y";i:10;s:7:"l F j Y";i:11;s:6:"F d, Y";i:12;s:8:"D F d, Y";i:13;s:8:"l F d, Y";}');
-        $this->loopOverFormats($formats);
+		$this->loopOverFormats($formats);
 	}
 
 	/**
