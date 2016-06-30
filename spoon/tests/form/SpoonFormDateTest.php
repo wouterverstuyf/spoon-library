@@ -96,7 +96,22 @@ class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 
 	public function testDateFormatsLong()
 	{
-		$formats = unserialize('a:14:{i:0;s:5:"j F Y";i:1;s:7:"D j F Y";i:2;s:7:"l j F Y";i:3;s:6:"j F, Y";i:4;s:8:"D j F, Y";i:5;s:8:"l j F, Y";i:6;s:5:"d F Y";i:7;s:6:"d F, Y";i:8;s:5:"F j Y";i:9;s:7:"D F j Y";i:10;s:7:"l F j Y";i:11;s:6:"F d, Y";i:12;s:8:"D F d, Y";i:13;s:8:"l F d, Y";}');
+		$formats = Array(
+			'j F Y',
+			'D j F Y',
+			'l j F Y',
+			'j F, Y',
+			'D j F, Y',
+			'l j F, Y',
+			'd F Y',
+			'd F, Y',
+			'F j Y',
+			'D F j Y',
+			'l F j Y',
+			'F d, Y',
+			'D F d, Y',
+			'l F d, Y',
+		);
 		$this->loopOverFormats($formats);
 	}
 
@@ -123,7 +138,32 @@ class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 
 	public function testDateFormatsShort()
 	{
-		$formats = unserialize('a:24:{i:0;s:5:"j/n/Y";i:1;s:5:"j-n-Y";i:2;s:5:"j.n.Y";i:3;s:5:"n/j/Y";i:4;s:5:"n/j/Y";i:5;s:5:"n/j/Y";i:6;s:5:"d/m/Y";i:7;s:5:"d-m-Y";i:8;s:5:"d.m.Y";i:9;s:5:"m/d/Y";i:10;s:5:"m-d-Y";i:11;s:5:"m.d.Y";i:12;s:5:"j/n/y";i:13;s:5:"j-n-y";i:14;s:5:"j.n.y";i:15;s:5:"n/j/y";i:16;s:5:"n-j-y";i:17;s:5:"n.j.y";i:18;s:5:"d/m/y";i:19;s:5:"d-m-y";i:20;s:5:"d.m.y";i:21;s:5:"m/d/y";i:22;s:5:"m-d-y";i:23;s:5:"m.d.y";}');
+		$formats = Array(
+			'j/n/Y',
+			'j-n-Y',
+			'j.n.Y',
+			'n/j/Y',
+			'n/j/Y',
+			'n/j/Y',
+			'd/m/Y',
+			'd-m-Y',
+			'd.m.Y',
+			'm/d/Y',
+			'm-d-Y',
+			'm.d.Y',
+			'j/n/y',
+			'j-n-y',
+			'j.n.y',
+			'n/j/y',
+			'n-j-y',
+			'n.j.y',
+			'd/m/y',
+			'd-m-y',
+			'd.m.y',
+			'm/d/y',
+			'm-d-y',
+			'm.d.y',
+		);
 		$this->loopOverFormats($formats);
 	}
 }
