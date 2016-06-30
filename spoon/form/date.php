@@ -405,7 +405,24 @@ class SpoonFormDate extends SpoonFormInput
 		$mask = ($mask !== null) ? (string) $mask : $this->mask;
 
 		// allowed characters
-		$aCharachters = array('.', '-', '/', 'd', 'm', 'y', 'Y');
+		$aCharachters = array(
+			'.',
+			' ',
+			'-',
+			',',
+			'/',
+			'd',
+			'D',
+			'j',
+			'l',
+			'z',
+			'F',
+			'm',
+			'M',
+			'n',
+			'Y',
+			'y',
+		);
 
 		// new mask
 		$maskCorrected = '';
@@ -417,11 +434,24 @@ class SpoonFormDate extends SpoonFormInput
 			if(in_array(substr($mask, $i, 1), $aCharachters)) $maskCorrected .= substr($mask, $i, 1);
 		}
 
+		$formatMap = array(
+			'd' => 'dd',
+			'D' => 'D',
+			'j' => 'd',
+			'l' => 'DD',
+			'z' => 'o',
+			'F' => 'MM',
+			'm' => 'mm',
+			'M' => 'M',
+			'n' => 'm',
+			'Y' => 'yy',
+			'y' => 'y',
+		);
 		// new mask
 		$this->mask = $maskCorrected;
 
 		// define maximum length for this element
-		$maskCorrected = str_replace(array('d', 'm', 'y', 'Y'), array('dd', 'mm', 'y', 'yy'), $maskCorrected);
+		$maskCorrected = str_replace(array_keys($formatMap), array_values($formatMap), $maskCorrected);
 
 		// update maxium length (count double for 'y' because it's too short otherwise)
 		$this->attributes['maxlength'] = strlen($maskCorrected) + substr_count($maskCorrected, 'y');
@@ -430,7 +460,10 @@ class SpoonFormDate extends SpoonFormInput
 		$this->attributes['data-mask'] = $maskCorrected;
 
 		// update value
-		if($this->defaultValue !== null) $this->setValue($this->defaultValue);
+		if ($this->defaultValue !== null) {
+			$this->setValue($this->defaultValue);
+		}
+
 		return $this;
 	}
 

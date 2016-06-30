@@ -93,4 +93,77 @@ class SpoonFormDateTest extends PHPUnit_Framework_TestCase
 		$_POST['date'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->txtDate->getValue());
 	}
+
+	public function testDateFormatsLong()
+	{
+		$formats = Array(
+			'j F Y',
+			'D j F Y',
+			'l j F Y',
+			'j F, Y',
+			'D j F, Y',
+			'l j F, Y',
+			'd F Y',
+			'd F, Y',
+			'F j Y',
+			'D F j Y',
+			'l F j Y',
+			'F d, Y',
+			'D F d, Y',
+			'l F d, Y',
+		);
+		$this->loopOverFormats($formats);
+	}
+
+	/**
+	 * Loop over formats and test if they work.
+	 *
+	 * @param array $formats
+	 */
+	private function loopOverFormats(array $formats)
+	{
+		foreach ($formats as $format) {
+			$timestamp = strtotime('Last Monday');
+			$date = date($format, $timestamp);
+
+			// set up the form
+			$form = new SpoonForm('formattedDateFieldForm');
+			$txtFormattedDate = new SpoonFormDate('formattedDate', $timestamp, $format);
+			$form->add($txtFormattedDate);
+
+			// the actual test
+			$this->assertEquals($date, $txtFormattedDate->getValue(), $format . ' failed');
+		}
+	}
+
+	public function testDateFormatsShort()
+	{
+		$formats = Array(
+			'j/n/Y',
+			'j-n-Y',
+			'j.n.Y',
+			'n/j/Y',
+			'n/j/Y',
+			'n/j/Y',
+			'd/m/Y',
+			'd-m-Y',
+			'd.m.Y',
+			'm/d/Y',
+			'm-d-Y',
+			'm.d.Y',
+			'j/n/y',
+			'j-n-y',
+			'j.n.y',
+			'n/j/y',
+			'n-j-y',
+			'n.j.y',
+			'd/m/y',
+			'd-m-y',
+			'd.m.y',
+			'm/d/y',
+			'm-d-y',
+			'm.d.y',
+		);
+		$this->loopOverFormats($formats);
+	}
 }
