@@ -756,7 +756,6 @@ class SpoonTemplateCompiler
 					$search[] = '{option:!' . $option . '}';
 					$search[] = '{/option:!' . $option . '}';
 
-					$replace = '';
 					if($isObject)
 					{
 						// replace with
