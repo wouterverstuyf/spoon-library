@@ -176,7 +176,7 @@ class SpoonFilterTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(SpoonFilter::isBool(0));
 		$this->assertFalse(SpoonFilter::isBool(100));
 		$this->assertFalse(SpoonFilter::isBool(900));
-		$this->assertTrue(SpoonFilter::isBool(090));
+		$this->assertFalse(SpoonFilter::isBool(077));
 		$this->assertFalse(SpoonFilter::isBool(array()));
 	}
 
