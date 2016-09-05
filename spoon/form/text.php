@@ -627,8 +627,13 @@ class SpoonFormText extends SpoonFormInput
 			$data = $this->getMethod(true);
 
 			// validate
-			if(!isset($data[$this->attributes['name']]) || !SpoonFilter::isPrice($data[$this->attributes['name']], $allowCommas))
-			{
+			if (!isset($data[$this->attributes['name']]) || !SpoonFilter::isPrice(
+					$data[$this->attributes['name']],
+					$precision,
+					$allowNegative,
+					$allowCommas
+				)
+			) {
 				if($error !== null) $this->setError($error);
 				return false;
 			}
