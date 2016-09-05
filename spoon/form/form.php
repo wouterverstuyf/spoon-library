@@ -33,7 +33,7 @@ class SpoonForm
 	 *
 	 * @var	string
 	 */
-	private $action;
+	protected $action;
 
 
 	/**
@@ -41,7 +41,7 @@ class SpoonForm
 	 *
 	 * @var	bool
 	 */
-	private $correct = true;
+	protected $correct = true;
 
 
 	/**
@@ -49,7 +49,7 @@ class SpoonForm
 	 *
 	 * @var	string
 	 */
-	private $errors;
+	protected $errors;
 
 
 	/**
@@ -57,7 +57,7 @@ class SpoonForm
 	 *
 	 * @var	array
 	 */
-	private $fields = array();
+	protected $fields = array();
 
 
 	/**
@@ -65,7 +65,7 @@ class SpoonForm
 	 *
 	 * @var	string
 	 */
-	private $method = 'post';
+	protected $method = 'post';
 
 
 	/**
@@ -73,7 +73,7 @@ class SpoonForm
 	 *
 	 * @var	string
 	 */
-	private $name;
+	protected $name;
 
 
 	/**
@@ -81,7 +81,7 @@ class SpoonForm
 	 *
 	 * @var	array
 	 */
-	private $objects = array();
+	protected $objects = array();
 
 
 	/**
@@ -89,7 +89,7 @@ class SpoonForm
 	 *
 	 * @var	array
 	 */
-	private $parameters = array();
+	protected $parameters = array();
 
 
 	/**
@@ -97,7 +97,7 @@ class SpoonForm
 	 *
 	 * @var	string
 	 */
-	private $tokenError = 'Invalid token';
+	protected $tokenError = 'Invalid token';
 
 
 	/**
@@ -105,7 +105,7 @@ class SpoonForm
 	 *
 	 * @var	bool
 	 */
-	private $useToken = false;
+	protected $useToken = false;
 
 
 	/**
@@ -113,7 +113,7 @@ class SpoonForm
 	 *
 	 * @var	bool
 	 */
-	private $validated = false;
+	protected $validated = false;
 
 
 	/**
@@ -994,7 +994,7 @@ class SpoonForm
 	 * @return	SpoonForm
 	 * @param	bool[optional] $correct		Was the form submitted without errors?
 	 */
-	private function setCorrect($correct = true)
+	protected function setCorrect($correct = true)
 	{
 		$this->correct = (bool) $correct;
 		return $this;
@@ -1020,7 +1020,7 @@ class SpoonForm
 	 * @return	SpoonForm
 	 * @param	string $name	The name of the form.
 	 */
-	private function setName($name)
+	protected function setName($name)
 	{
 		$this->name = (string) $name;
 		return $this;
@@ -1076,7 +1076,7 @@ class SpoonForm
 	 *
 	 * @param	bool[optional] $on	Should we use a token?
 	 */
-	private function setUseToken($on = true)
+	protected function setUseToken($on = true)
 	{
 		$this->useToken = (bool) $on;
 	}
