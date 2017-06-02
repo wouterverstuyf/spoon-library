@@ -12,7 +12,7 @@ matrix:
         - php: hhvm
 
 script:
-  - bin/simple-phpunit --coverage-clover=coverage.clover
+  - vendor/bin/simple-phpunit --coverage-clover=coverage.clover
 
 before_script:
     - composer install
