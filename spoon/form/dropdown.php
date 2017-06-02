@@ -349,6 +349,7 @@ class SpoonFormDropdown extends SpoonFormAttributes
 				$values = null;
 				$value = isset($data[$this->getName()]) ? $data[$this->getName()] : '';
 				$value = is_scalar($value) ? (string) $value : 'Array';
+                $value = htmlspecialchars($value, ENT_QUOTES);
 
 				// external data is allowed
 				if($this->allowExternalData) $values = (string) $value;
