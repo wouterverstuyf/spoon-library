@@ -77,21 +77,6 @@ class SpoonDirectoryTest extends PHPUnit_Framework_TestCase
 		SpoonDirectory::delete($this->path . '/size');
 	}
 
-	public function isWritable()
-	{
-		// create folders
-		SpoonDirectory::create($this->path . '/writable', 0777);
-		SpoonDirectory::create($this->path . '/not_writable', 0000);
-
-		// assert
-		$this->assertTrue(SpoonDirectory::isWritable($this->path . '/writable'));
-		$this->assertFalse(SpoonDirectory::isWritable($this->path . '/not_writable'));
-
-		// cleanup
-		SpoonDirectory::delete($this->path . '/writable');
-		SpoonDirectory::delete($this->path . '/not_writable');
-	}
-
 	public function testMove()
 	{
 		// setup
