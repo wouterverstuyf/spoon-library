@@ -886,7 +886,7 @@ class SpoonForm
 	public function getValues($excluded = null)
 	{
 		// redefine var
-		$excluded = array();
+		$excludedFields = array();
 
 		// has arguments
 		if(func_num_args() != 0)
@@ -894,8 +894,8 @@ class SpoonForm
 			// iterate arguments
 			foreach(func_get_args() as $argument)
 			{
-				if(is_array($argument)) foreach($argument as $value) $excluded[] = (string) $value;
-				else $excluded[] = (string) $argument;
+				if(is_array($argument)) foreach($argument as $value) $excludedFields[] = (string) $value;
+				else $excludedFields[] = (string) $argument;
 			}
 		}
 
@@ -905,7 +905,7 @@ class SpoonForm
 		// loop objects
 		foreach($this->objects as $object)
 		{
-			if(is_callable(array($object, 'getValue')) && !in_array($object->getName(), $excluded)) $values[$object->getName()] = $object->getValue();
+			if(is_callable(array($object, 'getValue')) && !in_array($object->getName(), $excludedFields)) $values[$object->getName()] = $object->getValue();
 		}
 
 		// return data
