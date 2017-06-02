@@ -9,6 +9,6 @@ http://www.spoon-library.com
 
 # Tests
 
-Run ```composer install``` to install phpunit
+Run ```composer install``` to install phpunit-bridge
 
-    vendor/bin/phpunit
+    vendor/bin/simple-phpunit
