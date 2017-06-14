@@ -54,36 +54,6 @@ class SpoonFilterTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedArray, SpoonFilter::arraySortKeys($testArray));
 	}
 
-	public function testGetGetValue()
-	{
-		// setup
-		$_GET['id'] = '1337';
-		$_GET['type'] = 'web';
-		$_GET['animal'] = 'donkey';
-
-		// perform tests
-		$this->assertEquals(0, SpoonFilter::getGetValue('category_id', null, 0, 'int'));
-		$this->assertEquals(1337, SpoonFilter::getGetValue('id', null, 0, 'int'));
-		$this->assertEquals('web', SpoonFilter::getGetValue('type', array('web', 'print'), 'print'));
-		$this->assertEquals('whale', SpoonFilter::getGetValue('animal', array('whale', 'horse'), 'whale'));
-		$this->assertEquals('donkey', SpoonFilter::getGetValue('animal', null, 'whale'));
-	}
-
-	public function testGetPostValue()
-	{
-		// setup
-		$_POST['id'] = '1337';
-		$_POST['type'] = 'web';
-		$_POST['animal'] = 'donkey';
-
-		// perform tests
-		$this->assertEquals(0, SpoonFilter::getPostValue('category_id', null, 0, 'int'));
-		$this->assertEquals(1337, SpoonFilter::getPostValue('id', null, 0, 'int'));
-		$this->assertEquals('web', SpoonFilter::getPostValue('type', array('web', 'print'), 'print'));
-		$this->assertEquals('whale', SpoonFilter::getPostValue('animal', array('whale', 'horse'), 'whale'));
-		$this->assertEquals('donkey', SpoonFilter::getPostValue('animal', null, 'whale'));
-	}
-
 	public function testGetValue()
 	{
 		// setup
