@@ -131,7 +131,7 @@ class SpoonFormCheckbox extends SpoonFormAttributes
 			$checked = false;
 
 			// single (is checked)
-			if(isset($data[$this->attributes['name']]) && $data[$this->attributes['name']] == 'Y') $checked = true;
+			if(isset($data[$this->attributes['name']]) && $data[$this->attributes['name']] == '1') $checked = true;
 
 			// adjust status
 			$this->setChecked($checked);
@@ -203,7 +203,7 @@ class SpoonFormCheckbox extends SpoonFormAttributes
 			$data = $this->getMethod(true);
 
 			// single checkbox
-			if(isset($data[$this->attributes['name']]) && $data[$this->attributes['name']] == 'Y') $value = true;
+			if(isset($data[$this->attributes['name']]) && $data[$this->attributes['name']] == '1') $value = true;
 		}
 
 		return $value;
@@ -242,7 +242,7 @@ class SpoonFormCheckbox extends SpoonFormAttributes
 		$data = $this->getMethod(true);
 
 		// value submitted
-		if(isset($data[$this->attributes['name']]) && $data[$this->attributes['name']] == 'Y') return true;
+		if(isset($data[$this->attributes['name']]) && $data[$this->attributes['name']] == '1') return true;
 
 		// nothing submitted
 		if($error !== null) $this->setError($error);
@@ -262,7 +262,7 @@ class SpoonFormCheckbox extends SpoonFormAttributes
 		if($this->attributes['name'] == '') throw new SpoonFormException('A name is required for checkbox. Please provide a name.');
 
 		// start html generation
-		$output = '<input type="checkbox" value="Y"';
+		$output = '<input type="checkbox" value="1"';
 
 		// add attributes
 		$output .= $this->getAttributesHTML(array('[id]' => $this->attributes['id'], '[name]' => $this->attributes['name'])) . ' />';
