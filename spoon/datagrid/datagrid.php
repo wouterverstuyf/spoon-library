@@ -1020,7 +1020,7 @@ class SpoonDataGrid
 			elseif(is_array($function['arguments']))
 			{
 				// replace arguments
-				$function['arguments'] = str_replace($record['labels'], $record['values'], $function['arguments']);
+				$function['arguments'] = json_decode(str_replace($record['labels'], $record['values'], json_encode($function['arguments'])));
 
 				// execute function
 				$value = call_user_func_array($function['function'], $function['arguments']);
