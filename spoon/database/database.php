@@ -850,6 +850,10 @@ class SpoonDatabase
 						$actualValue = $actualValue->format(self::DATETIME_FORMAT);
 					}
 
+					if (is_bool($actualValue)) {
+						$actualValue = (int) $actualValue;
+					}
+
 					// add parameter marker
 					$query .= '?, ';
 				}
@@ -889,6 +893,10 @@ class SpoonDatabase
 				if($actualValue instanceof DateTime)
 				{
 					$actualValue = $actualValue->format(self::DATETIME_FORMAT);
+				}
+
+				if (is_bool($actualValue)) {
+					$actualValue = (int) $actualValue;
 				}
 
 				// add parameter marker
@@ -1151,6 +1159,10 @@ class SpoonDatabase
 			if($value instanceof DateTime)
 			{
 				$value = $value->format(self::DATETIME_FORMAT);
+			}
+
+			if (is_bool($value)) {
+				$value = (int) $value;
 			}
 
 			// named parameters
