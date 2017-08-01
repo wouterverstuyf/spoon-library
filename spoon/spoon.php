@@ -147,7 +147,6 @@ class Spoon
 		$classes['spoonlocale'] = 'locale/locale.php';
 		$classes['spoonlog'] = 'log/log.php';
 		$classes['spoonrestclient'] = 'rest/client.php';
-		$classes['spoonsession'] = 'session/session.php';
 		$classes['spoontemplate'] = 'template/template.php';
 		$classes['spoontemplatecompiler'] = 'template/compiler.php';
 		$classes['spoontemplatemodifiers'] = 'template/modifiers.php';
