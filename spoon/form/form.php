@@ -856,16 +856,13 @@ class SpoonForm
 	 */
 	public function getToken()
 	{
-		if (!session_id()) {
-			@session_start();
-		}
-		if(!isset($_SESSION['form_token']))
+		if(!$this->sessionHasFormToken())
 		{
-			$token = md5(session_id() . random_int(0, 999) . time());
-			$_SESSION['form_token'] = $token;
+			$token = md5($this->getSessionId() . random_int(0, 999) . time());
+			$this->saveTokenToSession($token);
 		}
 
-		return $_SESSION['form_token'] ?? null;
+		return $this->getTokenFromSession();
 	}
 
 
@@ -1084,6 +1081,53 @@ class SpoonForm
 		$this->useToken = (bool) $on;
 	}
 
+    /**
+     * @return bool
+     */
+    protected function sessionHasFormToken()
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        return isset($_SESSION['form_token']);
+	}
+
+    /**
+     * @param string $token
+     */
+    protected function saveTokenToSession($token)
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $_SESSION['form_token'] = $token;
+	}
+
+    /**
+     * @return string
+     */
+    protected function getSessionId()
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        return session_id();
+	}
+
+    /**
+     * @return string
+     */
+    protected function getTokenFromSession()
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        return array_key_exists('form_token', $_SESSION) ? $_SESSION['form_token'] : null;
+	}
 
 	/**
 	 * Validates the form. This is an alternative for isCorrect, but without retrieve the status of course.
@@ -1099,10 +1143,7 @@ class SpoonForm
 		if($this->getUseToken())
 		{
 			// token not available?
-			if (!session_id()) {
-				@session_start();
-			}
-			if(!isset($_SESSION['form_token'])) {
+			if(!$this->sessionHasFormToken()) {
 				$errors .= $this->tokenError;
 			}
 
@@ -1114,7 +1155,7 @@ class SpoonForm
 				$submittedToken = isset( $data['form_token'] ) ? $data['form_token'] : null;
 
 				// compare tokens
-				if($submittedToken != $_SESSION['form_token']) $errors .= $this->tokenError;
+				if($submittedToken != $this->getTokenFromSession()) $errors .= $this->tokenError;
 			}
 		}
 
