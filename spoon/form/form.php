@@ -856,13 +856,13 @@ class SpoonForm
 	 */
 	public function getToken()
 	{
-		if(!SpoonSession::exists('form_token'))
+		if(!$this->sessionHasFormToken())
 		{
-			$token = md5(SpoonSession::getSessionId() . rand(0, 999) . time());
-			SpoonSession::set('form_token', $token);
+			$token = md5($this->getSessionId() . random_int(0, 999) . time());
+			$this->saveTokenToSession($token);
 		}
 
-		return SpoonSession::get('form_token');
+		return $this->getTokenFromSession();
 	}
 
 
@@ -1081,6 +1081,53 @@ class SpoonForm
 		$this->useToken = (bool) $on;
 	}
 
+    /**
+     * @return bool
+     */
+    protected function sessionHasFormToken()
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        return isset($_SESSION['form_token']);
+	}
+
+    /**
+     * @param string $token
+     */
+    protected function saveTokenToSession($token)
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        $_SESSION['form_token'] = $token;
+	}
+
+    /**
+     * @return string
+     */
+    protected function getSessionId()
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        return session_id();
+	}
+
+    /**
+     * @return string
+     */
+    protected function getTokenFromSession()
+    {
+        if (!session_id()) {
+            @session_start();
+        }
+
+        return array_key_exists('form_token', $_SESSION) ? $_SESSION['form_token'] : null;
+	}
 
 	/**
 	 * Validates the form. This is an alternative for isCorrect, but without retrieve the status of course.
@@ -1096,7 +1143,9 @@ class SpoonForm
 		if($this->getUseToken())
 		{
 			// token not available?
-			if(!SpoonSession::exists('form_token')) $errors .= $this->tokenError;
+			if(!$this->sessionHasFormToken()) {
+				$errors .= $this->tokenError;
+			}
 
 			// token was found
 			else
@@ -1106,7 +1155,7 @@ class SpoonForm
 				$submittedToken = isset( $data['form_token'] ) ? $data['form_token'] : null;
 
 				// compare tokens
-				if($submittedToken != SpoonSession::get('form_token')) $errors .= $this->tokenError;
+				if($submittedToken != $this->getTokenFromSession()) $errors .= $this->tokenError;
 			}
 		}
 
