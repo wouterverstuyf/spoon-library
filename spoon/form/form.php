@@ -856,13 +856,16 @@ class SpoonForm
 	 */
 	public function getToken()
 	{
-		if(!SpoonSession::exists('form_token'))
+		if (!session_id()) {
+			@session_start();
+		}
+		if(!isset($_SESSION['form_token']))
 		{
-			$token = md5(SpoonSession::getSessionId() . rand(0, 999) . time());
-			SpoonSession::set('form_token', $token);
+			$token = md5(session_id() . random_int(0, 999) . time());
+			$_SESSION['form_token'] = $token;
 		}
 
-		return SpoonSession::get('form_token');
+		return $_SESSION['form_token'] ?? null;
 	}
 
 
@@ -1096,7 +1099,12 @@ class SpoonForm
 		if($this->getUseToken())
 		{
 			// token not available?
-			if(!SpoonSession::exists('form_token')) $errors .= $this->tokenError;
+			if (!session_id()) {
+				@session_start();
+			}
+			if(!isset($_SESSION['form_token'])) {
+				$errors .= $this->tokenError;
+			}
 
 			// token was found
 			else
@@ -1106,7 +1114,7 @@ class SpoonForm
 				$submittedToken = isset( $data['form_token'] ) ? $data['form_token'] : null;
 
 				// compare tokens
-				if($submittedToken != SpoonSession::get('form_token')) $errors .= $this->tokenError;
+				if($submittedToken != $_SESSION['form_token']) $errors .= $this->tokenError;
 			}
 		}
 
