@@ -102,7 +102,6 @@ class Spoon
 
 		// list of classes and their location
 		$classes = array();
-		$classes['spooncookie'] = 'cookie/cookie.php';
 		$classes['spoondatabase'] = 'database/database.php';
 		$classes['spoondatagrid'] = 'datagrid/datagrid.php';
 		$classes['spoondatagridcolumn'] = 'datagrid/column.php';
@@ -113,13 +112,9 @@ class Spoon
 		$classes['spoondatagridsourcedb'] = 'datagrid/source_db.php';
 		$classes['spoondate'] = 'date/date.php';
 		$classes['spoondirectory'] = 'directory/directory.php';
-		$classes['spoonemail'] = 'email/email.php';
-		$classes['spoonemailsmtp'] = 'email/smtp.php';
 		$classes['spoonfeedexception'] = 'feed/exception.php';
 		$classes['spoonfeedrss'] = 'feed/rss.php';
 		$classes['spoonfeedrssitem'] = 'feed/rss_item.php';
-		$classes['spoonfeedatomrss'] = 'feed/atom_rss.php';
-		$classes['spoonfeedatomrssitem'] = 'feed/atom_rss_item.php';
 		$classes['spoonfile'] = 'file/file.php';
 		$classes['spoonfilecsv'] = 'file/csv.php';
 		$classes['spoonfilter'] = 'filter/filter.php';
@@ -141,19 +136,11 @@ class Spoon
 		$classes['spoonformtextarea'] = 'form/textarea.php';
 		$classes['spoonformtime'] = 'form/time.php';
 		$classes['spoonhttp'] = 'http/http.php';
-		$classes['spoonicalexception'] = 'ical/exception.php';
-		$classes['spoonical'] = 'ical/ical.php';
-		$classes['spoonicalitem'] = 'ical/ical';
-		$classes['Spoonicalevent'] = 'ical/ical';
 		$classes['spoonlocale'] = 'locale/locale.php';
-		$classes['spoonlog'] = 'log/log.php';
-		$classes['spoonrestclient'] = 'rest/client.php';
-		$classes['spoonsession'] = 'session/session.php';
 		$classes['spoontemplate'] = 'template/template.php';
 		$classes['spoontemplatecompiler'] = 'template/compiler.php';
 		$classes['spoontemplatemodifiers'] = 'template/modifiers.php';
 		$classes['spoonthumbnail'] = 'thumbnail/thumbnail.php';
-		$classes['spoonxmlrpcclient'] = 'xmlrpc/client.php';
 
 		// path
 		$path = dirname(realpath(__FILE__));

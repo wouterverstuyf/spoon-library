@@ -3,7 +3,7 @@
 /**
  * POPO to test spoon template with
  */
-class Object
+class TestObject
 {
 	protected $name;
 	protected $nestedObject;

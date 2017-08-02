@@ -169,51 +169,6 @@ class SpoonFilter
 		}
 	}
 
-
-	/**
-	 * Retrieve the desired $_GET value from an array of allowed values.
-	 *
-	 * @return	mixed							The value that was stored in $_GET or the default when the field wasn't found.
-	 * @param	string $field					The field to retrieve.
-	 * @param	array[optional] $values			The possible values. If the value isn't present the default will be returned.
-	 * @param	mixed $defaultValue				The default-value.
-	 * @param	string[optional] $returnType	The type that should be returned.
-	 */
-	public static function getGetValue($field, array $values = null, $defaultValue, $returnType = 'string')
-	{
-		// redefine field
-		$field = (string) $field;
-
-		// define var
-		$var = (isset($_GET[$field])) ? $_GET[$field] : '';
-
-		// parent method
-		return self::getValue($var, $values, $defaultValue, $returnType);
-	}
-
-
-	/**
-	 * Retrieve the desired $_POST value from an array of allowed values.
-	 *
-	 * @return	mixed							The value that was stored in $_POST or the default when the field wasn't found.
-	 * @param	string $field					The field to retrieve.
-	 * @param	array[optional] $values			The possible values. If the value isn't present the default will be returned.
-	 * @param	mixed $defaultValue				The default-value.
-	 * @param	string[optional] $returnType	The type that should be returned.
-	 */
-	public static function getPostValue($field, array $values = null, $defaultValue, $returnType = 'string')
-	{
-		// redefine field
-		$field = (string) $field;
-
-		// define var
-		$var = (isset($_POST[$field])) ? $_POST[$field] : '';
-
-		// parent method
-		return self::getValue($var, $values, $defaultValue, $returnType);
-	}
-
-
 	/**
 	 * Retrieve the desired value from an array of allowed values.
 	 *
@@ -236,17 +191,20 @@ class SpoonFilter
 		// variable is an array
 		if(is_array($variable) && !empty($variable))
 		{
+			// we have values
+			if($values !== null) {
+				// fetch difference between the 2 arrays
+				$differences = array_diff($variable, $values);
+
+				// set value
+				if(count($variable) != count($differences)) $value = array_intersect($variable, $values);
+
+				// values was empty
+				elseif(empty($values)) $value = $variable;
 			// no values
-			if($values === null) $values = array();
-
-			// fetch difference between the 2 arrays
-			$differences = array_diff($variable, $values);
-
-			// set value
-			if(count($variable) != count($differences)) $value = array_intersect($variable, $values);
-
-			// values was empty
-			elseif(empty($values)) $value = $variable;
+			} else {
+				$value = $variable;
+			}
 		}
 
 		// provided values

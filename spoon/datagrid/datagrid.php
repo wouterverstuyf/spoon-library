@@ -1020,7 +1020,19 @@ class SpoonDataGrid
 			elseif(is_array($function['arguments']))
 			{
 				// replace arguments
-				$function['arguments'] = str_replace($record['labels'], $record['values'], $function['arguments']);
+				$values = array_combine($record['labels'], $record['values']);
+				$function['arguments'] = array_map(
+					function ($argument) use ($values) {
+						return preg_replace_callback('(\[[^\n ]*?\])', function ($matches) use ($values) {
+							if (!array_key_exists($matches[0], $values)) {
+								return $matches[0];
+							}
+
+							return $values[$matches[0]];
+						}, $argument);
+					},
+					$function['arguments']
+				);
 
 				// execute function
 				$value = call_user_func_array($function['function'], $function['arguments']);

@@ -5,7 +5,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 require_once 'Collection.php';
-require_once 'Object.php';
+require_once 'TestObject.php';
 
 class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 {
@@ -37,7 +37,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 	function testParseObjects()
 	{
 		// add an object
-		$object = new Object();
+		$object = new TestObject();
 		$object->setName('Object name');
 		$this->tpl->assign('object', $object);
 		$this->runTests('Object name', 'object.tpl');
@@ -58,10 +58,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testParseNestedObjects()
 	{
-		$nestedObject = new Object();
+		$nestedObject = new TestObject();
 		$nestedObject->setName('Object name');
 
-		$object = new Object();
+		$object = new TestObject();
 		$object->setNestedObject($nestedObject);
 
 		$this->tpl->assign('object', $object);
@@ -72,7 +72,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 	{
 		$nestedArray = array('name' => 'Inside an object');
 
-		$object = new Object();
+		$object = new TestObject();
 		$object->setArray($nestedArray);
 
 		$this->tpl->assign('object', $object);
@@ -107,7 +107,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverArrayInObject()
 	{
-		$object = new Object();
+		$object = new TestObject();
 		$object->setArray(
 			array(
 				array('name' => 'Foo'),
@@ -121,10 +121,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverArrayOfObjects()
 	{
-		$object1 = new Object();
+		$object1 = new TestObject();
 		$object1->setName('Foo');
 
-		$object2 = new Object();
+		$object2 = new TestObject();
 		$object2->setName('Bar');
 
 		$this->tpl->assign('array', array($object1, $object2));
@@ -146,10 +146,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testIterationOverCollectionOfObjects()
 	{
-		$object1 = new Object();
+		$object1 = new TestObject();
 		$object1->setName('Object1');
 
-		$object2 = new Object();
+		$object2 = new TestObject();
 		$object2->setName('Object2');
 
 		$collection = new Collection(
@@ -180,7 +180,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			array('number' => '2'),
 			array('number' => '3'),
 		);
-		$object = new Object();
+		$object = new TestObject();
 		$object->setArray($array);
 		$this->tpl->assign('object', $array);
 		$this->runTests('1: Odd, 2: Even, 3: Odd, ', 'cycle_over_array_in_object.tpl');
@@ -218,7 +218,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 			array('number' => '2'),
 			array('number' => '3'),
 		);
-		$object = new Object();
+		$object = new TestObject();
 		$object->setArray($array);
 		$this->tpl->assign('object', $array);
 		$this->runTests('First: 1, Last: 3', 'first_last_array_in_object.tpl');
@@ -255,7 +255,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->runTests('Yes', 'option.tpl');
 
 		// object
-		$this->tpl->assign('test', new Object());
+		$this->tpl->assign('test', new TestObject());
 		$this->runTests('Yes', 'option.tpl');
 
 		// boolean false
@@ -286,7 +286,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testOptionInObject()
 	{
-		$object = new Object();
+		$object = new TestObject();
 		$object->setBoolean(true);
 		$this->tpl->assign('object', $object);
 		$this->runTests('Yes', 'option_in_object.tpl');
@@ -322,10 +322,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->runTests('True', 'option_in_iteration.tpl');
 
 		// in an object
-		$object1 = new Object();
+		$object1 = new TestObject();
 		$object1->setBoolean(true);
 		$object1->setName('True');
-		$object2 = new Object();
+		$object2 = new TestObject();
 		$object2->setBoolean(false);
 		$object2->setName('False');
 		$array = array($object1, $object2);
@@ -351,10 +351,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 		$this->runTests('False', 'option_not_in_iteration.tpl');
 
 		// in an object
-		$object1 = new Object();
+		$object1 = new TestObject();
 		$object1->setBoolean(true);
 		$object1->setName('True');
-		$object2 = new Object();
+		$object2 = new TestObject();
 		$object2->setBoolean(false);
 		$object2->setName('False');
 		$array = array($object1, $object2);
@@ -366,13 +366,13 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 	function testIncludes()
 	{
 		// add an object
-		$object = new Object();
+		$object = new TestObject();
 		$object->setName('Object name');
 		$this->tpl->assign('object', $object);
 		$this->runTests('Object name', 'include.tpl');
 
 		// add an object
-		$object = new Object();
+		$object = new TestObject();
 		$object->setName('Object name');
 		$this->tpl->assign('object', $object);
 		$this->runTests('Object name', 'include_with_quotes.tpl');
@@ -387,7 +387,7 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 	function testTemplateModifierObject()
 	{
 		// add an object
-		$object = new Object();
+		$object = new TestObject();
 		$object->setName('object name');
 		$this->tpl->assign('object', $object);
 		$this->runTests('Object name', 'template_modifier_object.tpl');
@@ -402,10 +402,10 @@ class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
 
 	function testTemplateModifierInIterationOverArrayOfObjects()
 	{
-		$object1 = new Object();
+		$object1 = new TestObject();
 		$object1->setName('foo');
 
-		$object2 = new Object();
+		$object2 = new TestObject();
 		$object2->setName('bar');
 
 		$this->tpl->assign('array', array($object1, $object2));
