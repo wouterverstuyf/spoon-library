@@ -123,7 +123,7 @@ class SpoonDatabase
 	 */
 	public function __construct($driver, $hostname, $username, $password, $database, $port = null, $unixSocket = null)
 	{
-	    $this->handler = null;
+		$this->handler = null;
 		$this->setDriver($driver);
 		$this->setHostname($hostname);
 		$this->setUsername($username);
