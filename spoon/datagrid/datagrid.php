@@ -466,9 +466,9 @@ class SpoonDataGrid
 
 
 	/**
- 	 * Fetch the list of columns in this datagrid.
- 	 *
- 	 * @return	array
+	 * Fetch the list of columns in this datagrid.
+	 *
+	 * @return	array
 	 */
 	public function getColumns()
 	{
@@ -1023,6 +1023,10 @@ class SpoonDataGrid
 				$values = array_combine($record['labels'], $record['values']);
 				$function['arguments'] = array_map(
 					function ($argument) use ($values) {
+						if ($argument === null) {
+							return null;
+						}
+
 						return preg_replace_callback('(\[[^\n ]*?\])', function ($matches) use ($values) {
 							if (!array_key_exists($matches[0], $values)) {
 								return $matches[0];
