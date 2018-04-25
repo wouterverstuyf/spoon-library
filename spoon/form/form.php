@@ -1167,7 +1167,10 @@ class SpoonForm
 		}
 
 		// affect correct status
-		if(trim($errors) != '') $this->correct = false;
+		if(trim($errors) != '') {
+			$this->correct = false;
+			$this->errors = $errors;
+		}
 
 		// main form errors?
 		if(trim($this->getErrors()) != '') $this->correct = false;
