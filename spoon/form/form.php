@@ -1150,9 +1150,8 @@ class SpoonForm
 			// token was found
 			else
 			{
-				// get the submitted token
-				$data = $this->getField('form_token')->getMethod(true);
-				$submittedToken = isset( $data['form_token'] ) ? $data['form_token'] : null;
+                // get the submitted token
+                $submittedToken = $this->getField('form_token')->getValue();
 
 				// compare tokens
 				if($submittedToken != $this->getTokenFromSession()) $errors .= $this->tokenError;
