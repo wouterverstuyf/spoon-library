@@ -1137,14 +1137,14 @@ class SpoonForm
 	public function validate()
 	{
 		// define errors
-		$errors = '';
+		$errors = [];
 
 		// if we use tokens, we validate them here
 		if($this->getUseToken())
 		{
 			// token not available?
 			if(!$this->sessionHasFormToken()) {
-				$errors .= $this->tokenError;
+				$errors[] = $this->tokenError;
 			}
 
 			// token was found
@@ -1154,7 +1154,7 @@ class SpoonForm
 				$submittedToken = $this->getField('form_token')->getValue();
 
 				// compare tokens
-				if($submittedToken != $this->getTokenFromSession()) $errors .= $this->tokenError;
+				if($submittedToken != $this->getTokenFromSession()) $errors[] = $this->tokenError;
 			}
 		}
 
@@ -1162,13 +1162,13 @@ class SpoonForm
 		foreach($this->objects as $oElement)
 		{
 			// check, since some objects don't have this method!
-			if(is_callable(array($oElement, 'getErrors'))) $errors .= $oElement->getErrors();
+			if(is_callable(array($oElement, 'getErrors'))) $errors[] = $oElement->getErrors();
 		}
 
 		// affect correct status
-		if(trim($errors) != '') {
+		if(!empty($errors)) {
 			$this->correct = false;
-			$this->errors = $errors;
+			$this->errors = implode("\n", $errors);
 		}
 
 		// main form errors?
