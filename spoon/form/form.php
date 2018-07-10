@@ -1162,7 +1162,11 @@ class SpoonForm
 		foreach($this->objects as $oElement)
 		{
 			// check, since some objects don't have this method!
-			if(is_callable(array($oElement, 'getErrors')) && trim($oElement->getErrors()) !== '') $errors[] = $oElement->getErrors();
+			if(is_callable(array($oElement, 'getErrors'))
+				&& trim($oElement->getErrors()) !== ''
+			) {
+				$errors[] = $oElement->getErrors();
+			};
 		}
 
 		// affect correct status
