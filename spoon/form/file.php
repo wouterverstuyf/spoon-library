@@ -246,6 +246,9 @@ class SpoonFormFile extends SpoonFormAttributes
 		// file has been uploaded
 		if($this->isFilled())
 		{
+			
+			if (!is_file($_FILES[$this->attributes['name']]['tmp_name'])) return false;
+
 			// get image properties
 			$mimeType = mime_content_type($_FILES[$this->attributes['name']]['tmp_name']);
 
