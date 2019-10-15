@@ -179,7 +179,10 @@ function exceptionHandler($exception)
 
 function getOutput($exception)
 {
-// generate output
+    // specific name
+    $name = (method_exists($exception, 'getName')) ? $exception->getName() : get_class($exception);
+
+    // generate output
     $output = '
 	<html>
 		<head>
