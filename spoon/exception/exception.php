@@ -181,6 +181,7 @@ function getOutput($exception)
 {
     // specific name
     $name = (method_exists($exception, 'getName')) ? $exception->getName() : get_class($exception);
+    $userAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '<i>(Unknown)</i>';
 
     // generate output
     $output = '
