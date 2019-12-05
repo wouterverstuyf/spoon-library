@@ -713,7 +713,7 @@ class SpoonDatabase
 	private function getType($value)
 	{
 		if($value === null) return PDO::PARAM_NULL;
-		elseif(is_int($value) || is_float($value)) return PDO::PARAM_INT;
+		elseif(is_int($value)) return PDO::PARAM_INT;
 		return PDO::PARAM_STR;
 	}
 
