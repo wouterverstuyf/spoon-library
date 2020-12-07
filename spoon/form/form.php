@@ -1142,6 +1142,11 @@ class SpoonForm
 		// if we use tokens, we validate them here
 		if($this->getUseToken())
 		{
+            if ($this->getMethod() === 'get' && !isset($_GET['form_token'])
+                || $this->getMethod() === 'post' && !isset($_POST['form_token'])) {
+                $errors[] = $this->tokenError;
+            }
+            
 			// token not available?
 			if(!$this->sessionHasFormToken()) {
 				$errors[] = $this->tokenError;
