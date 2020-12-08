@@ -70,7 +70,7 @@ class SpoonFormMultiCheckBoxTest extends TestCase
 	public function testNotSupplyingCorrectFormatThrowsException()
 	{
 		$values = array('12' => 'aaa', '132' => 'bbb', '32' => 'ccc');
-		$this->setExpectedException('SpoonFormException');
+		$this->expectException('SpoonFormException');
 		$c = new SpoonFormMultiCheckbox('test', $values);
 	}
 
@@ -81,7 +81,7 @@ class SpoonFormMultiCheckBoxTest extends TestCase
 			array('value' => 'bbb'),
 			array('value' => 'ccc')
 		);
-		$this->setExpectedException('SpoonFormException');
+		$this->expectException('SpoonFormException');
 		$c = new SpoonFormMultiCheckbox('test', $values);
 	}
 
@@ -92,7 +92,7 @@ class SpoonFormMultiCheckBoxTest extends TestCase
 			array('label' => 'bbb'),
 			array('label' => 'ccc')
 		);
-		$this->setExpectedException('SpoonFormException');
+		$this->expectException('SpoonFormException');
 		$c = new SpoonFormMultiCheckbox('test', $values);
 	}
 }
