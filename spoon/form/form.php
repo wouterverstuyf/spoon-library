@@ -1081,52 +1081,52 @@ class SpoonForm
 		$this->useToken = (bool) $on;
 	}
 
-    /**
-     * @return bool
-     */
-    protected function sessionHasFormToken()
-    {
-        if (!session_id()) {
-            @session_start();
-        }
+	/**
+	 * @return bool
+	 */
+	protected function sessionHasFormToken()
+	{
+		if (!session_id()) {
+			@session_start();
+		}
 
-        return isset($_SESSION['form_token']);
+		return isset($_SESSION['form_token']);
 	}
 
-    /**
-     * @param string $token
-     */
-    protected function saveTokenToSession($token)
-    {
-        if (!session_id()) {
-            @session_start();
-        }
+	/**
+	 * @param string $token
+	 */
+	protected function saveTokenToSession($token)
+	{
+		if (!session_id()) {
+			@session_start();
+		}
 
-        $_SESSION['form_token'] = $token;
+		$_SESSION['form_token'] = $token;
 	}
 
-    /**
-     * @return string
-     */
-    protected function getSessionId()
-    {
-        if (!session_id()) {
-            @session_start();
-        }
+	/**
+	 * @return string
+	 */
+	protected function getSessionId()
+	{
+		if (!session_id()) {
+			@session_start();
+		}
 
-        return session_id();
+		return session_id();
 	}
 
-    /**
-     * @return string
-     */
-    protected function getTokenFromSession()
-    {
-        if (!session_id()) {
-            @session_start();
-        }
+	/**
+	 * @return string
+	 */
+	protected function getTokenFromSession()
+	{
+		if (!session_id()) {
+			@session_start();
+		}
 
-        return array_key_exists('form_token', $_SESSION) ? $_SESSION['form_token'] : null;
+		return array_key_exists('form_token', $_SESSION) ? $_SESSION['form_token'] : null;
 	}
 
 	/**
@@ -1142,11 +1142,11 @@ class SpoonForm
 		// if we use tokens, we validate them here
 		if($this->getUseToken())
 		{
-            if ($this->getMethod() === 'get' && !isset($_GET['form_token'])
-                || $this->getMethod() === 'post' && !isset($_POST['form_token'])) {
-                $errors[] = $this->tokenError;
-            }
-            
+			if ($this->getMethod() === 'get' && !isset($_GET['form_token'])
+				|| $this->getMethod() === 'post' && !isset($_POST['form_token'])) {
+				$errors[] = $this->tokenError;
+			}
+
 			// token not available?
 			if(!$this->sessionHasFormToken()) {
 				$errors[] = $this->tokenError;
