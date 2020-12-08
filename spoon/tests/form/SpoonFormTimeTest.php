@@ -62,6 +62,7 @@ class SpoonFormTimeTest extends TestCase
 
 	public function testIsValid()
 	{
+        $_POST['time'] = '';
 		$this->assertFalse($this->txtTime->isValid());
 		$_POST['time'] = 'Boobies';
 		$this->assertFalse($this->txtTime->isValid());

@@ -51,6 +51,7 @@ class SpoonFormTextTest extends TestCase
 
 	public function testIsFilled()
 	{
+        $_POST['name'] = '';
 		$this->assertFalse($this->txtName->isFilled());
 		$_POST['name'] = 'I am not empty';
 		$this->assertTrue($this->txtName->isFilled());
@@ -60,6 +61,7 @@ class SpoonFormTextTest extends TestCase
 
 	public function testIsAlphabetical()
 	{
+        $_POST['name'] = '';
 		$this->assertFalse($this->txtName->isAlphabetical());
 		$_POST['name'] = 'Bauffman';
 		$this->assertTrue($this->txtName->isAlphabetical());
@@ -138,6 +140,7 @@ class SpoonFormTextTest extends TestCase
 
 	public function testIsFilename()
 	{
+        $_POST['name'] = '';
 		$this->assertFalse($this->txtName->isFilename());
 		$_POST['name'] = 'something.jpg';
 		$this->assertTrue($this->txtName->isFilename());
