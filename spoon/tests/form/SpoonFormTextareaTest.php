@@ -60,7 +60,7 @@ class SpoonFormTextareaTest extends TestCase
 
 	public function testIsAlphabetical()
 	{
-        $_POST['message'] = '';
+		$_POST['message'] = '';
 		$this->assertFalse($this->txtMessage->isAlphabetical());
 		$_POST['message'] = 'Bauffman';
 		$this->assertTrue($this->txtMessage->isAlphabetical());

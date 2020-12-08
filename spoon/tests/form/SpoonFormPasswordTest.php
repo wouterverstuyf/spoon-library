@@ -60,7 +60,7 @@ class SpoonFormPasswordTest extends TestCase
 
 	public function testIsAlphabetical()
 	{
-        $_POST['name'] = '';
+		$_POST['name'] = '';
 		$this->assertFalse($this->txtPassword->isAlphabetical());
 		$_POST['name'] = 'Bauffman';
 		$this->assertTrue($this->txtPassword->isAlphabetical());
