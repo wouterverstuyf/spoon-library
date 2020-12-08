@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 /*
  * This test is not named xxxxxxxxTest.php so it will not be run when you run all tests
  *
@@ -20,7 +22,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonDatabaseLargeDataSet extends PHPUnit_Framework_TestCase
+class SpoonDatabaseLargeDataSet extends TestCase
 {
 	const NUMBER_OF_ROWS = 1000000;
 	/**

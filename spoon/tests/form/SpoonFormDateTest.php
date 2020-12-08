@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 date_default_timezone_set('Europe/Brussels');
 
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
@@ -7,7 +9,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFormDateTest extends PHPUnit_Framework_TestCase
+class SpoonFormDateTest extends TestCase
 {
 	/**
 	 * @var	SpoonForm

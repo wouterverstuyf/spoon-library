@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
@@ -7,7 +9,7 @@ require_once 'spoon/spoon.php';
 require_once 'Collection.php';
 require_once 'TestObject.php';
 
-class SpoonTemplateCompilerTest extends PHPUnit_Framework_TestCase
+class SpoonTemplateCompilerTest extends TestCase
 {
 	protected $tpl;
 

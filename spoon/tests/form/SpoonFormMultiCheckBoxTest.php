@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFormMultiCheckBoxTest extends PHPUnit_Framework_TestCase
+class SpoonFormMultiCheckBoxTest extends TestCase
 {
 	/**
 	 * @var	SpoonForm
