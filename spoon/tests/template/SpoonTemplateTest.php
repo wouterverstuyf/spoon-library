@@ -2,19 +2,20 @@
 
 use PHPUnit\Framework\TestCase;
 
-$includePath = dirname(dirname(dirname(dirname(__FILE__))));
+$includePath = dirname(__DIR__, 3);
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
 class SpoonTemplateTest extends TestCase
 {
-	public function testMain()
+	public function testMain(): void
 	{
 		$tpl = new SpoonTemplate();
+		self::assertInstanceOf(SpoonTemplate::class, $tpl);
 	}
 
-	public function testGetAssignedValue()
+	public function testGetAssignedValue(): void
 	{
 		$tpl = new SpoonTemplate();
 		$tpl->assign('name', 'value');

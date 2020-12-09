@@ -2,9 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.1/phpunit.xsd"
     colors="true"
+    bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Spoon library Test Suite">
+        <testsuite name="unit">
             <directory>./spoon/tests/</directory>
         </testsuite>
     </testsuites>
