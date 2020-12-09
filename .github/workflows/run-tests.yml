@@ -9,7 +9,7 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.1, 7.2, 7.3, 7.4]
-        testsuite: ["Spoon library Test Suite"]
+        testsuite: ["unit"]
     name: PHPUnit - ${{ matrix.testsuite }} (PHP ${{ matrix.php }})
     services:
       mysql:

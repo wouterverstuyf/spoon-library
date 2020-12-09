@@ -5,7 +5,7 @@
     bootstrap="vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Spoon library Test Suite">
+        <testsuite name="unit">
             <directory>./spoon/tests/</directory>
         </testsuite>
     </testsuites>
