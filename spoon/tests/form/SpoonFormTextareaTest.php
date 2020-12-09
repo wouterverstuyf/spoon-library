@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFormTextareaTest extends PHPUnit_Framework_TestCase
+class SpoonFormTextareaTest extends TestCase
 {
 	/**
 	 * @var	SpoonForm
@@ -58,6 +60,7 @@ class SpoonFormTextareaTest extends PHPUnit_Framework_TestCase
 
 	public function testIsAlphabetical()
 	{
+		$_POST['message'] = '';
 		$this->assertFalse($this->txtMessage->isAlphabetical());
 		$_POST['message'] = 'Bauffman';
 		$this->assertTrue($this->txtMessage->isAlphabetical());

@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFormMultiCheckBoxTest extends PHPUnit_Framework_TestCase
+class SpoonFormMultiCheckBoxTest extends TestCase
 {
 	/**
 	 * @var	SpoonForm
@@ -68,7 +70,7 @@ class SpoonFormMultiCheckBoxTest extends PHPUnit_Framework_TestCase
 	public function testNotSupplyingCorrectFormatThrowsException()
 	{
 		$values = array('12' => 'aaa', '132' => 'bbb', '32' => 'ccc');
-		$this->setExpectedException('SpoonFormException');
+		$this->expectException('SpoonFormException');
 		$c = new SpoonFormMultiCheckbox('test', $values);
 	}
 
@@ -79,7 +81,7 @@ class SpoonFormMultiCheckBoxTest extends PHPUnit_Framework_TestCase
 			array('value' => 'bbb'),
 			array('value' => 'ccc')
 		);
-		$this->setExpectedException('SpoonFormException');
+		$this->expectException('SpoonFormException');
 		$c = new SpoonFormMultiCheckbox('test', $values);
 	}
 
@@ -90,7 +92,7 @@ class SpoonFormMultiCheckBoxTest extends PHPUnit_Framework_TestCase
 			array('label' => 'bbb'),
 			array('label' => 'ccc')
 		);
-		$this->setExpectedException('SpoonFormException');
+		$this->expectException('SpoonFormException');
 		$c = new SpoonFormMultiCheckbox('test', $values);
 	}
 }

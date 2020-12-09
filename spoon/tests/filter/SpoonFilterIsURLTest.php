@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFilterIsURLTest extends PHPUnit_Framework_TestCase
+class SpoonFilterIsURLTest extends TestCase
 {
 	/**
 	 * URL tests based on those of Mathias Bynens (http://mathiasbynens.be/demo/url-regex)

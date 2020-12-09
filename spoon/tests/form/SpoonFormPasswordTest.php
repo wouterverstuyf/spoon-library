@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFormPasswordTest extends PHPUnit_Framework_TestCase
+class SpoonFormPasswordTest extends TestCase
 {
 	/**
 	 * @var	SpoonForm
@@ -58,6 +60,7 @@ class SpoonFormPasswordTest extends PHPUnit_Framework_TestCase
 
 	public function testIsAlphabetical()
 	{
+		$_POST['name'] = '';
 		$this->assertFalse($this->txtPassword->isAlphabetical());
 		$_POST['name'] = 'Bauffman';
 		$this->assertTrue($this->txtPassword->isAlphabetical());

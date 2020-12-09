@@ -1,11 +1,13 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
+
 $includePath = dirname(dirname(dirname(dirname(__FILE__))));
 set_include_path(get_include_path() . PATH_SEPARATOR . $includePath);
 
 require_once 'spoon/spoon.php';
 
-class SpoonFormDropdownTest extends PHPUnit_Framework_TestCase
+class SpoonFormDropdownTest extends TestCase
 {
 	/**
 	 * @var	SpoonForm
@@ -91,6 +93,7 @@ class SpoonFormDropdownTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($this->ddmOptGroupSingle->isFilled());
 
 		// multiple dropdown
+		$_POST['multiple'] = [];
 		$this->assertFalse($this->ddmMultiple->isFilled());
 		$_POST['multiple'] = array('1', '2');
 		$this->assertTrue($this->ddmMultiple->isFilled());
@@ -107,6 +110,7 @@ class SpoonFormDropdownTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($this->ddmMultiple->isFilled());
 
 		// multiple dropdown (optgroups)
+		$_POST['optgroup_multiple'] = [];
 		$this->assertFalse($this->ddmOptGroupMultiple->isFilled());
 		$_POST['optgroup_multiple'] = array('0', '1');
 		$this->assertTrue($this->ddmOptGroupMultiple->isFilled());
