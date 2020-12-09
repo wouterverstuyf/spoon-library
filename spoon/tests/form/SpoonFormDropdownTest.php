@@ -163,7 +163,7 @@ class SpoonFormDropdownTest extends TestCase
 	 */
 	public function testParse()
 	{
-		$this->ddmDefaultElement->parse();
+		self::assertTrue(is_string($this->ddmDefaultElement->parse()));
 	}
 
 	public function testRequired()

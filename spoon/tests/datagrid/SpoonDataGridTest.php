@@ -21,6 +21,7 @@ class SpoonDataGridTest extends TestCase
 
 		// create datagrid
 		$dg = new SpoonDatagrid($source);
+		self::assertInstanceOf(SpoonDataGrid::class, $dg);
 	}
 
 	public function testGetTemplate()
@@ -37,7 +38,6 @@ class SpoonDataGridTest extends TestCase
 		$dg = new SpoonDatagrid($source);
 
 		// fetch instance
-		if($dg->getTemplate() instanceof SpoonTemplate) { /* do nothing */ }
-		else throw new SpoonException('getTemplate should return an object of SpoonTemplate.');
+		self::assertInstanceOf(SpoonTemplate::class, $dg->getTemplate(), 'getTemplate should return an object of SpoonTemplate.');
 	}
 }
