@@ -1143,10 +1143,10 @@ class SpoonForm
 		if($this->getUseToken() && $this->isSubmitted())
 		{
 			$submittedToken = '';
-			if ($this->getMethod() === 'get' && !isset($_GET['form_token']) {
+			if ($this->getMethod() === 'get' && isset($_GET['form_token'])) {
 				$submittedToken = (string) $_GET['form_token'];
 			}
-			if ($this->getMethod() === 'post' && !isset($_POST['form_token']) {
+			if ($this->getMethod() === 'post' && isset($_POST['form_token'])) {
 				$submittedToken = (string) $_POST['form_token'];
 			}
 
