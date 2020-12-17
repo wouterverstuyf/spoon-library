@@ -1140,10 +1140,17 @@ class SpoonForm
 		$errors = [];
 
 		// if we use tokens, we validate them here
-		if($this->getUseToken())
+		if($this->getUseToken() && $this->isSubmitted())
 		{
-			if ($this->getMethod() === 'get' && !isset($_GET['form_token'])
-				|| $this->getMethod() === 'post' && !isset($_POST['form_token'])) {
+			$submittedToken = '';
+			if ($this->getMethod() === 'get' && isset($_GET['form_token'])) {
+				$submittedToken = (string) $_GET['form_token'];
+			}
+			if ($this->getMethod() === 'post' && isset($_POST['form_token'])) {
+				$submittedToken = (string) $_POST['form_token'];
+			}
+
+			if ($submittedToken === '') {
 				$errors[] = $this->tokenError;
 			}
 
@@ -1155,10 +1162,6 @@ class SpoonForm
 			// token was found
 			else
 			{
-				// get the submitted token
-				$submittedToken = $this->getField('form_token')->getValue();
-
-				// compare tokens
 				if($submittedToken != $this->getTokenFromSession()) $errors[] = $this->tokenError;
 			}
 		}
