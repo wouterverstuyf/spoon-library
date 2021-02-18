@@ -75,7 +75,7 @@ class SpoonFormAttributes extends SpoonFormElement
 			else
 			{
 				$html .= ' ' . $key;
-				if($value !== null) $html .= '="' . str_replace(array_keys($variables), array_values($variables), $value) . '"';
+				if($value !== null) $html .= '="' . Spoonfilter::htmlSpecialChars(str_replace(array_keys($variables), array_values($variables), $value)) . '"';
 			}
 		}
 
