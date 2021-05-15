@@ -788,7 +788,8 @@ class SpoonFormText extends SpoonFormInput
 		if($this->attributes['name'] == '') throw new SpoonFormException('A name is required for a textfield. Please provide a name.');
 
 		// start html generation
-		$output = '<input value="' . SpoonFilter::htmlspecialchars($this->getValue()) . '"';
+		// note: no need to encode the value here, it gets encoding in the getter as long as $allowHTML=true
+		$output = '<input value="' . $this->getValue() . '"';
 
 		// add attributes
 		$output .= $this->getAttributesHTML(array('[id]' => $this->attributes['id'], '[name]' => $this->attributes['name'], '[value]' => $this->getValue())) . ' />';
