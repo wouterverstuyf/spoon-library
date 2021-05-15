@@ -168,4 +168,20 @@ class SpoonFormDateTest extends TestCase
 		);
 		$this->loopOverFormats($formats);
 	}
+
+	public function testParse()
+	{
+		$_POST['date'] = '12/10/2026';
+		$this->assertEquals(
+			'<input type="text" value="12/10/2026" id="date" name="date" maxlength="10" data-mask="dd/mm/yy" class="inputDatefield" />',
+			$this->txtDate->parse()
+		);
+
+		// Make sure we encode XSS payloads
+		$_POST['date'] = '12/10/2026\'"()%26%25<yes><ScRiPt%20>alert(1)</ScRiPt>';
+		$this->assertEquals(
+			'<input type="text" value="12/10/2026&#039;&quot;()%26%25&lt;yes&gt;&lt;ScRiPt%20&gt;alert(1)&lt;/ScRiPt&gt;" id="date" name="date" maxlength="10" data-mask="dd/mm/yy" class="inputDatefield" />',
+			$this->txtDate->parse()
+		);
+	}
 }

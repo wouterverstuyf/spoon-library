@@ -114,4 +114,21 @@ class SpoonFormPasswordTest extends TestCase
 		$_POST['name'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->txtPassword->getValue());
 	}
+
+	public function testParse()
+	{
+		$_POST['form'] = 'passwordfield';
+		$_POST['name'] = 'But I am le tired';
+		$this->assertEquals(
+			'<input type="password" value="But I am le tired" id="name" name="name" class="inputPassword" />',
+			$this->txtPassword->parse()
+		);
+
+		// Make sure we encode XSS payloads
+		$_POST['name'] = 'But I am le tired\'"()%26%25<yes><ScRiPt%20>alert(1)</ScRiPt>';
+		$this->assertEquals(
+			'<input type="password" value="But I am le tired&#039;&quot;()%26%25&lt;yes&gt;&lt;ScRiPt%20&gt;alert(1)&lt;/ScRiPt&gt;" id="name" name="name" class="inputPassword" />',
+			$this->txtPassword->parse()
+		);
+	}
 }

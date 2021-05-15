@@ -92,4 +92,21 @@ class SpoonFormTimeTest extends TestCase
 		$_POST['time'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->txtTime->getValue());
 	}
+
+	public function testParse()
+	{
+		$_POST['form'] = 'timefield';
+		$_POST['time'] = '15:30';
+		$this->assertEquals(
+			'<input type="text" value="15:30" id="time" name="time" maxlength="5" class="inputTimefield" />',
+			$this->txtTime->parse()
+		);
+
+		// Make sure we encode XSS payloads
+		$_POST['time'] = '15:30\'"()%26%25<yes><ScRiPt%20>alert(1)</ScRiPt>';
+		$this->assertEquals(
+			'<input type="text" value="15:30&#039;&quot;()%26%25&lt;yes&gt;&lt;ScRiPt%20&gt;alert(1)&lt;/ScRiPt&gt;" id="time" name="time" maxlength="5" class="inputTimefield" />',
+			$this->txtTime->parse()
+		);
+	}
 }

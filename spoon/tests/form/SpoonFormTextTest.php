@@ -336,4 +336,28 @@ class SpoonFormTextTest extends TestCase
 			$this->txtName->getErrors()
 		);
 	}
+
+	public function testParse()
+	{
+		$_POST['form'] = 'textfield';
+		$_POST['name'] = 'But I am le tired';
+		$this->assertEquals(
+			'<input value="But I am le tired" id="name" name="name" type="text" class="inputText" />',
+			$this->txtName->parse()
+		);
+
+		// Make sure we encode XSS payloads
+		$_POST['name'] = 'But I am le tired\'"()%26%25<yes><ScRiPt%20>alert(1)</ScRiPt>';
+		$this->assertEquals(
+			'<input value="But I am le tired&#039;&quot;()%26%25&lt;yes&gt;&lt;ScRiPt%20&gt;alert(1)&lt;/ScRiPt&gt;" id="name" name="name" type="text" class="inputText" />',
+			$this->txtName->parse()
+		);
+
+		// Make sure we do not do double encoding on the ampersand
+		$_POST['name'] = 'Something & something else';
+		$this->assertEquals(
+			'<input value="Something &amp; something else" id="name" name="name" type="text" class="inputText" />',
+			$this->txtName->parse()
+		);
+	}
 }

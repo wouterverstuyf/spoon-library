@@ -51,4 +51,21 @@ class SpoonFormHiddenTest extends TestCase
 		$_POST['hidden'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->hidHidden->getValue());
 	}
+
+	public function testParse()
+	{
+		$_POST['form'] = 'hiddenfield';
+		$_POST['hidden'] = 'But I am le tired';
+		$this->assertEquals(
+			'<input type="hidden" value="But I am le tired" id="hidden" name="hidden" />',
+			$this->hidHidden->parse()
+		);
+
+		// Make sure we encode XSS payloads
+		$_POST['hidden'] = 'But I am le tired\'"()%26%25<yes><ScRiPt%20>alert(1)</ScRiPt>';
+		$this->assertEquals(
+			'<input type="hidden" value="But I am le tired&amp;#039;&amp;quot;()%26%25&amp;lt;yes&amp;gt;&amp;lt;ScRiPt%20&amp;gt;alert(1)&amp;lt;/ScRiPt&amp;gt;" id="hidden" name="hidden" />',
+			$this->hidHidden->parse()
+		);
+	}
 }
