@@ -19,7 +19,7 @@ class SpoonFormButtonTest extends TestCase
 	 */
 	protected $frm;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('button');
 		$this->btnSubmit = new SpoonFormButton('submit', 'Submit', 'submit');

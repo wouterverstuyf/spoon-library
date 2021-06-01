@@ -14,7 +14,7 @@ class SpoonDatabaseTest extends TestCase
 	 */
 	protected $db;
 
-	public function setup()
+	public function setup(): void
 	{
 		// create database object
 		$this->db = new SpoonDatabase('mysql', '127.0.0.1', 'root', 'spoon', 'spoon_tests');

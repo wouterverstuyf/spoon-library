@@ -19,7 +19,7 @@ class SpoonFileFieldTest extends TestCase
 	 */
 	protected $filePDF;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('filefield');
 		$this->filePDF = new SpoonFormFile('pdf');

@@ -16,11 +16,9 @@ class SpoonTest extends TestCase
 		$this->assertEquals(Spoon::get('stored_value'), $value);
 	}
 
-	/**
-	 * @expectedException SpoonException
-	 */
 	public function testGetFailure()
 	{
+	    $this->expectException(SpoonException::class);
 		$this->assertEquals('I have no idea what I am doing.', Spoon::get('my_custom_value'));
 	}
 

@@ -9,7 +9,7 @@ require_once 'spoon/spoon.php';
 
 class SpoonFileTest extends TestCase
 {
-	public function setup()
+	public function setup(): void
 	{
 		if(!defined('TMPPATH')) define('TMPPATH', dirname(realpath(dirname(__FILE__))) . '/tmp');
 
@@ -27,11 +27,9 @@ class SpoonFileTest extends TestCase
 		$this->assertFalse(SpoonFile::download($this->existingUrl, $this->destinationFile, false));
 	}
 
-	/**
-	 * @expectedException SpoonFileException
-	 */
 	public function testDownloadFailure()
 	{
+	    $this->expectException(SpoonFileException::class);
 		SpoonFile::download($this->nonExistingUrl, $this->destinationFile);
 	}
 }

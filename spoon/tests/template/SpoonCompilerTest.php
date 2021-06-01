@@ -13,7 +13,7 @@ class SpoonTemplateCompilerTest extends TestCase
 {
 	protected $tpl;
 
-	function setUp()
+	public function setUp(): void
 	{
 		// create a spoon template
 		$this->tpl = new SpoonTemplate();

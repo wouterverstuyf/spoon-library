@@ -19,7 +19,7 @@ class SpoonFormMultiCheckBoxTest extends TestCase
 	 */
 	protected $chkHobbies;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('multicheckbox');
 		$hobbies[] = array('label' => 'Swimming', 'value' => 10);

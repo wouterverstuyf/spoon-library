@@ -11,7 +11,7 @@ class SpoonDirectoryTest extends TestCase
 {
 	protected $path;
 
-	protected function setUp()
+	protected function setup(): void
 	{
 		// set path
 		$this->path = dirname(dirname(__FILE__)) . '/tmp';

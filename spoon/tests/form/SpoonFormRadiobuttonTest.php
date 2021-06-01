@@ -24,7 +24,7 @@ class SpoonFormRadiobuttonTest extends TestCase
 	 */
 	protected $rbtNumeric;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('radiobutton');
 		$gender[] = array('label' => 'Female', 'value' => 'F');

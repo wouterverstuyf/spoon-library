@@ -19,7 +19,7 @@ class SpoonFormPasswordTest extends TestCase
 	 */
 	protected $txtPassword;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('passwordfield');
 		$this->txtPassword = new SpoonFormPassword('name', 'I am the default value');
