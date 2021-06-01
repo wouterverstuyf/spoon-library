@@ -284,8 +284,8 @@ class SpoonDatabaseTest extends TestCase
 	 */
 	public function testOptimize()
 	{
-		self::assertArrayHasKey('Table', $this->db->optimize('users'));
-		self::assertArrayHasKey('Table', $this->db->optimize(array('users')));
+		self::assertIsArray($this->db->optimize('users'));
+		self::assertIsArray($this->db->optimize(array('users')));
 	}
 
 	/**
