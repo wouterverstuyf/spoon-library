@@ -1479,7 +1479,7 @@ class SpoonDataGrid
 	 * @param	mixed $columns					The columns wherein the result will appear.
 	 * @param	bool[optional] $overwrite		Should the result overwrite the current value?
 	 */
-	public function setColumnFunction($function, $arguments = null, $columns, $overwrite = false)
+	public function setColumnFunction($function, $arguments = null, $columns = [], $overwrite = false)
 	{
 		// has results
 		if($this->source->getNumResults() > 0)
@@ -1919,7 +1919,7 @@ class SpoonDataGrid
 	 * @param	string[optional] $desc				The icon for descending.
 	 * @param	string[optional] $descSelected		The icon when descending sort is applied.
 	 */
-	public function setSortingIcons($asc = null, $ascSelected = null, $desc = null, $descSelected)
+	public function setSortingIcons($asc = null, $ascSelected = null, $desc = null, $descSelected = null)
 	{
 		if($asc !== null) $this->sortingIcons['asc'] = (string) $asc;
 		if($ascSelected !== null) $this->sortingIcons['ascSelected'] = (string) $ascSelected;
