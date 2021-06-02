@@ -18,7 +18,7 @@ class SpoonTest extends TestCase
 
 	public function testGetFailure()
 	{
-	    $this->expectException(SpoonException::class);
+		$this->expectException(SpoonException::class);
 		$this->assertEquals('I have no idea what I am doing.', Spoon::get('my_custom_value'));
 	}
 

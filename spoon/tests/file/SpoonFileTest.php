@@ -29,7 +29,7 @@ class SpoonFileTest extends TestCase
 
 	public function testDownloadFailure()
 	{
-	    $this->expectException(SpoonFileException::class);
+		$this->expectException(SpoonFileException::class);
 		SpoonFile::download($this->nonExistingUrl, $this->destinationFile);
 	}
 }
