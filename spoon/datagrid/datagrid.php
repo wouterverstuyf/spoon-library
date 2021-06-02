@@ -1479,7 +1479,7 @@ class SpoonDataGrid
 	 * @param	mixed $columns					The columns wherein the result will appear.
 	 * @param	bool[optional] $overwrite		Should the result overwrite the current value?
 	 */
-	public function setColumnFunction($function, $arguments = null, $columns = [], $overwrite = false)
+	public function setColumnFunction($function, $arguments = null, $columns = null, $overwrite = false)
 	{
 		// has results
 		if($this->source->getNumResults() > 0)
