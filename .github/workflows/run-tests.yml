@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [7.1, 7.2, 7.3, 7.4]
+        php: [7.1, 7.2, 7.3, 7.4, 8.0, 8.1]
         testsuite: ["unit"]
     name: PHPUnit - ${{ matrix.testsuite }} (PHP ${{ matrix.php }})
     services:
@@ -40,9 +40,12 @@ jobs:
       - name: Install dependencies
         env:
           FORK_ENV: test
+          SYMFONY_DEPRECATIONS_HELPER: "quiet"
         run: composer install -o
 
       - name: Execute tests
+        env:
+          SYMFONY_DEPRECATIONS_HELPER: "quiet"
         run: vendor/bin/simple-phpunit --testsuite=${{ matrix.testsuite}} --coverage-clover=${{ matrix.testsuite}}.clover
 
       - name: Upload Coverage report

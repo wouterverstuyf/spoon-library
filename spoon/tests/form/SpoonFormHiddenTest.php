@@ -19,7 +19,7 @@ class SpoonFormHiddenTest extends TestCase
 	 */
 	protected $hidHidden;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('hiddenfield');
 		$this->hidHidden = new SpoonFormHidden('hidden', 'I am the default value');

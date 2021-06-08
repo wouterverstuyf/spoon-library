@@ -21,7 +21,7 @@ class SpoonFormTimeTest extends TestCase
 	 */
 	protected $txtTime;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('timefield');
 		$this->txtTime = new SpoonFormTime('time', date('H:i'));

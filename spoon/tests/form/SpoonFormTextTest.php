@@ -19,7 +19,7 @@ class SpoonFormTextTest extends TestCase
 	 */
 	protected $txtName;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('textfield');
 		$this->txtName = new SpoonFormText('name', 'I am the default value');

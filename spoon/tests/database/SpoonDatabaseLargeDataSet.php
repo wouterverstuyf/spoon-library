@@ -33,7 +33,7 @@ class SpoonDatabaseLargeDataSet extends TestCase
 	/**
 	 *
 	 */
-	public function setup()
+	public function setup(): void
 	{
 		$this->db = new SpoonDatabase('mysql', '127.0.0.1', 'root', 'spoon', 'spoon_tests');
 	}

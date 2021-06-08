@@ -19,7 +19,7 @@ class SpoonFormDropdownTest extends TestCase
 	 */
 	protected $ddmSingle, $ddmMultiple, $ddmOptGroupSingle, $ddmOptGroupMultiple, $ddmDefaultElement;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('dropdown');
 		$this->ddmSingle = new SpoonFormDropdown('single', array(1 => 'Davy Hellemans', 'Tys Verkoyen', 'Dave Lens'));

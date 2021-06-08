@@ -21,7 +21,7 @@ class SpoonFormDateTest extends TestCase
 	 */
 	protected $txtDate;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('datefield');
 		$this->txtDate = new SpoonFormDate('date', strtotime('Last Monday'), 'd/m/Y');

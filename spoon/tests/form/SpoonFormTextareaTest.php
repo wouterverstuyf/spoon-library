@@ -19,7 +19,7 @@ class SpoonFormTextareaTest extends TestCase
 	 */
 	protected $txtMessage;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('textarea');
 		$this->txtMessage = new SpoonFormTextarea('message', 'I am the default value');

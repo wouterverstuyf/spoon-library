@@ -19,7 +19,7 @@ class SpoonFormCheckboxTest extends TestCase
 	 */
 	protected $chkAgree;
 
-	public function setup()
+	public function setup(): void
 	{
 		$this->frm = new SpoonForm('checkbox');
 		$this->chkAgree = new SpoonFormCheckbox('agree', true);
