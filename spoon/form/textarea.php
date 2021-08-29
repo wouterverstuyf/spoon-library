@@ -302,7 +302,7 @@ class SpoonFormTextarea extends SpoonFormInput
 		$output = '<textarea';
 
 		// add attributes
-		$output .= $this->getAttributesHTML(array('[id]' => $this->attributes['id'], '[name]' => $this->attributes['name'], '[value]' => $this->getValue()));
+		$output .= $this->getAttributesHTML(array('[id]' => $this->attributes['id'], '[name]' => $this->attributes['name'], '[value]' => $this->getValue(false)));
 
 		// close first tag
 		$output .= '>';
