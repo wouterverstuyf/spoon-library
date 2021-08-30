@@ -109,7 +109,7 @@ class SpoonFormHidden extends SpoonFormAttributes
 	public function parse($template = null)
 	{
 		// start html generation
-		$output = '<input type="hidden" value="' . SpoonFilter::htmlspecialchars($this->getValue()) . '"';
+		$output = '<input type="hidden" value="' . $this->getValue(false) . '"';
 
 		// build attributes
 		$attributes = array();

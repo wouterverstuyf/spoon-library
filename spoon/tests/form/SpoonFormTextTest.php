@@ -352,8 +352,29 @@ class SpoonFormTextTest extends TestCase
 			'<input value="But I am le tired&#039;&quot;()%26%25&lt;yes&gt;&lt;ScRiPt%20&gt;alert(1)&lt;/ScRiPt&gt;" id="name" name="name" type="text" class="inputText" />',
 			$this->txtName->parse()
 		);
+		$_POST['name'] = '"><svg/onload=alert(document.domain)>';
+		$this->assertEquals(
+			'<input value="&quot;&gt;&lt;svg/onload=alert(document.domain)&gt;" id="name" name="name" type="text" class="inputText" />',
+			$this->txtName->parse()
+		);
 
 		// Make sure we do not do double encoding on the ampersand
+		$_POST['name'] = 'Something & something else';
+		$this->assertEquals(
+			'<input value="Something &amp; something else" id="name" name="name" type="text" class="inputText" />',
+			$this->txtName->parse()
+		);
+
+		// now let's try it with HTML allowed
+		$this->txtName = new SpoonFormText('name', 'I am the default value', null, 'inputText', 'inputTextError', true);
+		$this->frm->add($this->txtName);
+
+		$_POST['name'] = '"><svg/onload=alert(document.domain)>';
+		$this->assertEquals(
+			'<input value="&quot;&gt;&lt;svg/onload=alert(document.domain)&gt;" id="name" name="name" type="text" class="inputText" />',
+			$this->txtName->parse()
+		);
+
 		$_POST['name'] = 'Something & something else';
 		$this->assertEquals(
 			'<input value="Something &amp; something else" id="name" name="name" type="text" class="inputText" />',

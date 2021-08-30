@@ -789,7 +789,7 @@ class SpoonFormText extends SpoonFormInput
 
 		// start html generation
 		// note: no need to encode the value here, it gets encoding in the getter as long as $allowHTML=true
-		$output = '<input value="' . $this->getValue() . '"';
+		$output = '<input value="' . $this->getValue(false) . '"';
 
 		// add attributes
 		$output .= $this->getAttributesHTML(array('[id]' => $this->attributes['id'], '[name]' => $this->attributes['name'], '[value]' => $this->getValue())) . ' />';

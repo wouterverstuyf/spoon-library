@@ -106,4 +106,16 @@ class SpoonFormTextareaTest extends TestCase
 		$_POST['message'] = array('foo', 'bar');
 		$this->assertEquals('Array', $this->txtMessage->getValue(true));
 	}
+
+	public function testXSS()
+	{
+		$_POST['form'] = 'textarea';
+		$_POST['message'] = '"><svg/onload=alert(document.domain)>';
+		$this->assertEquals(SpoonFilter::htmlspecialchars($_POST['message']), $this->txtMessage->getValue());
+		$this->assertEquals('<textarea id="message" name="message" cols="62" rows="5" class="inputTextarea">&quot;&gt;&lt;svg/onload=alert(document.domain)&gt;</textarea>', $this->txtMessage->parse());
+
+		$this->txtMessage = new SpoonFormTextarea('message', 'I am the default value', 'inputTextarea', 'inputTextareaError', true);
+		$this->frm->add($this->txtMessage);
+		$this->assertEquals('<textarea id="message" name="message" cols="62" rows="5" class="inputTextarea">&quot;&gt;&lt;svg/onload=alert(document.domain)&gt;</textarea>', $this->txtMessage->parse());
+	}
 }
