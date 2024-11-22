@@ -1,5 +1,5 @@
 {
-	"name": "spoon/library",
+	"name": "webflow/spoon-library",
 	"type": "library",
 	"description": "A PHP library that is fast, easy to learn and very much deprecated!",
 	"homepage": "http://www.spoon-library.com",
@@ -8,12 +8,13 @@
 		{
 			"name": "Davy Hellemans",
 			"role": "Developer"
+		},
+		{
+			"name": "Wouter Verstuyf",
+			"role": "Developer"
 		}
 	],
 	"require": {
-		"php": "^7.1|^8.0"
-	},
-	"require-dev": {
-		"symfony/phpunit-bridge": "^5.3"
+		"php": ">=7.4"
 	}
 }
